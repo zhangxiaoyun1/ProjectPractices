@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.10588155.chunk.css",
+    "main.js": "/static/js/main.981200c7.chunk.js",
+    "main.js.map": "/static/js/main.981200c7.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.9f147cbc.js",
+    "runtime-main.js.map": "/static/js/runtime-main.9f147cbc.js.map",
+    "static/css/2.a6e9608c.chunk.css": "/static/css/2.a6e9608c.chunk.css",
+    "static/js/2.60fd62dc.chunk.js": "/static/js/2.60fd62dc.chunk.js",
+    "static/js/2.60fd62dc.chunk.js.map": "/static/js/2.60fd62dc.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.7d66672712af4fb4430294db623bd4e4.js": "/precache-manifest.7d66672712af4fb4430294db623bd4e4.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.a6e9608c.chunk.css.map": "/static/css/2.a6e9608c.chunk.css.map",
+    "static/css/main.10588155.chunk.css.map": "/static/css/main.10588155.chunk.css.map",
+    "static/media/15.png": "/static/media/15.c7f8f2b9.png",
+    "static/media/房子.png": "/static/media/房子.d6029b58.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9f147cbc.js",
+    "static/css/2.a6e9608c.chunk.css",
+    "static/js/2.60fd62dc.chunk.js",
+    "static/css/main.10588155.chunk.css",
+    "static/js/main.981200c7.chunk.js"
+  ]
+}
