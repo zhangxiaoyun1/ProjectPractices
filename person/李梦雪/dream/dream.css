@@ -1,0 +1,75 @@
+
+.box1{
+    display: flex;
+}
+.box2{
+    float: left;
+}
+.img1{
+    width: 150px;
+    height: 100px;
+}
+.box4{
+    float:left;
+    /* word-break:hyphenate; */
+    margin-left:2%;
+    width:53%;
+    height:100px;
+    /* line-height: 20px; */
+    
+}
+.address{
+    font-size: 17px;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space:nowrap; 
+    overflow: hidden;
+    color: #333333;
+}
+.span2{
+    font-size: 13px;
+    font-family: 宋体;
+    color: grey;
+    margin-top: 5px;
+}
+
+.message{
+    margin-top: 10px;
+    display: flex;
+}
+.message div{
+    float: left;
+    text-align: center;
+    font-size: 14px;
+}
+.message1{
+    padding-top: 3px;
+    width: 40px;
+    height: 20px;
+    background-color: #f3faf3;
+    color: #97dca5;
+}
+.message2{
+    padding-top: 3px;
+    width: 50px;
+    height: 20px;
+    margin-left: 10px;
+    background-color: #f3f8fb;
+    color: #87aed9;
+}
+.box5{
+    margin-top:10px;
+    display:flex;
+}
+.price{
+    font-size:17px;
+    color:red;
+}
+.span3{
+    position:relative;
+    right:-40%;
+}
+.heart{
+    width:20px;
+    height:20px;
+}

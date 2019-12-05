@@ -1,0 +1,31 @@
+select {
+    /*将默认的select选择框样式清除*/
+    /* appearance: none; */
+    /* -moz-appearance: none; */
+    /* -webkit-appearance: none; */
+    border: none;
+}
+/*IE浏览器隐藏下拉箭头*/
+/* select::-ms-expand {
+    display: none;
+} */
+.trade_li1{
+    width:90px;
+    height:30px;
+    float:left;
+    font-size:17px;
+    font-weight:300;
+}
+.trade_input1{
+    font-weight:300;
+    font-size:17px;
+    border:1px solid #f6f6f6;
+    border-radius: 5px;
+    float:left;
+    background-color: antiquewhite;
+    height: 30px;
+}
+.trade_ul1{
+    margin-top: 5%;
+    display: inline-flex;
+}

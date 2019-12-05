@@ -1,0 +1,41 @@
+.message_div1{
+    width: 100%;
+    height: 80px;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+    margin-top: 5px;
+}
+.message_img1{
+    width: 55px;
+    height: 55px;
+    border-radius: 90px;
+    margin-top: 8px;
+    
+}
+.message_div2{
+    float: left;
+    margin-left: 2%;
+}
+.message_host{
+    font-size: 17px;
+    margin-top:10px;
+}
+.message_content{
+    font-size: 15px;
+    color: grey;
+    margin-top:10px;
+    text-overflow: ellipsis;
+    white-space:nowrap; 
+    overflow: hidden;
+
+}
+.message_div3{
+    float: left;
+    margin-left: 2%;
+    width: 55%;
+}
+.message_div4{
+    float: right;
+    margin-top: 10px;
+    margin-right: 2%;
+}
