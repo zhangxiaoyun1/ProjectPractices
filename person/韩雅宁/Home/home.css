@@ -1,0 +1,25 @@
+*{padding: 0%;margin: 0%;}
+ul,li{list-style: none;}
+a{list-style: none;}
+body{
+    background-color: #ffffff;
+}
+/* .home_box{
+    width: 100%;
+    height: 100%;
+    background-color: aliceblue;
+    overflow: hidden;
+} */
+.home_nav{width: 100%;height: 50px;display: flex;background-color: #ff9645;}
+#home_icon{color:#ffffff;line-height: 50px;font-size: 30px;margin-left: 2%;}
+.home_checkBox{width: 100px;height: 50px;margin-left: 1%;}
+.home_checkBox button{height:50px;background: none;border: none;font-size: 18px;color: #ffffff;}
+.home_input{height: 50px;width: 210px;margin-left: 2%;}
+.home_carousel{width: 100%;height: 200px;}
+.home_list{width: 100%;height: 110px;background-color: #ffffff;}
+.placeholder {height: 62px;width: 62px;margin:10px 0px 0px 10px;border-radius: 20px;}
+.placeholder1 {height: 30px;width: 62px;margin:0px 0px 0px 10px;text-align: center;line-height: 30px;}
+.home_banner{width: 100%;height: 40px;line-height: 40px;color: grey;background-color: #F5F7F9;}
+.home_p{font-size: 17px;text-overflow: ellipsis;white-space:nowrap; overflow: hidden;margin-top:7%;margin-left: 2%;color:#333333;}
+.placeholder_home{height: 30px;width: 50px;float: left;margin:2% 0% 0% 0%;background-color: #f3faf3;color: #97dca5;font-size: 14px;text-align: center;line-height:30px;}
+.placeholder_home1{height: 30px;width: 50px;float: left;margin:2% 0% 0% 2%;background-color: #f3faf3;color: #87aed9;font-size: 14px;text-align: center;line-height:30px;}
