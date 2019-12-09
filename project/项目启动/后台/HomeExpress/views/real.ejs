@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div></div>
+        <div>
+            <form action="real" method="post">
+                <input type="text" autocomplete="off" placeholder="真实姓名" id="realname" name="realname"/>
+                <br/>
+                <input type="text" autocomplete="off" placeholder="请输入注册时手机号" id="phone" name="phone"/>
+                <br/>
+                <input type="text" autocomplete="off" placeholder="证件号" id="id" name="id"/>
+                <br/>
+                <input type="text" autocomplete="off" placeholder="性别" id="sex" name="sex"/>
+                <br/>
+                <button type="submit" id="real"><span>实名认证</span></button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    //  $("#real").click(function(){ 
+    //             var realname = $("#realname").val();
+    //             var id = $("#id").val();
+    //             var sex=$("#sex").val();
+    //             if(id.length !== 18){
+    //                 alert("证件号格式有误");
+    //             }
+    //             var data = {"realname":realname,"id":id,"sex":sex};
+    //           $.ajax({
+    //             url: '/user/real',
+    //             type: 'post',
+    //             data: data,
+    //             success:function(data){
+    //                 console.log(data);
+    //                 if(data.ok===true){
+    //                     alert('认证成功')
+    //                 }else{
+    //                     alert(data.msg);
+    //                 }
+    //             },
+    //             error: function(data,err){ 
+    //                         location.href = 'real';
+    //                 }
+    //           })
+    //         });
+</script>
+</html>

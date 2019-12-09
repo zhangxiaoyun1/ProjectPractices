@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div></div>
+        <div>
+            <form action="reg" method="post">
+                昵称<input type="text" autocomplete="off" placeholder="昵称" name="iname" id='iname'/>
+                <br/>
+                密码<input type="password" autocomplete="off" placeholder="密码" name="password" id="pwd"/>
+                <br/>
+                确认密码<input type="password" autocomplete="off" placeholder="确认密码"  name="qpwd" id="qpwd"/>
+                <br/>
+                手机号<input type="tel" autocomplete="off" placeholder="手机号" name="phone" id="phone"/>
+                <br/>
+                验证码<input type="text" autocomplete="off" placeholder="验证码" name="number" id="number"/>
+                <button>获取验证码</button>
+                <br/>
+                <button type="submit" id='reg'><span>注册</span></button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    //ajax发送请求
+    //判断注册信息填写是否正确
+    // $("#reg").click(function(){ 
+    //             var username = $("#iname").val();
+    //             var pwd = $("#pwd").val();
+    //             var qpwd= $("#qpwd").val();
+    //             if(username.length === 0){
+    //                 alert("请输入正确的用户名");
+    //             }
+    //             if(pwd === ''){
+    //                 alert("请输入密码");
+    //             }
+    //             if(pwd !== qpwd){ 
+    //                 $("#pwd").css("border","1px solid red");
+    //                 $("#qpwd").css("border","1px solid red");
+    //             }
+    //             var data = {"iname":username,"pwd":pwd};
+    //             // $.ajax({ 
+    //             //     url: '/user/reg',
+    //             //     type: 'post',
+    //             //     data: data,
+    //             //     success: function(status){ 
+    //             //         console.log(status);
+    //             //         if(status.ok===true){ 
+    //             //             alert("注册成功");
+    //             //             location.href = 'login';
+    //             //         }else{
+    //             //             alert(status.msg);
+    //             //             location.href = 'reg';
+    //             //         }
+    //             //     },
+    //             //     error: function(data,err){ 
+    //             //         location.href = 'reg';
+    //             //     }
+    //             // }); 
+    //         });
+</script>
+</html>

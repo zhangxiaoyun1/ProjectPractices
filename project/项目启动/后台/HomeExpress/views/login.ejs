@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div></div>
+        <div>
+            <form action="login" method="post">
+                <input type="text" autocomplete="off" placeholder="手机号" id="iname" name="phone"/>
+                <br/>
+                <input type="password" autocomplete="off" placeholder="密码" id="pwd" name="password"/>
+                <br/>
+                <button type="submit" id="login"><span>登录</span></button>
+                <button type="button" id="forget"><span>忘记密码</span></button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    // $("#forget").click(function(){
+    //     window.location.href='forget';
+    // })   
+     //  $("#login").click(function(){ 
+    //             var username = $("#username").val();
+    //             var pwd = $("#pwd").val();
+    //             if(username.length === 0){
+    //                 return alert("请输入正确的用户名");
+    //             }if( pwd=== 0){
+    //                 return alert("请输入密码");
+    //             }
+    //             var data = {"username":username,"pwd":pwd};
+    //             $.ajax({ 
+    //                 url: '/user/login',
+    //                 type: 'post',
+    //                 data: data,
+    //                 success: function(data){ 
+    //                     if(data.ok===true){ 
+    //                         alert('登录成功');
+    //                     }else{
+    //                         alert(data.msg);
+    //                     }
+    //                 },
+    //                 error: function(data,err){ 
+    //                         location.href = 'login';
+    //                 }
+    //             }); 
+    //         });
+    //         $("#forget").click(function(){ 
+    //             location.href = 'http://localhost:3000/user/forget';
+    //         });
+</script>
+</html>

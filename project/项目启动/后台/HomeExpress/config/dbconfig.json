@@ -1,0 +1,7 @@
+{
+    "port":5432,
+    "host":"49.235.251.57",
+    "user":"zxy",
+    "password":"1234567",
+    "database":"ehome_font"
+  }
