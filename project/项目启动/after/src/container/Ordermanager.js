@@ -28,6 +28,18 @@ export default class Ordermanager extends Component {
                 })
             })
     }
+    del=(key)=>{
+        let url =`http://49.235.251.57:8002/api/deltrademanagermessage/${key}`;
+            fetch(url, { method: 'get' })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                alert('删除成功！');
+                this.setState({
+                    data: res.data
+                })
+            })
+    }
     render() {
         return (
             <div style={{padding:'10px'}}>
@@ -57,8 +69,8 @@ export default class Ordermanager extends Component {
                                 <td><b>地址</b></td>
                                 <td><b>实付金额</b></td>
                                 <td><b>建立时间</b></td>
-                                <td><b>付款时间</b></td>
-                                <td><b></b></td>
+                                <td><b>租期</b></td>
+                                <td><b>操作</b></td>
                                 <td><b></b></td>
                                 
                             </tr>
@@ -75,11 +87,11 @@ export default class Ordermanager extends Component {
                                                 <p>{item.address}</p>
                                             </div>
                                         </td>
-                                      
                                         <td>{item.price}</td>
                                         <td>{item.pushtime.slice(0,10)}</td>
-                                        <td>{item.tradetime.slice(0,10)}</td>
+                                        <td>{item.longtime}</td>
                                         <td className='tool'>
+                                            <button onClick={()=>this.del(item.tradeid)}>删除</button>
                                         </td>
                                         <td></td>
                                     </tr>

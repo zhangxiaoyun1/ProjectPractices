@@ -81,7 +81,16 @@ table tr td{
   color:rgb(125, 128, 125);
   font-size: 12px;
 }
-
+.tool button{
+  width: 50px;
+  height: 30px;
+  border-radius: 50px;
+  border: 0;
+}
+.tool button:hover{
+  background-color: red;
+  color: #fff;
+}
 /* 平台信息 */
 .title{
   font-size: 16px;

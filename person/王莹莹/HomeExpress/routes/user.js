@@ -10,7 +10,7 @@ router.get('/user/reg',function(req,res){
   res.render('reg');
 })
 router.post('/user/reg',function(req,res){
-  var userid=parseInt((Math.random())*10+1);
+  var userid=(Math.random()+1);
   var iname=req.body.iname;
   var password=req.body.password;
   var phone=req.body.phone;

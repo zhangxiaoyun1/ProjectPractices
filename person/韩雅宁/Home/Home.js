@@ -5,8 +5,7 @@ import './home.css'
 import { SearchBar, Carousel, Flex, WingBlank } from 'antd-mobile';
 import { Link } from 'react-router-dom'
 
-
-
+// 首页
 const PlaceHolder = ({ className = '', ...restProps }) => (
     <div className={`${className} placeholder`} {...restProps}>
     </div>
@@ -52,13 +51,29 @@ export default class Home extends Component {
         this.state = {
             imgData: ['home_01.jpg', 'home_02.jpg', 'home_03.jpg'],
             selectedTab: 'blueTab',
+            data:[]
 
         }
+        console.log(this.state.src);
     }
-
+    componentDidMount(){
+        fetch('http://localhost:3001/api/house')
+        .then((res)=>res.json())
+        .then((res)=>{
+            this.setState({
+                data:res.msg
+            });
+            console.log(res.msg)
+        })
+    }
+    //点击添加心愿单
+    addDream=()=>{
+    }
     render() {
         return (
             <div>
+                {/* //首页 */}
+                {/* 表头搜索定位 */}
                 <div id='home_flow'>
                     <div className='home_nav'>
                         <span id="home_icon" className='iconfont icon-diliweizhi'></span>
@@ -71,6 +86,7 @@ export default class Home extends Component {
                         </div>
                     </div>
                 </div>
+               {/* 轮播图 */}
                 <div id='home_flow1'>
                     <div className='home_carousel'>
                         <Carousel
@@ -80,7 +96,6 @@ export default class Home extends Component {
                             {this.state.imgData.map(val => (
                                 <a
                                     key={val}
-                                    href="http://www.alipay.com"
                                     style={{ display: 'inline-block', width: '100%', }}
                                 >
                                     <img
@@ -114,115 +129,47 @@ export default class Home extends Component {
                     </div>
 
                 </div>
+                {/* 推荐房屋信息 */}
                 <div className='home_banner'>
                     <WingBlank>
                         <h2>为你推荐</h2>
                     </WingBlank>
                 </div>
-
-                <WingBlank>
-                    <Link to='/detail'>
-                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                        <Flex>
-                            <div style={{ float: 'left' }}>
-                                <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                <div>
+                    {
+                        this.state.data.map((item)=>(
+                            <WingBlank>
+                            <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
+                                <div style={{ float: 'left' }}>
+                                    <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                                </div>
+                                <div style={{ float: 'left', width: '190px', height: '120px' }}>
+                                    <div className='home_p'>
+                                        <span>{item.apname}</span>
+                                        <span style={{padding:'0 3px'}}>|</span>
+                                        <span>{item.address}</span>
+                                    </div>
+                                    <div style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                        <span>{item.type}</span>
+                                        <span style={{padding:'0 3px'}}>|</span>
+                                        <span>{item.hometype}</span>
+                                    </div>
+                                    <div style={{ fontSize: '13px',height:'20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                        <p className="message3">朝向:{item.face}</p>
+                                        <p className="message4">楼层:{item.floor}</p>
+                                        <p className="message4">电梯:{item.lift}</p>
+                                    </div>
+                                    <div style={{height:'30px',display:'flex',margintTop:'10px'}}>
+                                        <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%' ,float:'left'}}>{item.price}</span>
+                                        <span style={{position:'relative',right:'-40%',top:'28%'}}><img onClick={this.addDream.bind(this)} style={{width:'20px'}} src={`${require('./images/love.png')}`}></img></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                <p className='home_p'>北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</p>
-                                <p style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>南沙滩 | 北沙滩7号院</p>
-                                <Flex>
-                                    <Flex.Item><PlaceHolder_home /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home1 /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home2 /></Flex.Item>
-                                </Flex>
-                                <p style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '4%' }}>2600/月<img style={{width:'22px',height:'22px',float:'right'}} src={`${require('./images/love.png')}`}></img></p>
-                                
-                            </div>
-                        </Flex>
-                    </div>
-                    </Link>
-                    <Link to='/detail'>
-                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                        <Flex>
-                            <div style={{ float: 'left' }}>
-                                <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
-                            </div>
-                            <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                <p className='home_p'>北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</p>
-                                <p style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>南沙滩 | 北沙滩7号院</p>
-                                <Flex>
-                                    <Flex.Item><PlaceHolder_home /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home1 /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home2 /></Flex.Item>
-                                </Flex>
-                                <p style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '4%' }}>2600/月<img style={{width:'22px',height:'22px',float:'right'}} src={`${require('./images/love.png')}`}></img></p>
-                                
-                            </div>
-                        </Flex>
-                    </div>
-                    </Link>
-                    <Link to='/detail'>
-                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                        <Flex>
-                            <div style={{ float: 'left' }}>
-                                <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
-                            </div>
-                            <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                <p className='home_p'>北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</p>
-                                <p style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>南沙滩 | 北沙滩7号院</p>
-                                <Flex>
-                                    <Flex.Item><PlaceHolder_home /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home1 /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home2 /></Flex.Item>
-                                </Flex>
-                                <p style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '4%' }}>2600/月<img style={{width:'22px',height:'22px',float:'right'}} src={`${require('./images/love.png')}`}></img></p>
-                                
-                            </div>
-                        </Flex>
-                    </div>
-                    </Link>
-                    <Link to='/detail'>
-                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                        <Flex>
-                            <div style={{ float: 'left' }}>
-                                <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
-                            </div>
-                            <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                <p className='home_p'>北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</p>
-                                <p style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>南沙滩 | 北沙滩7号院</p>
-                                <Flex>
-                                    <Flex.Item><PlaceHolder_home /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home1 /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home2 /></Flex.Item>
-                                </Flex>
-                                <p style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '4%' }}>2600/月<img style={{width:'22px',height:'22px',float:'right'}} src={`${require('./images/love.png')}`}></img></p>
-                                
-                            </div>
-                        </Flex>
-                    </div>
-                    </Link>
-                    <Link to='/detail'>
-                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                        <Flex>
-                            <div style={{ float: 'left' }}>
-                                <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
-                            </div>
-                            <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                <p className='home_p'>北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</p>
-                                <p style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>南沙滩 | 北沙滩7号院</p>
-                                <Flex>
-                                    <Flex.Item><PlaceHolder_home /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home1 /></Flex.Item>
-                                    <Flex.Item><PlaceHolder_home2 /></Flex.Item>
-                                </Flex>
-                                <p style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '4%' }}>2600/月<img style={{width:'22px',height:'22px',float:'right'}} src={`${require('./images/love.png')}`}></img></p>
-                                
-                            </div>
-                        </Flex>
-                    </div>
-                    </Link>
-                </WingBlank>
-            </div>
+                            </WingBlank>
+                        ))
+                    }
+                </div>
+           </div>
         )
     }
 

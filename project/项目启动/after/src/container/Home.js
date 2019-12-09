@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../index.css'
 export default class Home extends Component {
     constructor() {
         super();
@@ -36,6 +37,18 @@ export default class Home extends Component {
             document.getElementById('find').value='';
         }
     }
+    del=(key)=>{
+        let url =`http://49.235.251.57:8002/api/deluser/${key}`;
+            fetch(url, { method: 'get' })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                alert('删除成功！');
+                this.setState({
+                    data: res.data
+                })
+            })
+    }
     render() {
         return (
             <div style={{ padding: '10px' }}>
@@ -66,6 +79,7 @@ export default class Home extends Component {
                                 <td><b>手机号</b></td>
                                 <td><b>身份证号</b></td>
                                 <td><b>注册时间</b></td>
+                                <td><b>操作</b></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,6 +94,7 @@ export default class Home extends Component {
                                         <td>{item.phone}</td>
                                         <td>{item.id}</td>
                                         <td>{item.settime.slice(0,10)}</td>
+                                        <td className='tool'><button onClick={() => this.del(item.userid)}>删除</button></td>
                                     </tr>
                                     }
                                 })
