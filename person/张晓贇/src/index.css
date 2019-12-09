@@ -1,0 +1,99 @@
+@import '~antd/dist/antd.css';
+*{
+  padding: 0;
+  margin: 0;
+}
+li{
+  list-style: none;
+}
+
+/* 登录 */
+.linput{
+  height:40px;
+  width:400px;
+  border:1px solid #cccccc;
+  border-radius: 5px;
+}
+.header{
+  height: 100px;
+  width: 1200px;
+  margin: 0 auto;
+  background-color: #e6e6e9;
+  padding: 10px;
+  
+}
+.back {
+  float: right;
+  margin-top: 30px;
+}
+.back li{
+  float: right;
+  height: 30px;
+  width: 80px;
+}
+/* 内容 */
+.left{
+  width: 220px;
+  float: left;
+  height: 1000px;
+  background-color: #f7f7f7;
+  
+}
+.left li{
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+}
+.right{
+  width: 920px;
+  float: right;
+  height: 1000px;
+  background-color: #f7f7f7;
+}
+a{
+  color: #6d6b6b;
+}
+/* 用户分析 */
+.shuju li{
+  float: left;
+  width: 33%;
+  border-right: 1px solid #e0e0e0;
+  height: 100px;
+  text-align: center;
+  padding: 10px;
+}
+table tr td{
+  width: 160px;
+  text-align: center;
+  height: 50px;
+  border-bottom: 2px solid  #e0e0e0;
+}
+
+/* 房源信息 */
+.tds td {
+  height: 70px;
+}
+.tool p{
+  color:green;
+  font-size: 12px;
+}
+.tool p:hover{
+  color:rgb(125, 128, 125);
+  font-size: 12px;
+}
+.tool button{
+  width: 50px;
+  height: 30px;
+  border-radius: 50px;
+  border: 0;
+}
+.tool button:hover{
+  background-color: red;
+  color: #fff;
+}
+/* 平台信息 */
+.title{
+  font-size: 16px;
+  font-weight: 600;
+  margin-right: 10px;
+}
