@@ -1,0 +1,31 @@
+.title1{
+    text-overflow: ellipsis;
+    white-space:nowrap; 
+    overflow: hidden;
+    font-size: 20px;
+    margin-top: 2%;
+    color: #333333;
+}
+.content{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    font-size: 15px;
+    text-indent: 2em;
+    margin-top: 10px;
+    line-height: 20px;
+    color: grey;
+}
+.bottom{
+    margin-top: 8px;
+}
+.bottom span{
+    float: left;
+}
+.count img{
+    width:20px;
+    height: 20px;
+    margin-left: 50px;
+}
+.author{color: #333333;}

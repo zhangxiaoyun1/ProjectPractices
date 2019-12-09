@@ -1,0 +1,35 @@
+input::-webkit-input-placeholder{
+    color:#bbbbbb;
+  
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color:#bbbbbb;
+
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+    color:#bbbbbb;
+
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+    color:#bbbbbb;
+
+}
+input{
+    background:none;
+    outline:none;
+    border:0px;
+    padding-left: 5px;
+}
+.b2{
+    text-align: center;
+    line-height: 25px;
+
+}
+.b2 span{
+    font-size: 20px;
+}
+.b2 button{
+    background:none;
+    outline:none;
+    border:0px;
+}
