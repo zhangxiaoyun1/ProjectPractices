@@ -27,6 +27,18 @@ export default class Housemanager extends Component {
                 })
             })
     }
+    del=(key)=>{
+        let url =`http://49.235.251.57:8002/api/delhomemessage/${key}`;
+            fetch(url, { method: 'get' })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                alert('删除成功！');
+                this.setState({
+                    data: res.data
+                })
+            })
+    }
     render() {
         return (
             <div style={{padding:'10px'}}>
@@ -57,7 +69,7 @@ export default class Housemanager extends Component {
                                 <td><b>发布日期</b></td>
                                 <td><b>价格</b></td>
                                 <td><b>手机号</b></td>
-                                <td><b></b></td>
+                                <td><b>操作</b></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,6 +89,7 @@ export default class Housemanager extends Component {
                                         <td>{item.price}</td>
                                         <td>{item.phone}</td>
                                         <td className='tool'>
+                                            <button onClick={() => this.del(item.homeid)}>删除</button>
                                         </td>
                                     </tr>
                                 })

@@ -62,11 +62,26 @@ export default class Manager extends Component {
             })
             .then((res) => res.json())
             .then((res) => {
-                window.location= "http://localhost:3000/content/manager";
+                alert('添加成功！');
+                this.setState({
+                    data: res.data
+                })
             })
         }else{
-            alert('添加失败');
+            alert('添加失败！');
         }  
+    }
+    del=(key)=>{
+        let url =`http://49.235.251.57:8002/api/delmanager/${key}`;
+            fetch(url, { method: 'get' })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                alert('删除成功！');
+                this.setState({
+                    data: res.data
+                })
+            })
     }
     render() {
         return (
@@ -105,7 +120,7 @@ export default class Manager extends Component {
                                 <td><b>管理员姓名</b></td>
                                 <td><b>头像</b></td>
                                 <td><b>手机号</b></td>
-                                <td><b></b></td>
+                                <td><b>操作</b></td>
                                 <td><b></b></td>
                             </tr>
                         </thead>
@@ -118,7 +133,7 @@ export default class Manager extends Component {
                                         <td><img src={require('../images/头像.png')} alt="" style={{height:'80%'}}/></td>
                                         <td>{item.phone}</td>
                                         <td className='tool'>
-                                            
+                                            <button onClick={()=>this.del(item.managerid)}>删除</button>
                                         </td>
                                         <td></td>
                                     </tr>
