@@ -66,9 +66,11 @@ router.get('/dream',function(req,res){
 router.get('/rentwiki',function(req,res){
   con.query("select * from rentwiki",function(err,result){
       if(err){
+        res.header('Access-Control-Allow-Origin', '*');
         console.log(err);
       }else{
         console.log(result.rows);
+        res.header('Access-Control-Allow-Origin', '*');
         res.send({ok:true,msg:result.rows});
       }
   })
