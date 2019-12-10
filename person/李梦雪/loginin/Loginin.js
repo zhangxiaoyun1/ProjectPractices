@@ -12,11 +12,16 @@ export default class Loginin extends Component {
             phone:'',//手机号
             warningname:'',
             warningpwd:'',
-            warningpwd2:''
+            warningpwd2:'',
+            warningphone:''
         }
     }
     addItem=()=>{
         // 页面输入的信息
+        this.state.warningname='';
+        this.state.warningpwd='';
+        this.state.warningpwd2='';
+        this.state.warningphone='';
         var iname=document.getElementById('iname').value;//用户名
         var password=document.getElementById('password').value;//密码
         var password2=document.getElementById('password2').value;//确认密码
@@ -32,6 +37,10 @@ export default class Loginin extends Component {
         }else if(password !== password2){ 
             this.setState({
                 warningpwd2:'两次密码不一致'
+            })
+        }else if(phone.length!==11){
+            this.setState({
+                warningphone:'手机号格式错误'
             })
         }
         //传给后端的数据
@@ -90,12 +99,21 @@ export default class Loginin extends Component {
                             <WhiteSpace/>
                             <span> 密 码 ：</span>
                             <input name='password' id="password"  type='password' placeholder='请输入您的密码' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35,marginLeft:26}}/>
+                            <span style={{fontSize:'14px',color:'red'}}>
+                                {this.state.warningpwd}
+                            </span>
                             <WhiteSpace/>
                             <span>确认密码：</span>
                             <input  name='password2' id="password2" type='password' placeholder='请再次输入您的密码' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35}}/>
+                            <span style={{fontSize:'14px',color:'red'}}>
+                                {this.state.warningpwd2}
+                            </span>
                             <WhiteSpace/>
                             <span>手机号：</span>
                             <input  name="phone" id="phone" type='text' placeholder='请输入您的手机号' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35,marginLeft:19}}/>              
+                            <span style={{fontSize:'14px',color:'red'}}>
+                                {this.state.warningphone}
+                            </span>
                             <button style={{float:'right',height:35}}>获取验证码</button>
                             <WhiteSpace/>
                             <span>验证码：</span>
