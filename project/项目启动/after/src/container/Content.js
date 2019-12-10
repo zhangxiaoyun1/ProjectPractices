@@ -20,7 +20,7 @@ export default class Content extends Component {
                         <img src={require('../images/15.png')} alt="" style={{ width: '150px', height: '80px' }} />
                         <span style={{ marginLeft: '30px', color: 'red', fontSize: '20px' }}>易·家管理平台</span>
                         <ul className='back'>
-                            <li style={{ color: 'red' }}> <img src={require('../images/退出.png')} alt="" style={{ height: '60%' }} /><Link to='/' style={{ color: 'red' }}>退出</Link></li>
+                            <li style={{ color: 'red' }}> <Link to='/' style={{ color: 'red' }}><img src={require('../images/退出.png')} alt="" style={{ height: '60%' ,marginRight:'10px'}}/>退出</Link></li>
                             <li>易·家</li>
                             <li><img src={require('../images/房子.png')} alt="" style={{ height: '100%', marginTop: '-5px' }} /></li>
                         </ul>
@@ -29,12 +29,12 @@ export default class Content extends Component {
                 <div style={{ width: '1200px', height: '1050px', margin: '0 auto', backgroundColor: '#cccccc', padding: '20px' }}>
                     <div className='left'>
                         <ul style={{ borderBottom: '2px solid #cccccc' }}>
-                            <li><img src={require('../images/统计.png')} alt="" style={{ height: '50%', marginRight: '20px', marginLeft: '-70px' }} />统计</li>
+                            <li style={{fontWeight:'bold'}}><img src={require('../images/统计.png')} alt="" style={{ height: '50%', marginRight: '20px', marginLeft: '-70px'}} />统计</li>
                             <li><NavLink to='/content/analysis' activeStyle={{ color: '#fff', backgroundColor: 'red', padding: '15px 81px' }}>用户分析</NavLink></li>
                             <li></li>
                         </ul>
                         <ul style={{ borderBottom: '2px solid #cccccc', width: '100%' }}>
-                            <li><img src={require('../images/文件.png')} alt="" style={{ height: '50%', marginRight: '20px', marginLeft: '-70px' }} />管理</li>
+                            <li style={{fontWeight:'bold'}}><img src={require('../images/文件.png')} alt="" style={{ height: '50%', marginRight: '20px', marginLeft: '-70px' }} />管理</li>
                             <li style={{ height: '100%' }}><NavLink to='/content/usermanager' activeStyle={{ color: '#fff', backgroundColor: 'red', padding: '15px 81px' }}>用户管理</NavLink>
                                 <Route path='/content/usermanager' component={Expand} />
                             </li>
@@ -43,7 +43,7 @@ export default class Content extends Component {
                             <li></li>
                         </ul>
                         <ul>
-                            <li><img src={require('../images/文件夹.png')} alt="" style={{ height: '50%', marginRight: '20px', marginLeft: '-70px' }} />开发</li>
+                            <li style={{fontWeight:'bold'}}><img src={require('../images/文件夹.png')} alt="" style={{ height: '50%', marginRight: '20px', marginLeft: '-70px' }} />开发</li>
                             <li><NavLink to='/content/platinfo' activeStyle={{ color: '#fff', backgroundColor: 'red', padding: '15px 81px' }}>平台信息</NavLink></li>
                             <li><NavLink to='/content/manager' activeStyle={{ color: '#fff', backgroundColor: 'red', padding: '15px 81px' }}>管理员</NavLink></li>
                             <li></li>

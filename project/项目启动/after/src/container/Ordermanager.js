@@ -22,7 +22,6 @@ export default class Ordermanager extends Component {
         fetch(url, { method: 'get' })
             .then((res) => res.json())
             .then((res) => {
-                console.log(res);
                 this.setState({
                     data: res.data
                 })
@@ -33,7 +32,6 @@ export default class Ordermanager extends Component {
             fetch(url, { method: 'get' })
             .then((res) => res.json())
             .then((res) => {
-                console.log(res);
                 alert('删除成功！');
                 this.setState({
                     data: res.data
