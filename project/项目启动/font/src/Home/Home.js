@@ -30,45 +30,45 @@ const PlaceHolder4 = ({ className = '', ...restProps }) => (
         交易服务
     </div>
 );
-const PlaceHolder_home = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home`} {...restProps}>
-        合租
-    </div>
-);
-const PlaceHolder_home1 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home1`} {...restProps}>
-        精装修
-    </div>
-);
-const PlaceHolder_home2 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home1`} {...restProps}>
-        近地铁
-    </div>
-);
+//添加心愿单
+let number = 0;
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             imgData: ['home_01.jpg', 'home_02.jpg', 'home_03.jpg'],
             selectedTab: 'blueTab',
-            data:[]
+            data: []
 
         }
+        console.log(this.state.src);
     }
-    componentDidMount(){
+    componentDidMount() {
         fetch('http://localhost:3001/api/house')
-        .then((res)=>res.json())
-        .then((res)=>{
-            this.setState({
-                data:res.msg
-            });
-            console.log(res.msg)
-        })
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    data: res.msg
+                });
+                console.log(res.msg)
+            })
+    }
+    //点击添加心愿单
+    changeLove = (idx) => {
+        number ++;
+        var love_num = 'love' + `${idx}`
+        var love = document.getElementById(love_num);
+        var loveTag = love.style.dreamFlag;
+        if(loveTag === 'false'){
+            loveTag  = 'true';
+            love.style.color = 'red'
+        }
     }
     render() {
         return (
             <div>
                 {/* //首页 */}
+                {/* 表头搜索定位 */}
                 <div id='home_flow'>
                     <div className='home_nav'>
                         <span id="home_icon" className='iconfont icon-diliweizhi'></span>
@@ -81,6 +81,7 @@ export default class Home extends Component {
                         </div>
                     </div>
                 </div>
+                {/* 轮播图 */}
                 <div id='home_flow1'>
                     <div className='home_carousel'>
                         <Carousel
@@ -90,7 +91,6 @@ export default class Home extends Component {
                             {this.state.imgData.map(val => (
                                 <a
                                     key={val}
-                                    href="http://www.alipay.com"
                                     style={{ display: 'inline-block', width: '100%', }}
                                 >
                                     <img
@@ -124,6 +124,7 @@ export default class Home extends Component {
                     </div>
 
                 </div>
+                {/* 推荐房屋信息 */}
                 <div className='home_banner'>
                     <WingBlank>
                         <h2>为你推荐</h2>
@@ -131,48 +132,42 @@ export default class Home extends Component {
                 </div>
                 <div>
                     {
-                        this.state.data.map((item)=>(
-                            <WingBlank>
-                            <Link to='/detail'>
-                            <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                                <Flex>
-                                    <div style={{ float: 'left' }}>
-                                        <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                        this.state.data.map((item, idx) => {
+                            let path = "/dream/id="+`${idx}`
+                            return (
+                                <WingBlank key={idx}>
+                                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
+                                        <div style={{ float: 'left' }}>
+                                            <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                                        </div>
+                                        <div style={{ float: 'left', width: '190px', height: '120px' }}>
+                                            <div className='home_p'>
+                                                <span>{item.apname}</span>
+                                                <span style={{ padding: '0 3px' }}>|</span>
+                                                <span>{item.address}</span>
+                                            </div>
+                                            <div style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                                <span>{item.type}</span>
+                                                <span style={{ padding: '0 3px' }}>|</span>
+                                                <span>{item.hometype}</span>
+                                            </div>
+                                            <div style={{ fontSize: '13px', height: '20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                                <p className="message3">朝向:{item.face}</p>
+                                                <p className="message4">楼层:{item.floor}</p>
+                                                <p className="message4">电梯:{item.lift}</p>
+                                            </div>
+                                            <div style={{ height: '30px', display: 'flex', margintTop: '10px' }}>
+                                                <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%', float: 'left' }}>{item.price}</span>
+                                                <span id={'love' + `${idx}`} onClick={() => this.changeLove(idx)} className='iconfont icon-aixin1' style={{ color: '#ddd', fontSize: 30,  marginTop: '2%',marginLeft:'45%' ,dreamFlag:'false'}}></span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                        <p className='home_p'>
-                                            <span>{item.apname}</span>
-                                            <span style={{padding:'0 3px'}}>|</span>
-                                            <span>{item.address}</span>
-                                        </p>
-                                        <p style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
-                                            <span>{item.type}</span>
-                                            <span style={{padding:'0 3px'}}>|</span>
-                                            <span>{item.hometype}</span>
-                                        </p>
-                                        <p style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
-                                            <span>朝向{item.type}</span>
-                                            <span style={{padding:'0 3px'}}>|</span>
-                                            <span>楼层{item.hometype}</span>
-                                            <span style={{padding:'0 3px'}}>|</span>
-                                            <span>电梯{item.hometype}</span>
-                                        </p>
-                                        {/* <Flex>
-                                            <Flex.Item><PlaceHolder_home /></Flex.Item>
-                                            <Flex.Item><PlaceHolder_home1 /></Flex.Item>
-                                            <Flex.Item><PlaceHolder_home2 /></Flex.Item>
-                                        </Flex> */}
-                                        <p style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '4%' }}>{item.price}<img style={{width:'22px',height:'22px',float:'right'}} src={`${require('./images/love.png')}`}></img></p>
-                                        
-                                    </div>
-                                </Flex>
-                            </div>
-                            </Link>
-                        </WingBlank>
-                        ))
+                                </WingBlank>
+                            )
+                        })
                     }
                 </div>
-           </div>
+            </div>
         )
     }
 
