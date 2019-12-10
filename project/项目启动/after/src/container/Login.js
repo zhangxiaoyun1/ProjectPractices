@@ -58,6 +58,11 @@ export default class Login extends Component {
         }
 
     }
+    handleInput = (e)=>{
+        if(e.keyCode===13){
+            this.login();
+        }
+    }
     render() {
         return (
             <div style={{ height: '100%', width: '100%' }}>
@@ -67,11 +72,11 @@ export default class Login extends Component {
                     <div style={{ margin: '30px auto', width: '35%' }}>
                         <input type="text" placeholder=' 管理员' className='linput' disabled style={{ backgroundColor: '#fff', margin: '10px auto' }} />
                         <br />
-                        <input type="text" placeholder=' 账户名' className='linput' style={{ margin: '10px auto' }} id='ManagerName' />
+                        <input type="text" onKeyDown={this.handleInput} placeholder=' 账户名' className='linput' style={{ margin: '10px auto' }} id='ManagerName' />
                         <br />
                         <span style={{ fontSize: '10px', color: 'red', height: '10px', float: 'left', marginTop: '-5px', marginLeft: '5%' }}>{this.state.mn}</span>
                         <br />
-                        <input type="password" placeholder=' 账户密码' className='linput' style={{ margin: '-25px auto' }} id='ManagerPW' />
+                        <input type="password" onKeyDown={this.handleInput} placeholder=' 账户密码' className='linput' style={{ margin: '-25px auto' }} id='ManagerPW' />
                         <br />
                         <span style={{ fontSize: '10px', color: 'red', height: '10px', float: 'left', marginTop: '10px', marginLeft: '5%' }}>{this.state.mp}</span>
                         <br />
