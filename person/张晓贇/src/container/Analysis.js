@@ -28,7 +28,7 @@ export default class Analysis extends Component {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ['周一','周二','周三','周四','周五','周六','周日']
+                data: ['2019-11-20','2019-11-21','2019-11-22','2019-11-23','2019-11-24','2019-11-25','2019-11-26']
             },
             yAxis: {
                 type: 'value'
@@ -79,15 +79,14 @@ export default class Analysis extends Component {
                         <p style={{ fontSize: '22px', fontWeight: '600', marginTop: '30px' }}>120</p>
                     </li>
                 </ul>
-                {/* <img src={require('../images/增长图.png')} alt="" style={{ marginTop: '30px', width: '100%' }} /> */}
-                <div id='main' style={{width:'100%',marginTop: '130px',height:'300px'}}>
+                <div id='main' style={{width:'100%',marginTop: '150px',height:'300px'}}>
                 
                 </div>
                 <div style={{ height: '60px', backgroundColor: '#e0e0e0',marginTop:'-5px' }}>
                     <p style={{ lineHeight: '60px', marginLeft: '20px', fontWeight: '600' }}>历史记录</p>
                     <a href="#" style={{ float: 'right', marginRight: '20px', width: '100px', marginTop: '-55px' }}>打印表格</a>
                 </div>
-                <div style={{ overflow: "scroll", width: "100%", height: "250px" }}>
+                <div style={{ overflow: "scroll", width: "100%", height: "230px" }}>
                     <table>
                         <thead>
                             <tr>

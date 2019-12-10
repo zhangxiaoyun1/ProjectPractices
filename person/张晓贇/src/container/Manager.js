@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Alert } from 'antd';
 
 export default class Manager extends Component {
     constructor() {
@@ -30,7 +29,6 @@ export default class Manager extends Component {
             fetch(url, { method: 'get' })
             .then((res) => res.json())
             .then((res) => {
-                console.log(res);
                 this.setState({
                     data: res.data
                 })
@@ -48,7 +46,6 @@ export default class Manager extends Component {
         var phone=document.getElementById('phone').value;
         var pwd=document.getElementById('pwd').value;
         var len=this.state.length+1;
-        console.log(manager);
         if(manager!==''&&phone!==''&&pwd!==''&&len!==''){
             var body={
                         managerid:len,
