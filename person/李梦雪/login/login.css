@@ -11,3 +11,61 @@
     width: 50px;
     height: 50px;
   }
+  .login_top{
+    height: 25%;
+    width: 100%;
+    background:linear-gradient(to right,#FE8084, #FE8E90, #FE9695) ;
+  }
+  .regforget{
+    width:70%;
+    height:35px;
+    margin:0 auto;
+  }
+  .regforget button{
+    background: none;
+    border:none;
+  }
+  .regforget :first-child{
+    color: #FE8E90;
+  }
+  .regforget :last-child{
+    color: #FE8E90;
+    float: right;
+    margin-right: 5%;
+  }
+  .loginn{
+    width:70%;
+    height:35px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .loginn button{
+    width:50%;
+    height:35px;
+    background: linear-gradient(to right,#FE8084, #FE8E90, #FE9695);
+    border:none;
+    border-radius: 17px;
+    color:#fff;
+  }
+  /* 协议 */
+  .deal{
+    height: 15px;
+    width: 70%;
+    margin:5% auto 0 auto;
+  }
+  /* 第三方登录 */
+  .login_third{
+    width: 70%;
+    margin:40% auto 0 auto;
+    text-align: center;
+  }
+  .login_third div i{
+    font-size:3em;
+    color:#807D7D;
+  }
+  .login_third div i:first-child{
+    float: left;
+  }
+  .login_third div i:last-child{
+    float: right;
+  }
