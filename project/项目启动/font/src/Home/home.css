@@ -23,3 +23,19 @@ body{
 .home_p{font-size: 17px;text-overflow: ellipsis;white-space:nowrap; overflow: hidden;margin-top:7%;margin-left: 2%;color:#333333;}
 .placeholder_home{height: 30px;width: 50px;float: left;margin:2% 0% 0% 0%;background-color: #f3faf3;color: #97dca5;font-size: 14px;text-align: center;line-height:30px;}
 .placeholder_home1{height: 30px;width: 50px;float: left;margin:2% 0% 0% 2%;background-color: #f3faf3;color: #87aed9;font-size: 14px;text-align: center;line-height:30px;}
+
+.message3{
+    float: left;
+    /* margin-top: 5px; */
+    line-height: 20px;
+    background-color: #f3faf3;
+    color: #97dca5;
+}
+.message4{
+    float: left;
+    /* margin-top: 5px; */
+    line-height: 20px;
+    margin-left: 15px;
+    background-color: #f3f8fb;
+    color: #87aed9;
+}
