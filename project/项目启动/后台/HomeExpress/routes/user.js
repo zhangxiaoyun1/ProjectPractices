@@ -7,7 +7,7 @@ const pgdb=require('../config/dbconfig')
 const con=new pg.Pool(pgdb);
 con.connect();
 var useridNum=0;
-console.log(useridNum);
+//console.log(useridNum);
 //注册
 router.post('/user/reg',function(req,res){
   var userid=(new Date()).valueOf();
@@ -51,7 +51,7 @@ router.post('/user/login',function(req,res){
       }
       else{
         useridNum=result.rows[0].userid;
-        console.log(useridNum);
+        //console.log(useridNum);
         res.send({ok:true,msg:result.rows[0]});
       }
     }
