@@ -37,6 +37,49 @@ const PlaceHolder_my5 = ({ className = '', ...restProps }) => (
     </div>
 );
 export default class My extends Component {
+    constructor(props){
+        super(props);
+        if(JSON.parse(localStorage.getItem('key'))===null){
+            this.state={
+                data:{"iname":'用户名',"realname":"未实名"},
+            }
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).realname===null){
+                this.state={
+                    data:{"iname":JSON.parse(localStorage.getItem('key')).iname,"realname":"未实名"},
+                }
+            }else{
+                this.state={
+                    data:{"iname":JSON.parse(localStorage.getItem('key')).iname,"realname":"已实名"},
+                }
+            }
+        }
+            
+    }
+    /**
+     * 去登陆
+     */
+    login=()=>{
+        window.location.href="http://localhost:3000/#/login"
+    }
+     /**
+     * 去注册
+     */
+    loginin=()=>{
+        window.location.href="http://localhost:3000/#/loginin"
+    }
+     /**
+     * 去实名认证
+     */
+    realName=()=>{
+        window.location.href="http://localhost:3000/#/realName"
+    }
+     /**
+     * 去设置
+     */
+   toSet=()=>{
+        window.location.href="http://localhost:3000/#/set"
+    }
     render() {
         return (
             <div>
@@ -50,16 +93,18 @@ export default class My extends Component {
                 <div className='my_banner'>
                     <WingBlank>
                         <div style={{ float: 'left' }}>
-                            <img style={{ width: '80px', height: '80px', marginTop: '20%' }} src={require('./images/my_01.png')} />
+                            <img style={{ width: '80px', height: '80px', marginTop: '23%' }} src={require('./images/my_01.png')} />
                         </div>
-                        <div style={{ float: 'left', marginTop: '8%' }}>
-                            <p style={{ color: 'gray', fontSize: 20 ,marginLeft:'8%'}}>喵柠i</p>
-                            <div style={{ color: '#ff9645', width: '50px', height: '25px', fontSize: '14px' ,textAlign:'center',lineHeight:'25px',borderRadius:'10px',border:'1px solid #ff9645',marginLeft:'2%',marginTop:'5%'}}>
-                                未实名
+                        <div style={{ float: 'left' ,width:'70%',height:'100%',marginTop:'9%',marginLeft:'3%'}}>
+                            <p style={{color:'gray',fontSize:'18px'}}>{this.state.data.iname}</p>
+                            <div>
+                                <div style={{float:'left',height:'25px',marginTop:'5%',border:'1px solid red',borderRadius:'10px',color:'red',textAlign:'center',lineHeight:'25px'}}>
+                                    信誉良好
+                                </div>
+                                <div style={{ float:'left', color: '#ff9645', height: '25px', fontSize: '14px' ,textAlign:'center',lineHeight:'25px',borderRadius:'10px',border:'1px solid #ff9645',marginLeft:'5%',marginTop:'5%'}}>
+                                        {this.state.data.realname}
+                                </div>
                             </div>
-                        </div>
-                        <div style={{float:'left',width:'80px',height:'25px',marginTop: '15%',marginLeft:'2%',border:'1px solid red',borderRadius:'10px',color:'red',textAlign:'center',lineHeight:'25px'}}>
-                            信誉良好
                         </div>
                     </WingBlank>
                 </div>
@@ -78,26 +123,22 @@ export default class My extends Component {
                     </div>
                 </WingBlank>
                 <WingBlank>
-                    <Link to='/login'>
                     <div style={{ width: '100%', height: '50px', marginTop: '5%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
                         <Flex>
                             <div className="my_div6"></div>
-                            <p style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>登录</p>
+                            <button onClick={()=>this.login()} style={{background:'none',border:'none', fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>登录</button>
                             <div className='my_div5'></div>
                         </Flex>
                     </div>
-                    </Link>
                 </WingBlank>
                 <WingBlank>
-                    <Link to='/loginin'>
                     <div style={{ width: '100%', height: '50px', marginTop: '5%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
                         <Flex>
                             <div className="my_div7"></div>
-                            <p style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>注册</p>
+                            <button onClick={()=>this.loginin()} style={{background:'none',border:'none', fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>注册</button>
                             <div className='my_div5'></div>
                         </Flex>
                     </div>
-                    </Link>
                 </WingBlank>
                 <WingBlank>
                     <div style={{ width: '100%', height: '50px', marginTop: '7%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
@@ -118,22 +159,20 @@ export default class My extends Component {
                     </div>
                 </WingBlank>
                 <WingBlank>
-                    <Link to='/item'>
                     <div style={{ width: '100%', height: '50px', marginTop: '5%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
                         <Flex>
                             <div className="my_div3"></div>
-                            <p style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>实名认证</p>
+                            <button onClick={()=>this.realName()} style={{background:'none',border:'none',fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>实名认证</button>
                             <div className='my_div1'></div>
                         </Flex>
                     </div>
-                    </Link>
                 </WingBlank>
                 <WingBlank>
                 <Link to='/set'>
                     <div style={{ width: '100%', height: '50px', marginTop: '5%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
                         <Flex>
                             <div className="my_div4"></div>
-                            <p style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>设置</p>
+                            <button onClick={()=>this.toSet()} style={{background:'none',border:'none',fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>设置</button>
                             <div className='my_div5'></div>
                         </Flex>
                     </div>
