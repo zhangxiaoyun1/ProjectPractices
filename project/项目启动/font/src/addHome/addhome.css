@@ -8,3 +8,18 @@ a{list-style: none;}
 .addhome_input1{width: 210px;height: 35px;margin-top: 7%;margin-left: 2%;border:none;border-radius:10px;background-color:antiquewhite;}
 .addhome_input2{width: 210px;height: 35px;margin-top: 7%;border:none;border-radius:10px;background-color:antiquewhite;}
 .addhome_fieldset{width: 310px;height: 360px;border: 1px solid #ff9645;margin-left: 8%;margin-top: 5%;}
+
+.tijiao{
+    width:90%;
+    height:40px;
+    margin:2% 0 0 auto;
+    text-align: center;
+  }
+  .tijiao button{
+    width:37%;
+    height:40px;
+    background: linear-gradient(to right,#FE8084, #FE8E90, #FE9695);
+    border:none;
+    border-radius: 10px;
+    color:#fff;
+  }
