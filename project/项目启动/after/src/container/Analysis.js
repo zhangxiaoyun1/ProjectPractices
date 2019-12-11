@@ -62,7 +62,7 @@ export default class Analysis extends Component {
                     data:[0, 26,12, 8, 33,41, 30]
                 },
                 {
-                    name:'访问量',
+                    name:'日访问量',
                     type:'line',
                     data:[100, 50, 68, 37, 45,156, 231]
                 },
