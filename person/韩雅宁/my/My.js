@@ -37,6 +37,25 @@ const PlaceHolder_my5 = ({ className = '', ...restProps }) => (
     </div>
 );
 export default class My extends Component {
+    constructor(props){
+        super(props);
+        if(JSON.parse(localStorage.getItem('key'))===null){
+            this.state={
+                data:{"iname":'用户名',"realname":"未实名"},
+            }
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).realname===null){
+                this.state={
+                    data:{"iname":JSON.parse(localStorage.getItem('key')).iname,"realname":"未实名"},
+                }
+            }else{
+                this.state={
+                    data:{"iname":JSON.parse(localStorage.getItem('key')).iname,"realname":"已实名"},
+                }
+            }
+        }
+            
+    }
     render() {
         return (
             <div>
@@ -50,17 +69,32 @@ export default class My extends Component {
                 <div className='my_banner'>
                     <WingBlank>
                         <div style={{ float: 'left' }}>
-                            <img style={{ width: '80px', height: '80px', marginTop: '20%' }} src={require('./images/my_01.png')} />
+                            <img style={{ width: '80px', height: '80px', marginTop: '23%' }} src={require('./images/my_01.png')} />
                         </div>
-                        <div style={{ float: 'left', marginTop: '8%' }}>
-                            <p style={{ color: 'gray', fontSize: 20 ,marginLeft:'8%'}}>喵柠i</p>
-                            <div style={{ color: '#ff9645', width: '50px', height: '25px', fontSize: '14px' ,textAlign:'center',lineHeight:'25px',borderRadius:'10px',border:'1px solid #ff9645',marginLeft:'2%',marginTop:'5%'}}>
-                                未实名
+                        <div style={{ float: 'left' ,width:'70%',height:'100%',marginTop:'9%',marginLeft:'3%'}}>
+                            <p style={{color:'gray',fontSize:'18px'}}>{this.state.data.iname}</p>
+                            <div>
+                                <div style={{float:'left',height:'25px',marginTop:'5%',border:'1px solid red',borderRadius:'10px',color:'red',textAlign:'center',lineHeight:'25px'}}>
+                                    信誉良好
+                                </div>
+                                <div style={{ float:'left', color: '#ff9645', height: '25px', fontSize: '14px' ,textAlign:'center',lineHeight:'25px',borderRadius:'10px',border:'1px solid #ff9645',marginLeft:'5%',marginTop:'5%'}}>
+                                        {this.state.data.realname}
+                                </div>
                             </div>
                         </div>
-                        <div style={{float:'left',width:'80px',height:'25px',marginTop: '15%',marginLeft:'2%',border:'1px solid red',borderRadius:'10px',color:'red',textAlign:'center',lineHeight:'25px'}}>
-                            信誉良好
-                        </div>
+                        {/* <div style={{ float: 'left' }}>
+                            <div style={{ marginTop: '35%',marginLeft: '35%' }}>
+                                <p style={{ color: 'gray', fontSize: 18}}>{this.state.data.iname}</p>
+                            </div>
+                            <div style={{ marginTop: '8%' }}>
+                                <div style={{float:'left',height:'25px',marginTop: '15%',marginLeft:'2%',border:'1px solid red',borderRadius:'10px',color:'red',textAlign:'center',lineHeight:'25px'}}>
+                                    信誉良好
+                                </div>
+                                <div style={{ color: '#ff9645', height: '25px', fontSize: '14px' ,textAlign:'center',lineHeight:'25px',borderRadius:'10px',border:'1px solid #ff9645',marginLeft:'2%',marginTop:'5%'}}>
+                                        未实名
+                                </div>
+                            </div>
+                        </div>  */}
                     </WingBlank>
                 </div>
                 <WingBlank>
