@@ -30,16 +30,13 @@ const PlaceHolder4 = ({ className = '', ...restProps }) => (
         交易服务
     </div>
 );
-//添加心愿单
-let number = 0;
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             imgData: ['home_01.jpg', 'home_02.jpg', 'home_03.jpg'],
             selectedTab: 'blueTab',
-            data: []
-
+            data: [],
         }
         console.log(this.state.src);
     }
@@ -54,14 +51,33 @@ export default class Home extends Component {
             })
     }
     //点击添加心愿单
-    changeLove = (idx) => {
-        number ++;
+    changeLove = (idx,homeid) => {
         var love_num = 'love' + `${idx}`
         var love = document.getElementById(love_num);
-        var loveTag = love.style.dreamFlag;
-        if(loveTag === 'false'){
-            loveTag  = 'true';
-            love.style.color = 'red'
+        if (love.style.dreamFlag == 'false') {
+            love.style.dreamFlag = 'true';
+            love.style.color = 'red';
+            var jsonStr = JSON.stringify({ idx: idx,homeid:homeid});
+            fetch("http://localhost:3001/api/addDream", {
+                method: 'POST', body: jsonStr,
+                headers:new Headers({ 'Content-Type': 'application/json' })
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    console.log(res);
+                })
+        } else {
+            love.style.dreamFlag = 'false';
+            love.style.color = '#ddd';
+            var deleteStr = JSON.stringify({idx:idx})
+            fetch("http://localhost:3001/api/deleteDream",{
+                method:'POST',body:deleteStr,
+                headers:new Headers({ 'Content-Type': 'application/json' })
+            })
+            .then((res)=>res.json())
+            .then((res)=>{
+                console.log(res);
+            })
         }
     }
     render() {
@@ -133,7 +149,7 @@ export default class Home extends Component {
                 <div>
                     {
                         this.state.data.map((item, idx) => {
-                            let path = "/dream/id="+`${idx}`
+                            let path = "/dream/id=" + `${idx}`
                             return (
                                 <WingBlank key={idx}>
                                     <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
@@ -158,7 +174,7 @@ export default class Home extends Component {
                                             </div>
                                             <div style={{ height: '30px', display: 'flex', margintTop: '10px' }}>
                                                 <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%', float: 'left' }}>{item.price}</span>
-                                                <span id={'love' + `${idx}`} onClick={() => this.changeLove(idx)} className='iconfont icon-aixin1' style={{ color: '#ddd', fontSize: 30,  marginTop: '2%',marginLeft:'45%' ,dreamFlag:'false'}}></span>
+                                                <span id={'love' + `${idx}`} onClick={() => this.changeLove(idx,item.homeid)} className='iconfont icon-aixin1' style={{ color: '#ddd', fontSize: 30, marginTop: '2%', marginLeft: '45%', dreamFlag: 'false' }}></span>
                                             </div>
                                         </div>
                                     </div>
