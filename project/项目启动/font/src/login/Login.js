@@ -32,13 +32,17 @@ export default class Login extends Component {
         .then((res)=>{
             console.log(res.msg);
             if(res.ok===true){
-                if(JSON.parse(localStorage.getItem('key')).iname!=="用户名"){
-                    window.location.href="http://localhost:3000/#/my"
-                }else{
+                if(JSON.parse(localStorage.getItem('key'))===null){
                     localStorage.setItem('key',JSON.stringify(res.msg))
                     window.location.href="http://localhost:3000/#/my"
-                } 
-                
+                }else{
+                    if(JSON.parse(localStorage.getItem('key')).iname!=="用户名"){
+                        window.location.href="http://localhost:3000/#/my"
+                    }else{
+                        localStorage.setItem('key',JSON.stringify(res.msg))
+                        window.location.href="http://localhost:3000/#/my"
+                    } 
+                }
             }else{
                 alert("登录失败")
             }
