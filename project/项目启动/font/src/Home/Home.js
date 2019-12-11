@@ -30,21 +30,6 @@ const PlaceHolder4 = ({ className = '', ...restProps }) => (
         交易服务
     </div>
 );
-const PlaceHolder_home = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home`} {...restProps}>
-        合租
-    </div>
-);
-const PlaceHolder_home1 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home1`} {...restProps}>
-        精装修
-    </div>
-);
-const PlaceHolder_home2 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home1`} {...restProps}>
-        近地铁
-    </div>
-);
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -52,7 +37,6 @@ export default class Home extends Component {
             imgData: ['home_01.jpg', 'home_02.jpg', 'home_03.jpg'],
             selectedTab: 'blueTab',
             data:[]
-
         }
         console.log(this.state.src);
     }
@@ -66,8 +50,39 @@ export default class Home extends Component {
             console.log(res.msg)
         })
     }
-    //点击添加心愿单
-    addDream=()=>{
+    //添加删除心愿单
+    changeDream =(idx,homeid)=>{
+        var list = "love"+`${idx}`
+        var loveList = document.getElementById(list);
+        var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
+        if(loveList.style.dreamFlag === 'false'){
+            loveList.style.dreamFlag = 'true';
+            loveList.style.color = 'red';
+            var addStr = JSON.stringify({idx:idx,homeid:homeid,dreamUser:dreamUser})
+            fetch("http://localhost:3001/api/addDream",
+            {
+                method:'POST',
+                body:addStr,
+                headers:new Headers({'Content-Type':'application/json'})
+            }).then((res)=>res.json())
+            .then((res)=>{
+                console.log(res);
+            })
+        }else{
+            loveList.style.dreamFlag = 'false';
+            loveList.style.color = '#ddd';
+            var addStr = JSON.stringify({idx:idx,homeid:homeid,dreamUser:dreamUser});
+            fetch("http://localhost:3001/api/deleteDream",
+            {
+                method:'POST',
+                body:addStr,
+                headers:new Headers({'Content-Type':'application/json'})
+            }
+            ).then((res)=>res.json())
+            .then((res)=>{
+                console.log(res);
+            })
+        }
     }
     render() {
         return (
@@ -137,8 +152,9 @@ export default class Home extends Component {
                 </div>
                 <div>
                     {
-                        this.state.data.map((item)=>(
-                            <WingBlank>
+                        this.state.data.map((item,idx)=>(
+                            <Link key={idx} to={"/detail/"+item.homeid}>
+                            <WingBlank >
                             <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
                                 <div style={{ float: 'left' }}>
                                     <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
@@ -161,11 +177,12 @@ export default class Home extends Component {
                                     </div>
                                     <div style={{height:'30px',display:'flex',margintTop:'10px'}}>
                                         <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%' ,float:'left'}}>{item.price}</span>
-                                        <span style={{position:'relative',right:'-40%',top:'28%'}}><img onClick={this.addDream.bind(this)} style={{width:'20px'}} src={`${require('./images/love.png')}`}></img></span>
+                                        <span id={"love"+`${idx}`} onClick={()=>this.changeDream(idx,item.homeid)} style={{fontSize:30,color:'#ddd',marginLeft:'45%',marginTop:'2%',dreamFlag:'false'}} className='iconfont icon-aixin1'></span>
                                     </div>
                                 </div>
                             </div>
                             </WingBlank>
+                            </Link>
                         ))
                     }
                 </div>
