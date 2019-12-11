@@ -55,7 +55,7 @@ export default class Ordermanager extends Component {
                 </div>
                 <div style={{ height: '60px', backgroundColor: '#e0e0e0', marginTop: '10px' }}>
                     <p style={{ lineHeight: '60px', marginLeft: '20px', fontWeight: '600' }}>订单信息</p>
-                    <a href="" style={{ float: 'right', marginRight: '30px', marginTop: '-55px',color:'blue' }} >打印表格</a>
+                    <a href="#" style={{ float: 'right', marginRight: '30px', marginTop: '-55px'}} >打印表格</a>
                 </div>
                 <div style={{ padding: '10px', overflow: "scroll", width: "100%", height: '660px' }}>
                     <table>

@@ -4,15 +4,37 @@ import * as echarts from 'echarts';
 export default class Analysis extends Component {
     constructor(){
         super();
+        this.state={
+            arr:[]
+        };
     }
     componentDidMount(){
+        var brr=[];
+        for(var i=0;i<7;i++){
+            var date1 = new Date();
+            var date2 = new Date(date1);
+            date2.setDate(date1.getDate()-i);
+            var d1=date2.getMonth()+1;
+            if(d1<10){
+                d1='0'+d1;
+            }
+            var d2=date2.getDate();
+            if(d2<10){
+                d2='0'+d2;
+            }
+            var time2 = date2.getFullYear()+"-"+d1+"-"+d2;
+            brr.push(time2);
+        }
+        this.setState({
+            arr:brr
+        })
         var myChart = echarts.init(document.getElementById('main'));
         var option = {
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
-                data:['新注册用户','访问量','累计注册']
+                data:['新注册用户','日访问量','累计注册']
             },
             grid: {
                 left: '3%',
@@ -28,7 +50,7 @@ export default class Analysis extends Component {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ['2019-11-20','2019-11-21','2019-11-22','2019-11-23','2019-11-24','2019-11-25','2019-11-26']
+                data: [brr[6],brr[5],brr[4],brr[3],brr[2],brr[1],brr[0]]
             },
             yAxis: {
                 type: 'value'
@@ -40,7 +62,7 @@ export default class Analysis extends Component {
                     data:[0, 26,12, 8, 33,41, 30]
                 },
                 {
-                    name:'访问量',
+                    name:'日访问量',
                     type:'line',
                     data:[100, 50, 68, 37, 45,156, 231]
                 },
@@ -71,7 +93,7 @@ export default class Analysis extends Component {
                         <p style={{ fontSize: '22px', fontWeight: '600', marginTop: '30px' }}>19</p>
                     </li>
                     <li>
-                        <p style={{ fontSize: '12px' }}>昨日访问</p>
+                        <p style={{ fontSize: '12px' }}>日访问量</p>
                         <p style={{ fontSize: '22px', fontWeight: '600', marginTop: '30px' }}>123</p>
                     </li>
                     <li style={{ border: '0' }}>
@@ -99,7 +121,7 @@ export default class Analysis extends Component {
                         </thead>
                         <tbody>
                             {
-                                ['2019-11-26','2019-11-25','2019-11-24','2019-11-23','2019-11-22','2019-11-21','2019-11-20'].map((item,index)=>{
+                                this.state.arr.map((item,index)=>{
                                     return(
                                         <tr>
                                             <td>{item}</td>
