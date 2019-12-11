@@ -4,6 +4,17 @@ import { WingBlank, Flex } from 'antd-mobile';
 import {Link} from 'react-router-dom'
 
 export default class Set extends Component {
+    /**
+     * 退出登录
+     */
+    exitLogin=()=>{
+        if(JSON.parse(localStorage.getItem('key'))===null){
+            window.location.href="http://localhost:3000/#/my"
+        }else{
+            localStorage.setItem('key',JSON.stringify({"iname":'用户名',"realname":null}))
+            window.location.href="http://localhost:3000/#/my"
+        } 
+    }
     render() {
         return (
             <div>
@@ -58,12 +69,9 @@ export default class Set extends Component {
                 </WingBlank>
                 <div>
                     <WingBlank>
-                        <Link to='/appTaber'>
-                        <button className='set_btn'>
-                            <img style={{width:'35px',height:'35px',float:'left',marginLeft:'12%'}} src={`${require('./images/exit.png')}`} alt=''/>
-                            <span style={{float:'left',color:'#ffffff',fontSize:20,marginTop:'4%',marginLeft:'2%'}}>退出登录</span>
-                            </button>
-                            </Link>
+                        <div className="exit_login">
+                            <button onClick={()=>this.exitLogin()}>退出登录</button>
+                        </div>
                     </WingBlank>
                 </div>
             </div>
