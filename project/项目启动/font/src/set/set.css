@@ -13,3 +13,18 @@ body{
 .set_div4{width:27px;height: 27px;background:url("./images/clear.png") no-repeat center/cover;}
 .set_div5{width:27px;height: 27px;background:url("./images/ico.png") no-repeat center/cover;}
 .set_btn{width:180px;height: 50px;background-color: #ff9645;border: none;margin-left: 23%;margin-top: 25%;}
+/* 退出登录按钮 */
+.exit_login{
+    width:70%;
+    height:35px;
+    margin:5% auto 0 auto;
+    text-align: center;
+  }
+  .exit_login button{
+    width:50%;
+    height:35px;
+    background: linear-gradient(to right,#FE8084, #FE8E90, #FE9695);
+    border:none;
+    border-radius: 17px;
+    color:#fff;
+  }
