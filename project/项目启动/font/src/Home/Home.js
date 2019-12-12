@@ -36,52 +36,50 @@ export default class Home extends Component {
         this.state = {
             imgData: ['home_01.jpg', 'home_02.jpg', 'home_03.jpg'],
             selectedTab: 'blueTab',
-            data:[]
+            data: []
         }
-        console.log(this.state.src);
     }
-    componentDidMount(){
+    componentDidMount() {
         fetch('http://localhost:3001/api/house')
-        .then((res)=>res.json())
-        .then((res)=>{
-            this.setState({
-                data:res.msg
-            });
-            console.log(res.msg)
-        })
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    data: res.msg
+                });
+            })
     }
     //添加删除心愿单
-    changeDream =(idx,homeid)=>{
-        var list = "love"+`${idx}`
+    changeDream = (idx, homeid) => {
+        var list = "love" + `${idx}`
         var loveList = document.getElementById(list);
         var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
-        if(loveList.style.dreamFlag === 'false'){
+        if (loveList.style.dreamFlag === 'false') {
             loveList.style.dreamFlag = 'true';
             loveList.style.color = 'red';
-            var addStr = JSON.stringify({idx:idx,homeid:homeid,dreamUser:dreamUser})
+            var addStr = JSON.stringify({ idx: idx, homeid: homeid, dreamUser: dreamUser })
             fetch("http://localhost:3001/api/addDream",
-            {
-                method:'POST',
-                body:addStr,
-                headers:new Headers({'Content-Type':'application/json'})
-            }).then((res)=>res.json())
-            .then((res)=>{
-                console.log(res);
-            })
-        }else{
+                {
+                    method: 'POST',
+                    body: addStr,
+                    headers: new Headers({ 'Content-Type': 'application/json' })
+                }).then((res) => res.json())
+                .then((res) => {
+                    console.log(res);
+                })
+        } else {
             loveList.style.dreamFlag = 'false';
             loveList.style.color = '#ddd';
-            var addStr = JSON.stringify({idx:idx,homeid:homeid,dreamUser:dreamUser});
+            var addStr = JSON.stringify({ idx: idx, homeid: homeid, dreamUser: dreamUser });
             fetch("http://localhost:3001/api/deleteDream",
-            {
-                method:'POST',
-                body:addStr,
-                headers:new Headers({'Content-Type':'application/json'})
-            }
-            ).then((res)=>res.json())
-            .then((res)=>{
-                console.log(res);
-            })
+                {
+                    method: 'POST',
+                    body: addStr,
+                    headers: new Headers({ 'Content-Type': 'application/json' })
+                }
+            ).then((res) => res.json())
+                .then((res) => {
+                    console.log(res);
+                })
         }
     }
     render() {
@@ -101,7 +99,7 @@ export default class Home extends Component {
                         </div>
                     </div>
                 </div>
-               {/* 轮播图 */}
+                {/* 轮播图 */}
                 <div id='home_flow1'>
                     <div className='home_carousel'>
                         <Carousel
@@ -152,41 +150,46 @@ export default class Home extends Component {
                 </div>
                 <div>
                     {
-                        this.state.data.map((item,idx)=>(
-                            <Link key={idx} to={"/detail/"+item.homeid}>
-                            <WingBlank >
-                            <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                                <div style={{ float: 'left' }}>
-                                    <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
-                                </div>
-                                <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                    <div className='home_p'>
-                                        <span>{item.city}</span>
-                                        <span style={{padding:'0 3px'}}>|</span>
-                                        <span>{item.address}</span>
+                        this.state.data.map((item, idx) => (
+                                <WingBlank key={idx}>
+                                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
+                                        <Link key={idx} to={"/detail/" + item.homeid}>
+                                            <div style={{ float: 'left' }}>
+                                                <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                                            </div>
+                                        </Link>
+                                        <div style={{ float: 'left', width: '190px', height: '120px' }}>
+                                            <div className='home_p'>
+                                                <span>{item.city}</span>
+                                                <span style={{ padding: '0 3px' }}>|</span>
+                                                <span>{item.address}</span>
+                                            </div>
+                                            <div style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                                <span>{item.type}</span>
+                                                <span style={{ padding: '0 3px' }}>|</span>
+                                                <span>{item.hometype}</span>
+                                            </div>
+                                            <div style={{ fontSize: '13px', height: '20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                                <p className="message3">朝向:{item.face}</p>
+                                                <p className="message4">楼层:{item.floor}</p>
+                                                <p className="message4">电梯:{item.lift}</p>
+                                            </div>
+
+                                            <div style={{ height: '30px', display: 'flex', margintTop: '10px' }}>
+                                                <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%', float: 'left' }}>{item.price}</span>
+                                                {/* <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%', dreamFlag: 'false' }} className='iconfont icon-aixin1'></span> */}
+                                                {
+                                                    item.dreamflag === true ? <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: 'red', marginLeft: '45%', marginTop: '2%', dreamFlag: 'false' }} className='iconfont icon-aixin1'></span>
+                                                    :<span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%', dreamFlag: 'false' }} className='iconfont icon-aixin1'></span>
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
-                                        <span>{item.type}</span>
-                                        <span style={{padding:'0 3px'}}>|</span>
-                                        <span>{item.hometype}</span>
-                                    </div>
-                                    <div style={{ fontSize: '13px',height:'20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
-                                        <p className="message3">朝向:{item.face}</p>
-                                        <p className="message4">楼层:{item.floor}</p>
-                                        <p className="message4">电梯:{item.lift}</p>
-                                    </div>
-                                    <div style={{height:'30px',display:'flex',margintTop:'10px'}}>
-                                        <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%' ,float:'left'}}>{item.price}</span>
-                                        <span id={"love"+`${idx}`} onClick={()=>this.changeDream(idx,item.homeid)} style={{fontSize:30,color:'#ddd',marginLeft:'45%',marginTop:'2%',dreamFlag:'false'}} className='iconfont icon-aixin1'></span>
-                                    </div>
-                                </div>
-                            </div>
-                            </WingBlank>
-                            </Link>
+                                </WingBlank>
                         ))
                     }
                 </div>
-           </div>
+            </div>
         )
     }
 
