@@ -6,8 +6,8 @@ const pgdb=require('../config/dbconfig')
 //连接数据库
 const con=new pg.Pool(pgdb);
 con.connect();
-var useridNum=0;
-console.log(useridNum);
+// var useridNum=0;
+// console.log(useridNum);
 //注册
 router.post('/user/reg',function(req,res){
   var userid=(new Date()).valueOf();
