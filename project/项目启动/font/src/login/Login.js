@@ -32,17 +32,8 @@ export default class Login extends Component {
         .then((res)=>{
             console.log(res.msg);
             if(res.ok===true){
-                if(JSON.parse(localStorage.getItem('key'))===null){
-                    localStorage.setItem('key',JSON.stringify(res.msg))
-                    window.location.href="http://localhost:3000/#/my"
-                }else{
-                    if(JSON.parse(localStorage.getItem('key')).iname!=="用户名"){
-                        window.location.href="http://localhost:3000/#/my"
-                    }else{
-                        localStorage.setItem('key',JSON.stringify(res.msg))
-                        window.location.href="http://localhost:3000/#/my"
-                    } 
-                }
+                localStorage.setItem('key',JSON.stringify(res.msg))
+                window.location.href="http://localhost:3000/#/appTaber"
             }else{
                 alert("登录失败")
             }
@@ -82,12 +73,12 @@ export default class Login extends Component {
                 <div>
                     <div style={{backgroundColor:'#F1F3F4',borderRadius:35,width:'70%',height:35,margin:"0 auto"}}>
                         <span className="iconfont icon-dianhua" style={{paddingLeft:'3%',color:'#B3B3B3'}}></span>
-                        <input id="phone" type='text' placeholder='手机号' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'70%',height:35,marginLeft:25}} />
+                        <input id="phone" autocomplete="off" type='text' placeholder='手机号' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'70%',height:35,marginLeft:25}} />
                     </div>
                     <WhiteSpace/>
                     <div style={{backgroundColor:'#F1F3F4',borderRadius:35,width:'70%',height:35,margin:"0 auto"}}>
                     <span className="iconfont icon-mima" style={{paddingLeft:'3%',color:'#B3B3B3'}}></span>
-                    <input name='password' id="password"  type='password' placeholder='密码' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'70%',height:35,marginLeft:26}}/>
+                    <input name='password' id="password" autocomplete="off"  type='password' placeholder='密码' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'70%',height:35,marginLeft:26}}/>
                     </div>
                     <WhiteSpace/>
                 </div>

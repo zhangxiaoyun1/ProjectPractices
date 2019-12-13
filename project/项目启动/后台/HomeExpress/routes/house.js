@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const pgdb=require('../config/dbconfig')
 //连接数据库
-const con=new pg.Pool(pgdb);
+const con = new pg.Pool(pgdb);
 con.connect();
 
 // router.get('/house',function(req,res){
@@ -88,59 +88,138 @@ router.post('/house',function(req,res){
   })
   })
 //查找住房信息
-router.get('/house',function(req,res){
-  con.query("select * from homemessage",function(err,result){
-    if(err){
+router.get('/house/:id', function (req, res) {
+  // console.log(req)
+  var homeMessage = JSON.parse(req.params.id);
+  var homeUserid = homeMessage.userName;
+  var homeidList = [];
+  var homeMessageList = [];
+  var homeDreamFlagList = [];
+  con.query("select * from homemessage", (err, result) => {
+    if (err) {
       console.log(err);
     }else{
       res.header('Access-Control-Allow-Origin', '*');
       res.send({ok:true,msg:JSON.stringify(result.rows)});
     }
   })
+
 })
 //获取心愿单所有信息
-router.get('/dream',function(req,res){
-  con.query("select * from dreammessage",function(err,result){
-      if(err){
-        console.log(err);
-      }else{
-        res.send({ok:true,msg:result.rows});
+router.get('/getDream/:id', function (req, res) {
+  var dreamListId = JSON.parse(req.params.id);
+  var dreamMessage = dreamListId.dreamMessage;
+  con.query("select * from dreammessage where userid = $1", [dreamMessage], (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      //console.log(result.rows);
+      var homeList = [];
+      var homeIdList = [];
+      for (var i = 0; i < result.rows.length; i++) {
+        // console.log(result.rows[i].dreamflag)
+        if(result.rows[i].dreamflag === true){
+          var dreamHomeid = result.rows[i].homeid;
+          homeIdList.push(dreamHomeid);
+          //console.log(homeIdList.length);
+          con.query("select * from homemessage where homeid =$1", [dreamHomeid], (err, result) => {
+            if (err) {
+              console.log(err);
+            } else {
+              for(var i = 0 ;i<result.rows.length;i++){
+                homeList.push(result.rows[i]);
+                if (homeList.length == homeIdList.length) {
+                  res.send(homeList)
+                }
+                //console.log(homeList);
+              }
+              // homeList.push(result.rows[0]);
+              // if (homeList.length == homeCount) {
+              //   res.send(homeList)
+              // }
+              // console.log(result.rows);
+            }
+  
+          })
+        }
+
       }
+
+    }
   })
 })
 //获取租房百科所有信息
-router.get('/rentwiki',function(req,res){
-  con.query("select * from rentwiki",function(err,result){
-      if(err){
-        res.header('Access-Control-Allow-Origin', '*');
-        console.log(err);
-      }else{
-        console.log(result.rows);
-        res.header('Access-Control-Allow-Origin', '*');
-        res.send({ok:true,msg:result.rows});
-      }
+router.get('/rentwiki', function (req, res) {
+  con.query("select * from rentwiki", function (err, result) {
+    if (err) {
+      res.header('Access-Control-Allow-Origin', '*');
+      console.log(err);
+    } else {
+      console.log(result.rows);
+      res.header('Access-Control-Allow-Origin', '*');
+      res.send({ ok: true, msg: result.rows });
+    }
   })
 })
 //房屋订单详情信息
-router.get('/trade',function(req,res){
+router.get('/trade', function (req, res) {
   res.render('trade');
 })
-router.post("/trade",function(req,res){
-  var tradeid=(new Date()).valueOf();
-  var realname=req.body.realname;
-  var phone=req.body.phone;
-  var longtime=req.body.longtime;
-  var price=req.body.price;
-  var pushtime=new Date().toLocaleDateString();
+router.post("/trade", function (req, res) {
+  var tradeid = (new Date()).valueOf();
+  var realname = req.body.realname;
+  var phone = req.body.phone;
+  var longtime = req.body.longtime;
+  var price = req.body.price;
+  var pushtime = new Date().toLocaleDateString();
   con.query(`insert into trademanagermessage(tradeid,realname,phone,longtime,price,pushtime) 
     values($1,$2,$3,$4,$5,$6)`,
-    [tradeid,realname,phone,longtime,price,pushtime],function(err,result){
-  if(err){
-    console.log(err);
-  }else{
-    res.send({ok:true,msg:'提交成功！'});
-  }
+    [tradeid, realname, phone, longtime, price, pushtime], function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send({ ok: true, msg: '提交成功！' });
+      }
+    })
 })
+
+//添加心愿单
+router.get("/addDream", (req, res) => {
+  res.send({ ok: 'true', msg: '传输成功!' });
+})
+router.post('/addDream', (req, res) => {
+  var addMessage = req.body;
+  var addDreamId = addMessage.dreamid;
+  var addDreamHomeId = addMessage.homeid;
+  var dreamUser = addMessage.dreamUser;
+  var dreamFlag = true;
+  con.query("insert into dreammessage(dreamid,userid,homeid,dreamFlag) values ($1,$2,$3,$4)",
+    [addDreamId, dreamUser, addDreamHomeId, dreamFlag], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.send({ ok: 'true', msg: '添加成功' });
+      }
+    })
+})
+//删除心愿单
+router.get("/deleteDream", (req, res) => {
+  res.send({ ok: 'true', msg: '传输成功!' })
+})
+router.post("/deleteDream", (req, res) => {
+  var deleteMessage = req.body;
+  // var deletedreamId = deleteMessage.dreamid;
+  var deleteDreamHomeid = deleteMessage.homeid;
+  var deleteDreamUserid = deleteMessage.dreamUser;
+  var deleteDreamFlag = false;
+  con.query("update dreammessage set dreamflag =$1 where userid = $2 and homeid = $3", [deleteDreamFlag,deleteDreamUserid, deleteDreamHomeid], (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send({ ok: 'true', msg: '删除成功!' });
+    }
+  }
+  )
 })
 
 router.post('/house/upimg',function(req,res){

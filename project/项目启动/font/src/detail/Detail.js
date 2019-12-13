@@ -1,104 +1,6 @@
 import React, { Component } from 'react'
 import './detail.css'
-import { Carousel, Flex, WingBlank,ActionSheet } from 'antd-mobile';
-import {Link} from 'react-router-dom'
-
-
-const PlaceHolder_detail = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail`} {...restProps}>
-        阳光小区 | 主卧合租 | 外沙滩一号院 押一月付 出行方便 主卧有阳台 带独卫
-    </div>
-);
-const PlaceHolder_detail1 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail1`} {...restProps}>三室一厅</div>
-);
-const PlaceHolder_detail2 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail1`} {...restProps}>16m2</div>
-);
-const PlaceHolder_detail3 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail1`} {...restProps}>低/21层 </div>
-);
-const PlaceHolder_detail4 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail1`} {...restProps}>东</div>
-);
-const PlaceHolder_detail5 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail2`} {...restProps}>房型</div>
-);
-const PlaceHolder_detail6 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail2`} {...restProps}>面积</div>
-);
-const PlaceHolder_detail7 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail2`} {...restProps}>楼层</div>
-);
-const PlaceHolder_detail8 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail2`} {...restProps}>朝向</div>
-);
-const PlaceHolder_detail9 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail3`} {...restProps}>近地铁</div>
-);
-const PlaceHolder_detail10 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail3`} {...restProps}>有电梯</div>
-);
-const PlaceHolder_detail11 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail3`} {...restProps}>精装修</div>
-);
-const PlaceHolder_detail12 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail4`} {...restProps}></div>
-);
-const PlaceHolder_detail13 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>WIFI</div>
-);
-const PlaceHolder_detail14 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>床</div>
-);
-const PlaceHolder_detail15 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>衣柜</div>
-);
-const PlaceHolder_detail16 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>沙发</div>
-);
-const PlaceHolder_detail17 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>桌椅</div>
-);
-const PlaceHolder_detail18 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>电视</div>
-);
-const PlaceHolder_detail19 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>空调</div>
-);
-const PlaceHolder_detail20 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>洗衣机</div>
-);
-const PlaceHolder_detail21 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>冰箱</div>
-);
-const PlaceHolder_detail22 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>暖气</div>
-);
-const PlaceHolder_detail23 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>热水器</div>
-);
-const PlaceHolder_detail24 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>燃气灶</div>
-);
-const PlaceHolder_detail25 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>抽烟机</div>
-);
-const PlaceHolder_detail26 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>电磁炉</div>
-);
-const PlaceHolder_detail27 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>微波炉</div>
-);
-const PlaceHolder_detail28 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>卫生间</div>
-);
-const PlaceHolder_detail29 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>阳台</div>
-);
-const PlaceHolder_detail30 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_detail5`} {...restProps}>智能锁</div>
-);
+import { Carousel, Flex, WingBlank,ActionSheet ,WhiteSpace} from 'antd-mobile';
 //弹窗部分
 const isIPhone = new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(window.navigator.userAgent);
 let wrapProps;
@@ -113,7 +15,37 @@ export default class Detail extends Component {
         this.state = {
             imgData: ['detail_01.jpg', 'detail_02.jpg', 'detail_03.jpg', 'detail_04.jpg', 'detail_05.jpg', 'detail_06.jpg'],
             clicked2: 'none',
+            data:[]
         }
+    }
+    componentDidMount(){
+        var homeid = this.props.match.params.homeid;
+        let url=`http://localhost:3001/api/house/`+homeid;
+        fetch(url,{
+            method:"GET", 
+            headers: new Headers({
+                'Content-Type': 'application/json'
+                })
+        })
+        .then((res)=>res.json())
+        .then((res)=>{
+            console.log(res.msg)
+            this.setState({
+                data:res.msg
+            })
+        })
+    }
+    /**
+     * 返回
+     */
+    back=()=>{
+        window.location.href="http://localhost:3000/#/appTaber"
+    }
+    /**
+     * 调取地图
+     */
+    mapp=()=>{
+        window.location.href="http://localhost:3000/#/mapp"
     }
     dataList = [
         { url: 'share.png', title: '发送给朋友' },
@@ -142,194 +74,107 @@ export default class Detail extends Component {
     render() {
         return (
             <div>
+                {/* 头 */}
                 <div className='detail_nav'>
-                    <Link to='/appTaber'><div style={{ fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '5%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></div></Link>
+                    <button onClick={()=>this.back()} style={{background:'none',border:'none', fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '5%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
                     <h2 className='detail_nav_h2'>房屋详情</h2>
                     <div onClick={this.showShareActionSheetMulpitleLine} style={{fontSize:40,position:'absolute',color:'white',top:'4.5%',right:'4%'}} className='iconfont icon-shenglvehao'></div>
                 </div>
+                {/* 轮播图 */}
                 <div>
-                    <Carousel
-                        autoplay={false}
-                        infinite
-                    >
+                    <Carousel autoplay={false} infinite>
                         {this.state.imgData.map(val => (
                             <a
                                 key={val}
-                                href="http://www.alipay.com"
                                 style={{ display: 'inline-block', width: '100%', height: 220 }}
                             >
                                 <img
                                     src={require('./images/' + `${val}`)}
                                     alt=""
                                     style={{ width: '100%', verticalAlign: 'top' }}
-                                    onLoad={() => {
-                                        // fire window resize event to change height
-                                        window.dispatchEvent(new Event('resize'));
-                                    }}
                                 />
                             </a>
                         ))}
                     </Carousel>
                 </div>
                 <WingBlank>
-                    <div style={{ width: '100%', marginTop: '2%' }}>
-                        <Flex>
-                            <p style={{ color: 'red', fontSize: 22 }}>2260 <span style={{ color: 'orange', fontSize: 20 }}>元/月</span><span style={{ color: '#dadada', fontSize: 18 }}>押一付一(佣金: 无佣金)</span></p>
-                        </Flex>
-                    </div>
-                    <div style={{ width: '100%' }}>
-                        <Flex>
-                            <Flex.Item><PlaceHolder_detail /></Flex.Item>
-                        </Flex>
-                    </div>
-                    <div style={{ borderTop: '1px dashed gray', marginTop: '3%', borderBottom: '1px dashed gray' }}>
-                        <Flex>
-                            <Flex.Item><PlaceHolder_detail1 /></Flex.Item>
-                            <Flex.Item><PlaceHolder_detail2 /></Flex.Item>
-                            <Flex.Item><PlaceHolder_detail3 /></Flex.Item>
-                            <Flex.Item><PlaceHolder_detail4 /></Flex.Item>
-                        </Flex>
-                        <Flex>
-                            <Flex.Item><PlaceHolder_detail5 /></Flex.Item>
-                            <Flex.Item><PlaceHolder_detail6 /></Flex.Item>
-                            <Flex.Item><PlaceHolder_detail7 /></Flex.Item>
-                            <Flex.Item><PlaceHolder_detail8 /></Flex.Item>
-                        </Flex>
-                    </div>
-                    <div style={{ borderBottom: '1px dashed gray' }}>
-                        <Flex style={{ marginTop: '2%', marginBottom: '4%' }} wrap='wrap'>
-                            <PlaceHolder_detail9 className='inline' />
-                            <PlaceHolder_detail10 className='inline' />
-                            <PlaceHolder_detail11 className='inline' />
-                        </Flex>
-                    </div>
-                    <div style={{ marginTop: '5%' }}>
-                        <div>
-                            <h3 className='detail_h3'>房屋介绍</h3>
-                        </div>
-                        <div>
-                            <p className='detail_p'>
-                                本房合租主卧，小区距离地铁近，步行只要10分钟，入住就可以享受到超值的专业服务
-                        </p>
-                        </div>
-                        <div style={{ marginTop: '2%', borderTop: '1px dashed gray' }}>
-                            <Flex>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-wifi' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-chuang' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-yigui' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-shafa' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-nothing' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-dianshi' /></Flex.Item>
-                            </Flex>
-                            <Flex>
-                                <Flex.Item><PlaceHolder_detail13 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail14 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail15 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail16 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail17 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail18 /></Flex.Item>
-                            </Flex>
-                            <Flex>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-icon-test' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-xiyiji' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-bingxiang' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-shuinuanqigongcheng' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-yugang' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-nothing' /></Flex.Item>
-                            </Flex>
-                            <Flex>
-                                <Flex.Item><PlaceHolder_detail19 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail20 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail21 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail22 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail23 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail24 /></Flex.Item>
-                            </Flex>
-                            <Flex>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-nothing' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-nothing' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-nothing' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-weiyu' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-yangtai' /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail12 className='iconfont icon-nothing' /></Flex.Item>
-                            </Flex>
-                            <Flex>
-                                <Flex.Item><PlaceHolder_detail25 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail26 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail27 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail28 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail29 /></Flex.Item>
-                                <Flex.Item><PlaceHolder_detail30 /></Flex.Item>
-                            </Flex>
-                        </div>
-                        <div style={{ marginTop: '5%' }}>
+                    {
+                        this.state.data.map((item)=>(
                             <div>
-                                <h3 className='detail_h3'>房东简介</h3>
+                                <div style={{margin:"3% auto 0 auto" }}>
+                                    <span style={{fontFamily:'黑体',fontSize:'17px',fontWeight:'bolder'}}>{item.type}</span>
+                                    <span style={{padding:'0 4px',fontWeight:'bolder'}}>-</span>
+                                    <span style={{fontFamily:'黑体',fontSize:'17px',fontWeight:'bolder'}}>{item.address}</span>
+                                </div>
+                                <div style={{margin:"3% auto 0 auto" }}>
+                                    <span style={{fontSize:'10px',fontWeight:'bolder',color:'red'}}>￥</span>
+                                    <span style={{fontSize:'15px',fontWeight:'bolder',color:'red'}}>{item.price}</span>
+                                    <span onClick={()=>this.mapp()} style={{float:'right'}}>地图</span>
+                                </div>
+                                <div style={{margin:"5% auto 0 auto",width:'100%',height:'70px',backgroundColor:'#f8f6f6'}}>
+                                    <div style={{float:'left',width:'33%'}}>
+                                        <p className="detail_floor" style={{borderRight:'1px solid #797979'}}>朝向</p>
+                                        <p className="detail_floor1" style={{borderRight:'1px solid #797979'}}>{item.face}</p>
+                                    </div>
+                                    <div style={{float:'left',width:'33%'}}>
+                                        <p className="detail_floor" style={{borderRight:'1px solid #797979'}}>楼层</p>
+                                        <p className="detail_floor1" style={{borderRight:'1px solid #797979'}}>{item.floor}</p>
+                                    </div>
+                                    <div style={{float:'left',width:'33%'}}>
+                                        <p className="detail_floor">类型</p>
+                                        <p className="detail_floor1">{item.hometype}</p>
+                                    </div>
+                                </div>
+                                <WhiteSpace />
+                                {/* 房源设施 */}
+                                <WhiteSpace />
+                                <div style={{height:'150px'}}>
+                                    <h2 style={{marginBottom:'10px'}}>房源设施</h2>
+                                    <hr/>                                  
+                                    <div style={{height:'72px',marginTop:'10px'}}>
+                                        <div style={{float:'left',width:'25%'}}>
+                                            <p className="iconfont icon-kongdiao detail_tu"></p>
+                                            <p style={{textAlign:'center'}}>空调</p>
+                                            <p style={{textAlign:'center'}}>{item.conditioner}</p>
+                                        </div>
+                                        <div style={{float:'left',width:'25%'}}>
+                                            <p className="iconfont icon-shuinuanqigongcheng detail_tu"></p>
+                                            <p style={{textAlign:'center'}}>供暖</p>
+                                            <p style={{textAlign:'center'}}>{item.heating}</p>
+                                        </div>
+                                        <div style={{float:'left',width:'25%'}}>
+                                            <p className="iconfont icon-wuxian detail_tu"></p>
+                                            <p style={{textAlign:'center'}}>WIFI</p>
+                                            <p style={{textAlign:'center'}}>{item.wifi}</p>
+                                        </div>
+                                        <div style={{float:'right',width:'25%'}}>
+                                            <p className="iconfont icon-dianti detail_tu"></p>
+                                            <p style={{textAlign:'center'}}>电梯</p>
+                                            <p style={{textAlign:'center'}}>{item.lift}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <WhiteSpace />
+                                {/* 房主信息 */}
+                                <div>
+                                    <h2 style={{marginBottom:'10px'}}>房主信息</h2>
+                                    <hr/>
+                                    <div>
+                                        <Flex>
+                                            <div className='detail_div'>
+                                                <img src={require('./images/detail_02.png')}/>
+                                            </div>
+                                            <div style={{ width: '70%', height: '80px' ,marginLeft:'10px'}}>
+                                                <p style={{ fontSize: 18, height: '20px',marginTop:'15px'}}>{item.realname}</p>
+                                                <p style={{ fontSize: 13, marginLeft: '2%', color: '#6b6b6b',height: '20px',marginTop:'10px'}}>实名认证</p>
+                                            </div>
+                                        </Flex>
+                                    </div>
+                                </div>
+                                <div style={{height:'50px'}}></div>
                             </div>
-                        </div>
-                        <div style={{ marginTop: '5%' }}>
-                            <Flex>
-                                <div className='detail_div'></div>
-                                <div style={{ width: '230px', height: '80px' }}>
-                                    <p style={{ fontSize: 20, marginLeft: '2%' }}>王一平</p>
-                                    <br />
-                                    <p style={{ fontSize: 18, marginLeft: '2%', color: '#45aedf', border: '1px solid #45aedf', width: '80px', height: '20px', textAlign: 'center' }}>超赞房东</p>
-                                </div>
-                            </Flex>
-                        </div>
-                        <div style={{ marginTop: '5%' }}>
-                            <div>
-                                <h3 className='detail_h3'>用户评价</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <Flex>
-                                <div className='detail_div1'></div>
-                                <div style={{ width: '230px', height: '70px', marginLeft: '2%' }}>
-                                    <div style={{ width: '230px', height: '30px', marginLeft: '2%' }}>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                    </div>
-                                    <div style={{ width: '230px', height: '40px', marginLeft: '2%', fontsize: 16 }}>
-                                        <p style={{ fontWeight: 'bold', fontSize: 16 }}>匿名用户</p>
-                                        <p>环境超级好，房东很棒，会再来.....</p>
-                                    </div>
-                                </div>
-                            </Flex>
-                            <Flex style={{ marginTop: '2%' }}>
-                                <div className='detail_div1'></div>
-                                <div style={{ width: '230px', height: '70px', marginLeft: '2%' }}>
-                                    <div style={{ width: '230px', height: '30px', marginLeft: '2%' }}>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                    </div>
-                                    <div style={{ width: '230px', height: '40px', marginLeft: '2%', fontsize: 16 }}>
-                                        <p style={{ fontWeight: 'bold', fontSize: 16 }}>匿名用户</p>
-                                        <p>环境超级好，房东很棒，会再来.....</p>
-                                    </div>
-                                </div>
-                            </Flex>
-                            <Flex style={{ marginTop: '2%' }}>
-                                <div className='detail_div1'></div>
-                                <div style={{ width: '230px', height: '70px', marginLeft: '2%' }}>
-                                    <div style={{ width: '230px', height: '30px', marginLeft: '2%' }}>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                        <div className='detail_div2'></div>
-                                    </div>
-                                    <div style={{ width: '230px', height: '40px', marginLeft: '2%', fontsize: 16 }}>
-                                        <p style={{ fontWeight: 'bold', fontSize: 16 }}>匿名用户</p>
-                                        <p>环境超级好，房东很棒，会再来.....</p>
-                                    </div>
-                                </div>
-                            </Flex>
-                        </div>
-                    </div>
+                        ))
+                    }
                 </WingBlank>
                 <div style={{ width: '100%', height: "65px", position: 'fixed', bottom: 0, backgroundColor: '#f5f5f9' }}>
                     <Flex>

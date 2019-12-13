@@ -1,245 +1,90 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import { WhiteSpace, WingBlank} from 'antd-mobile';
+import { Link } from 'react-router-dom';
+import { WhiteSpace, WingBlank } from 'antd-mobile';
 import './dream.css'
 
 export default class Dream extends Component {
-    componentDidMount(){
-        fetch('http://localhost:3001/api/house')
-        .then((res)=>res.json())
-        .then((res)=>{
-            this.setState({
-                data:res.data
-            });
-            console.log(res.data)
-        })
+    constructor() {
+        super();
+        this.state = {
+            dream: []
+        }
     }
+    componentDidMount() {
+        var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
+        var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
+        let url = `http://localhost:3001/api/getDream/` + dreamUserid;
+        fetch(url, {
+            method: 'GET',
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                //console.log(res);
+                this.setState({
+                    dream: res
+                })
+            })
+
+    }
+    // componentDidUpdate(prevProps,prevState) {
+    //     if(JSON.stringify(prevState.dream) !== JSON.stringify(this.state.dream)){
+    //         var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
+    //         var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
+    //         let url = `http://localhost:3001/api/getDream/` + dreamUserid;
+    //         fetch(url, { 
+    //             method: 'GET',
+    //             headers: new Headers({ 'Content-Type': 'application/json' })
+    //         })
+    //             .then((res) => res.json())
+    //             .then((res) => {
+    //                 this.setState({
+    //                     dream: res
+    //                 })
+    //             })
+    //     }
+    // }
     render() {
         return (
-            <div style={{width:'100%',height:'100%'}}>
-                <div style={{display:'flex',textAlign:'center',backgroundColor:'#ff9645',lineHeight:2}}>
-                    <span style={{margin:'0 auto',fontSize:25,color:'white'}}>
+            <div style={{ width: '100%', height: '100%' }}>
+                <div style={{ display: 'flex', textAlign: 'center', backgroundColor: '#ff9645', lineHeight: 2 }}>
+                    <span style={{ margin: '0 auto', fontSize: 25, color: 'white' }}>
                         心愿单
                     </span>
-               </div>
-             
-               <WhiteSpace/>
-               <WingBlank>
-               <hr/>
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
-               <WingBlank>
-               
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
-               <WingBlank>
-               
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
-               <WingBlank>
-               
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
-               <WingBlank>
-               
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
-               <WingBlank>
-               
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
-               <WingBlank>
-               
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
-               <WingBlank>
-               
-               <Link to='/detail'>
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>
-                                
-                                <span className='span3'>
-                                    <img src={require('./images/heart.png')} className='heart' alt=''/>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </Link>
-                    <hr/>
-               </WingBlank>
+                </div>
+                <WingBlank>
+                    {
+                        this.state.dream.map((item, idx) => (
+                            <Link key={idx} to={"/detail/" + item.homeid}>
+                                <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
+                                    <div style={{ float: 'left' }}>
+                                        <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                                    </div>
+                                    <div style={{ float: 'left', width: '190px', height: '120px' }}>
+                                        <div className='dream_p'>
+                                            <span>{item.city}</span>
+                                            <span style={{ padding: '0 3px' }}>|</span>
+                                            <span>{item.address}</span>
+                                        </div>
+                                        <div style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                            <span>{item.type}</span>
+                                            <span style={{ padding: '0 3px' }}>|</span>
+                                            <span>{item.hometype}</span>
+                                        </div>
+                                        <div style={{ fontSize: '13px', height: '20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                            <p className="message3">朝向:{item.face}</p>
+                                            <p className="message4">楼层:{item.floor}</p>
+                                            <p className="message4">电梯:{item.lift}</p>
+                                        </div>
+                                        <div style={{ height: '30px', display: 'flex', margintTop: '10px' }}>
+                                            <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%', float: 'left' }}>{item.price}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))
+                    }
+                </WingBlank>
             </div>
         )
     }
