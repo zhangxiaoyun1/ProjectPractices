@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const pg = require('pg');
-const fs = require('fs');
-const path = require('path');
-const pgdb=require('../config/dbconfig')
+const pgdb = require('../config/dbconfig');
+//地理位置定位
+const https = require('https');
 //连接数据库
 const con = new pg.Pool(pgdb);
 con.connect();
@@ -12,81 +12,36 @@ con.connect();
 //     res.render('house');
 //   })
 //添加房屋信息
-router.post('/house',function(req,res){
-    var userid=req.body.userid;
-    var homeid=(new Date()).valueOf();
-    var realname=req.body.realname;
-    var phone=req.body.phone;
-    var price=req.body.price;
-    var city=req.body.city;
-    var detail=req.body.detail;
-    var apname=req.body.apname;
-    var address=req.body.address;
-    var type=req.body.type;
-    var hometype=req.body.hometype;
-    var floor=req.body.floor;
-    var face=req.body.face;
-    var lift=req.body.lift;
-    var wifi=req.body.wifi;
-    var heating=req.body.heating;
-    var conditioner=req.body.conditioner;
-    var files=req.body.files;
-    var imgs=[];
-    for(var i=0;i<files.length;i++){
-      var name;
-      var data = files[i].url.split(',');
-      var buf = Buffer.from(data[1], "base64");
-      if (data[0].indexOf('png') || data[0].indexOf('PNG')) {
-          name = `${homeid}-${i}.png`;
-      } else if (data[0].indexOf('jpg') || data[0].indexOf('JPG') || data[0].indexOf('jpeg') || data[0].indexOf('JPEG')) {
-          name = `${homeid}-${i}.jpg`;
-      } else if (data[0].indexOf('gif') || data[0].indexOf('GIF')) {
-           name = `${homeid}-${i}.gif`;
-      }
-      var paths=path.join(__dirname,'../../images/houseimage/', name);
-      imgs.push(name);
-      fs.writeFileSync(paths, buf, { "encoding": "base64" });
-     }
-    var homeimage=imgs.join(',');
-    var pushtime=new Date().toLocaleDateString();
-    con.query(`insert into homemessage(homeid,realname,phone,price,
-        city,address,type,hometype,floor,face,lift,wifi,heating,detail,apname,conditioner,homeimage,pushtime) 
-        values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)`,
-        [homeid,realname,phone,price,city,address,type,hometype,floor,face,lift,
-            wifi,heating,detail,apname,conditioner,homeimage,pushtime],function(err,result){
-      if(err){
-        console.log(err);
-      }else{
-        con.query(`update usermessage set isseller=true
-        where userid=$1`,[userid],function(err,result){
-          if(err){
-            console.log(err);
-          }else{
-             res.send({ok:true,msg:'发布成功！'});
-          }
-        });
-      }
-    })
-  })
-  //读取房屋图片
-  router.get('/house/:img',function(req,res){
-    var img=req.params.img;
-    var imgPath=path.join(__dirname,'../../images/houseimage/', img);
-    fs.readFile(imgPath, (err, data) => {
-      if (err) {
+router.post('/house', function (req, res) {
+  var homeid = (new Date()).valueOf();
+  var realname = req.body.realname;
+  var phone = req.body.phone;
+  var price = req.body.price;
+  var city = req.body.city;
+  var address = req.body.address;
+  var type = req.body.type;
+  var hometype = req.body.hometype;
+  var floor = req.body.floor;
+  var face = req.body.face;
+  var lift = req.body.lift;
+  var wifi = req.body.wifi;
+  var heating = req.body.heating;
+  var conditioner = req.body.conditioner;
+  var homeimage = req.body.homeimage;
+  var pushtime = new Date().toLocaleDateString();
+  con.query(`insert into homemessage(homeid,realname,phone,price,
+        city,address,type,hometype,floor,face,lift,wifi,heating,conditioner,homeimage,pushtime) 
+        values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
+    [homeid, realname, phone, price, city, address, type, hometype, floor, face, lift,
+      wifi, heating, conditioner, homeimage, pushtime], function (err, result) {
+        if (err) {
           console.log(err);
-      } else {
-          if (img.indexOf('png') >0 || img.indexOf('PNG')>0) {
-              res.writeHead(200, { "Content-Type": "image/png" });
-          } else if (img.indexOf('jpg')>0 || img.indexOf('JPG')>0 || img.indexOf('jpeg') || img.indexOf('JPEG')) {
-              res.writeHead(200, { "Content-Type": "image/jpeg" });                            
-          } else if (img.indexOf('gif')>0|| img.indexOf('GIF')>0) {
-              res.writeHead(200, { "Content-Type": "image/gif" });                            
-          }
-          res.end(data);
-      }
-  })
-  })
+        } else {
+
+          res.send({ ok: true, msg: '发布成功！' });
+        }
+      })
+})
 //查找住房信息
 router.get('/house/:id', function (req, res) {
   // console.log(req)
@@ -98,9 +53,32 @@ router.get('/house/:id', function (req, res) {
   con.query("select * from homemessage", (err, result) => {
     if (err) {
       console.log(err);
-    }else{
-      res.header('Access-Control-Allow-Origin', '*');
-      res.send({ok:true,msg:JSON.stringify(result.rows)});
+    } else {
+      for (var i = 0; i < result.rows.length; i++) {
+        homeidList.push(result.rows[i].homeid);
+        homeMessageList.push(result.rows[i]);
+      }
+      con.query('select * from dreammessage where userid =$1', [homeUserid], (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          if (JSON.stringify(result.rows) !== JSON.stringify([])) {
+            var homeDreamLength = result.rows.length;
+            for (var i = 0; i < result.rows.length; i++) {
+              homeDreamFlagList.push(result.rows[i]);
+              if (homeDreamFlagList.length === homeDreamLength) {
+                res.send({ ok: 'true', msg0: homeMessageList, msg1: homeidList, msg2: homeDreamFlagList })
+              }
+            }
+          } else {
+            res.send({ ok: 'true', msg0: homeMessageList, msg1: homeidList, msg2: homeDreamFlagList })
+          }
+
+          //console.log(result.rows);
+          //console.log(homeDreamFlagList);
+        }
+      })
+      //console.log(homeDreamFlagList,homeMessageList,homeidList);
     }
   })
 
@@ -118,7 +96,7 @@ router.get('/getDream/:id', function (req, res) {
       var homeIdList = [];
       for (var i = 0; i < result.rows.length; i++) {
         // console.log(result.rows[i].dreamflag)
-        if(result.rows[i].dreamflag === true){
+        if (result.rows[i].dreamflag === true) {
           var dreamHomeid = result.rows[i].homeid;
           homeIdList.push(dreamHomeid);
           //console.log(homeIdList.length);
@@ -126,7 +104,7 @@ router.get('/getDream/:id', function (req, res) {
             if (err) {
               console.log(err);
             } else {
-              for(var i = 0 ;i<result.rows.length;i++){
+              for (var i = 0; i < result.rows.length; i++) {
                 homeList.push(result.rows[i]);
                 if (homeList.length == homeIdList.length) {
                   res.send(homeList)
@@ -139,7 +117,7 @@ router.get('/getDream/:id', function (req, res) {
               // }
               // console.log(result.rows);
             }
-  
+
           })
         }
 
@@ -212,7 +190,7 @@ router.post("/deleteDream", (req, res) => {
   var deleteDreamHomeid = deleteMessage.homeid;
   var deleteDreamUserid = deleteMessage.dreamUser;
   var deleteDreamFlag = false;
-  con.query("update dreammessage set dreamflag =$1 where userid = $2 and homeid = $3", [deleteDreamFlag,deleteDreamUserid, deleteDreamHomeid], (err, result) => {
+  con.query("update dreammessage set dreamflag =$1 where userid = $2 and homeid = $3", [deleteDreamFlag, deleteDreamUserid, deleteDreamHomeid], (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -222,14 +200,26 @@ router.post("/deleteDream", (req, res) => {
   )
 })
 
-router.post('/house/upimg',function(req,res){
-  var datastr = '';
-        req.setEncoding("binary");
-        req.on('data', function (chunk) {
-            datastr += chunk;
-        })
-        req.on('end', function () {
-          console.log(datastr);
-        })
+
+
+//接受地理定位
+router.get('/getLocation',(req,res)=>{
+  let apiUrl = "https://api.map.baidu.com/location/ip?ak=DxehXP3OwiGt3bRZGkajTMx6v2AeItkm&coor=bd09l"
+  var location = {};
+  https.get(apiUrl, (res1) => {
+    var result = "";
+    res1.on("data", function (chunk) {
+      result += chunk;
+    })
+    res1.on("end", function () {
+      result = JSON.parse(result);
+      var province = result.content.address_detail.province;
+      var city = result.content.address_detail.city;
+      var address = result.content.address;
+      location = {province:province,city:city,address:address};
+      res.send({ok:'true',msg:location})
+    })
+  })
 })
+
 module.exports = router;
