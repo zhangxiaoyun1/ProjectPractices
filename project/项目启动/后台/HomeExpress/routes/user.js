@@ -6,8 +6,6 @@ const pgdb=require('../config/dbconfig')
 //连接数据库
 const con=new pg.Pool(pgdb);
 con.connect();
-var useridNum=0;
-console.log(useridNum);
 //注册
 router.post('/user/reg',function(req,res){
   var userid=(new Date()).valueOf();
@@ -40,6 +38,7 @@ router.post('/user/reg',function(req,res){
 //   res.render('login');
 // })
 router.post('/user/login',function(req,res){
+  console.log(1);
   var phone=req.body.phone;
   var password=req.body.password;
   con.query("select * from usermessage where phone=$1 and password=$2",[phone,password],function(err,result){
