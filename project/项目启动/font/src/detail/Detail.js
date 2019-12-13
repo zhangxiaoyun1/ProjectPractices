@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import './detail.css'
-import { Carousel, Flex, WingBlank,ActionSheet ,WhiteSpace} from 'antd-mobile';
+import './detail.css';
+import { Link } from 'react-router-dom';
+import BMap  from 'BMap';
+import {NavBar,Icon,TabBar, Carousel, Flex, WingBlank,ActionSheet ,WhiteSpace} from 'antd-mobile';
 //弹窗部分
 const isIPhone = new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(window.navigator.userAgent);
 let wrapProps;
@@ -14,7 +16,9 @@ export default class Detail extends Component {
         super();
         this.state = {
             imgData: ['detail_01.jpg', 'detail_02.jpg', 'detail_03.jpg', 'detail_04.jpg', 'detail_05.jpg', 'detail_06.jpg'],
+            // imgData: [],
             clicked2: 'none',
+            clicked: 'none',
             data:[]
         }
     }
@@ -29,23 +33,44 @@ export default class Detail extends Component {
         })
         .then((res)=>res.json())
         .then((res)=>{
-            console.log(res.msg)
+            // var imagedata;
+            // if(res.msg[0].homeimage.indexOf(',')>=0){
+            //     imagedata = (res.msg[0].homeimage).split(',');
+            // }else{
+            //     imagedata=[];
+            //     imagedata[0]= res.msg[0].homeimage;
+            // }
+            // console.log(imagedata)
             this.setState({
+                // imgData:imagedata,
                 data:res.msg
             })
+            // console.log(this.state.imgData);
+            var map = new BMap.Map("map1"); // 创建Map实例
+            map.centerAndZoom(res.msg[0].city, 12);      
+            // 创建地址解析器实例     
+            var myGeo = new BMap.Geocoder();      
+            // 将地址解析结果显示在地图上，并调整地图视野    
+            myGeo.getPoint(res.msg[0].address, function(point){      
+                    if (point) {  
+                        map.centerAndZoom(point, 18);  
+                        var marker = new BMap.Marker(point); // 创建标注   
+                        map.addOverlay(marker); // 将标注添加到地图中
+                    }      
+                }, res.msg[0].city);
+                // 地图添加点击事件
+                function showInfo(e){
+                    window.location.href="http://localhost:3000/#/map/"+res.msg[0].homeid;
+                }
+                map.addEventListener("click", showInfo);
         })
+
     }
     /**
      * 返回
      */
     back=()=>{
         window.location.href="http://localhost:3000/#/appTaber"
-    }
-    /**
-     * 调取地图
-     */
-    mapp=()=>{
-        window.location.href="http://localhost:3000/#/mapp"
     }
     dataList = [
         { url: 'share.png', title: '发送给朋友' },
@@ -71,6 +96,20 @@ export default class Detail extends Component {
           this.setState({ clicked2: buttonIndex > -1 ? data[rowIndex][buttonIndex].title : 'cancel' });
         });
       }
+      phone=()=>{
+        const BUTTONS = ['12345678901','对方看不到你的真实号码'];
+        ActionSheet.showActionSheetWithOptions({
+          options: BUTTONS,
+          cancelButtonIndex: BUTTONS.length - 1,
+          destructiveButtonIndex: BUTTONS.length - 2,
+          maskClosable: true,
+          'data-seed': 'logId',
+          wrapProps,
+        },
+        (buttonIndex) => {
+          this.setState({ clicked: BUTTONS[buttonIndex] });
+        });
+      }
     render() {
         return (
             <div>
@@ -81,7 +120,7 @@ export default class Detail extends Component {
                     <div onClick={this.showShareActionSheetMulpitleLine} style={{fontSize:40,position:'absolute',color:'white',top:'4.5%',right:'4%'}} className='iconfont icon-shenglvehao'></div>
                 </div>
                 {/* 轮播图 */}
-                <div>
+                <div style={{marginTop:51}}>
                     <Carousel autoplay={false} infinite>
                         {this.state.imgData.map(val => (
                             <a
@@ -89,7 +128,8 @@ export default class Detail extends Component {
                                 style={{ display: 'inline-block', width: '100%', height: 220 }}
                             >
                                 <img
-                                    src={require('./images/' + `${val}`)}
+                                    // src={'http://49.235.251.57:8000/api/house/' + `${val}`}
+                                    src={require('./images/'+`${val}`)}
                                     alt=""
                                     style={{ width: '100%', verticalAlign: 'top' }}
                                 />
@@ -97,20 +137,25 @@ export default class Detail extends Component {
                         ))}
                     </Carousel>
                 </div>
-                <WingBlank>
+                {/* 房屋信息 */}
                     {
                         this.state.data.map((item)=>(
                             <div>
+                                <WingBlank>
                                 <div style={{margin:"3% auto 0 auto" }}>
                                     <span style={{fontFamily:'黑体',fontSize:'17px',fontWeight:'bolder'}}>{item.type}</span>
                                     <span style={{padding:'0 4px',fontWeight:'bolder'}}>-</span>
                                     <span style={{fontFamily:'黑体',fontSize:'17px',fontWeight:'bolder'}}>{item.address}</span>
                                 </div>
+                                </WingBlank>
+                                <WingBlank>
                                 <div style={{margin:"3% auto 0 auto" }}>
                                     <span style={{fontSize:'10px',fontWeight:'bolder',color:'red'}}>￥</span>
                                     <span style={{fontSize:'15px',fontWeight:'bolder',color:'red'}}>{item.price}</span>
-                                    <span onClick={()=>this.mapp()} style={{float:'right'}}>地图</span>
                                 </div>
+                                </WingBlank>
+                                {/* 房屋简介 */}
+                                <WingBlank>
                                 <div style={{margin:"5% auto 0 auto",width:'100%',height:'70px',backgroundColor:'#f8f6f6'}}>
                                     <div style={{float:'left',width:'33%'}}>
                                         <p className="detail_floor" style={{borderRight:'1px solid #797979'}}>朝向</p>
@@ -125,11 +170,32 @@ export default class Detail extends Component {
                                         <p className="detail_floor1">{item.hometype}</p>
                                     </div>
                                 </div>
+                                </WingBlank>
+                                  {/* 地理位置 */}
+                                <WingBlank>
+                                    <div style={{marginTop:15}}>
+                                        <form>
+                                            <fieldset style={{border:'0.4px solid #b1b0b0',borderRadius:10,height:70}}>
+                                            <legend>房源位置</legend>
+                                            <Link to={'/map/'+item.homeid}>
+                                                <div className="weizhi">
+                                                        <span>
+                                                            <img style={{width:"12%",height:"50%",position:'absolute',top:6,left:10}} src={require('./images/weizhi.png')}/>
+                                                        </span>
+                                                        <span style={{position:'absolute',top:15,left:60,fontSize:15,color:"#000"}}>{item.address}</span>
+                                                </div>
+                                            </Link>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </WingBlank>
                                 <WhiteSpace />
+                                <div style={{width:'100%',height:5,backgroundColor:'#f8f6f6'}}></div>
                                 {/* 房源设施 */}
                                 <WhiteSpace />
+                                <WingBlank>
                                 <div style={{height:'150px'}}>
-                                    <h2 style={{marginBottom:'10px'}}>房源设施</h2>
+                                    <p style={{marginBottom:'10px',fontSize:20,fontWeight:'bold'}}>房源设施</p>
                                     <hr/>                                  
                                     <div style={{height:'72px',marginTop:'10px'}}>
                                         <div style={{float:'left',width:'25%'}}>
@@ -154,28 +220,70 @@ export default class Detail extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                </WingBlank>
                                 <WhiteSpace />
-                                {/* 房主信息 */}
-                                <div>
-                                    <h2 style={{marginBottom:'10px'}}>房主信息</h2>
-                                    <hr/>
+                                <div style={{width:'100%',height:5,backgroundColor:'#f8f6f6'}}></div>
+                                  {/* 房源描述 */}
+                                <WingBlank>
                                     <div>
-                                        <Flex>
-                                            <div className='detail_div'>
-                                                <img src={require('./images/detail_02.png')}/>
-                                            </div>
-                                            <div style={{ width: '70%', height: '80px' ,marginLeft:'10px'}}>
-                                                <p style={{ fontSize: 18, height: '20px',marginTop:'15px'}}>{item.realname}</p>
-                                                <p style={{ fontSize: 13, marginLeft: '2%', color: '#6b6b6b',height: '20px',marginTop:'10px'}}>实名认证</p>
-                                            </div>
-                                        </Flex>
+                                        <p style={{marginBottom:'10px',fontSize:20,fontWeight:'bold'}}>房源描述</p>
+                                        <div className="box11">
+                                            <img src={require('./images/beijing.jpg')} width="100%" height="260"/>
+                                            <div className="box22">
+                                                {/* 房主信息 */}
+                                                <Flex>
+                                                    <div style={{marginLeft:10,width:70}}>
+                                                        <p style={{fontSize:18,fontWeight:'bolder',color:'#686767'}}>房主：</p>
+                                                    </div>
+                                                    <div className='detail_div'>
+                                                        <img src={require('./images/detail_02.png')}/>
+                                                    </div>
+                                                    <div style={{ width: '70%', height: '80px',marginLeft:'15px',color:'#686767'}}>
+                                                        <p style={{ fontSize: 18, height: '20px',marginTop:'23px',color:'#fff'}}>{item.realname}</p>
+                                                        <p style={{ fontSize: 11, marginLeft: '2%', color: '#000',height: '20px',marginTop:'5px'}}>实名认证</p>
+                                                    </div>
+                                                </Flex>
+                                                {/* 详细地址 */}
+                                                <div style={{width:'100%',color:'#686767'}}>
+                                                    <p style={{fontSize:18,fontWeight:'bolder',margin:'0 10px 0 10px'}}>详细地址:</p>
+                                                    <p style={{fontSize:15,fontWeight:'bolder',margin:'7px 10px 0 10px'}}>河北省秦皇岛市碧水华庭4栋3单元501</p>
+                                                </div>
+                                                {/* 房屋简介 */}
+                                                <div style={{width:'100%',marginTop:15,color:'#686767'}}>
+                                                    <p style={{fontSize:18,fontWeight:'bolder',margin:'0 10px 10px 10px'}}>房源简介:</p>
+                                                    <p style={{fontSize:15,fontWeight:'bolder',margin:'0 10px 0 10px',lineHeight:1.4}}>优质好房优质好房优质好房优质好房优质好房优质好房优质好房优质好房优质好房优质好房</p>
+                                                </div>
+                                            </div> 
+                                        </div>
                                     </div>
-                                </div>
-                                <div style={{height:'50px'}}></div>
+                                </WingBlank>
+                                <WhiteSpace />
+                                <div style={{width:'100%',height:5,backgroundColor:'#f8f6f6'}}></div>
+                                {/* 发布时间 */}
+                                <WingBlank>
+                                    <div>
+                                        <div style={{lineHeight:2}}>
+                                            <span style={{fontSize:17,color:'#757575'}}>发布时间</span>
+                                            <span style={{fontSize:17,color:'#757575'}}>:</span>
+                                            <span style={{fontSize:17,color:'#757575'}}>{item.pushtime.slice(0,10)}</span>
+                                        </div>
+                                        <div style={{lineHeight:2}}>
+                                            <span style={{fontSize:17,color:'#757575'}}>入住</span>
+                                            <span style={{fontSize:17,color:'#757575'}}>:</span>
+                                            <span style={{fontSize:17,color:'#757575'}}>随时入住</span>
+                                        </div>
+                                        <div style={{lineHeight:2}}>
+                                            <span style={{fontSize:17,color:'#757575'}}>其他信息</span>
+                                            <span style={{fontSize:17,color:'#757575'}}>:</span>
+                                            <span style={{fontSize:17,color:'#757575'}}>暂无信息</span>
+                                        </div>
+                                    </div>
+                                </WingBlank>
+                                <div style={{height:'65px'}}></div>
                             </div>
                         ))
                     }
-                </WingBlank>
+                {/* 底部 */}
                 <div style={{ width: '100%', height: "65px", position: 'fixed', bottom: 0, backgroundColor: '#f5f5f9' }}>
                     <Flex>
                         <div style={{ width: '16%', height: '65px', float: 'left', marginTop: '2%' }}>
@@ -191,15 +299,15 @@ export default class Detail extends Component {
                             </div>
                         </div>
                         <div style={{ width: '33%', height: '65px', marginLeft: '2%' }}>
-                            <button style={{ width: '100%', height: "50px", backgroundColor: "orange", marginTop: '3%', border: 'none', color: '#ffffff', fontSize: 20, lineHeight: '50px' }}>
-                                <img style={{ float: 'left', width: '30px', height: '30px', marginLeft: '12%', marginTop: '7%' }} src={require("./images/detail_04.png")} />
-                                消息
+                            <button onClick={()=>this.phone()} style={{ width: '100%', height: "50px", background: "linear-gradient(to right,#ff9645, #fa9e57, #fcc193)",borderRadius:'3px', marginTop: '3%', border: 'none', color: '#ffffff',}}>
+                               <p style={{ fontSize: 20, lineHeight: '30px' }}>电话房主</p>
+                               <p style={{ fontSize: 10, lineHeight: '20px' }}>平台转接 防骚扰</p>
                             </button>
                         </div>
                         <div style={{ width: '33%', height: '65px', marginLeft: '2%' }}>
-                            <button style={{ width: '100%', height: "50px", backgroundColor: "#58e968", marginTop: '3%', border: 'none', color: '#ffffff', fontSize: 20, lineHeight: '50px' }}>
-                                <img style={{ float: 'left', width: '30px', height: '30px', marginLeft: '14%' ,marginTop: '8%'}} src={require("./images/detail_05.png")} />
-                                电话
+                            <button style={{ width: '100%', height: "50px", background: "linear-gradient(to right,#58e968, #6eeb7c, #85e791)",borderRadius:'3px', marginTop: '3%', border: 'none', color: '#ffffff', fontSize: 20, lineHeight: '50px' }}>
+                                <p style={{ fontSize: 20, lineHeight: '30px' }}>我要下单</p>
+                                <p style={{ fontSize: 10, lineHeight: '20px' }}>平台转接 防骚扰</p>
                             </button>
                         </div>
                     </Flex>
