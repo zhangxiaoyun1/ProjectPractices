@@ -20,13 +20,30 @@ export default class Dream extends Component {
         })
             .then((res) => res.json())
             .then((res) => {
-                // console.log(res.msg);
+                //console.log(res);
                 this.setState({
-                    dream: res.msg
+                    dream: res
                 })
             })
 
     }
+    // componentDidUpdate(prevProps,prevState) {
+    //     if(JSON.stringify(prevState.dream) !== JSON.stringify(this.state.dream)){
+    //         var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
+    //         var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
+    //         let url = `http://localhost:3001/api/getDream/` + dreamUserid;
+    //         fetch(url, { 
+    //             method: 'GET',
+    //             headers: new Headers({ 'Content-Type': 'application/json' })
+    //         })
+    //             .then((res) => res.json())
+    //             .then((res) => {
+    //                 this.setState({
+    //                     dream: res
+    //                 })
+    //             })
+    //     }
+    // }
     render() {
         return (
             <div style={{ width: '100%', height: '100%' }}>
