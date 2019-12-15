@@ -8,11 +8,15 @@
     float: left;
     width: 24.4%;
     height: 30px;
-    border: 1px solid red;
+    border-right:0.5px solid #dfdfdf;
     text-align: center;
+    color: grey;
     margin: 0 auto;
     font-size: 18px;
     overflow: hidden;
+}
+.rentHome_li1:last-child{
+    border-right:none;
 }
 .rentHome_box1{
     display: flex;
@@ -63,7 +67,7 @@
     padding-top: 3px;
     width: 40px;
     height: 20px;
-    background-color: #f3faf3;
+    background-color: #cfcfcf;
     color: #97dca5;
 }
 .rentHome_message2{
@@ -89,4 +93,20 @@
 .rentHome_heart{
     width:20px;
     height:20px;
+}
+
+.message3{
+    float: left;
+    /* margin-top: 5px; */
+    line-height: 20px;
+    background-color: #f3faf3;
+    color: #97dca5;
+}
+.message4{
+    float: left;
+    /* margin-top: 5px; */
+    line-height: 20px;
+    margin-left: 15px;
+    background-color: #f3f8fb;
+    color: #87aed9;
 }

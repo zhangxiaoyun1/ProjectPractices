@@ -11,21 +11,43 @@ export default class Dream extends Component {
         }
     }
     componentDidMount() {
-        var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
-        var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
-        let url = `http://localhost:3001/api/getDream/` + dreamUserid;
-        fetch(url, {
-            method: 'GET',
-            headers: new Headers({ 'Content-Type': 'application/json' })
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                //console.log(res);
+        if(JSON.parse(localStorage.getItem('key'))===null){
+            fetch('http://localhost:3001/api/house')
+            .then((res)=>res.json())
+            .then((res)=>{
                 this.setState({
-                    dream: res
-                })
+                    data0:res.msg
+                });
             })
-
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).userid===undefined){
+                fetch('http://localhost:3001/api/house')
+                .then((res)=>res.json())
+                .then((res)=>{
+                    this.setState({
+                        data0:res.msg
+                    });
+                })
+            }else{
+                var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
+                var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
+                let url = `http://localhost:3001/api/getDream/` + dreamUserid;
+                fetch(url, {
+                    method: 'GET',
+                    headers: new Headers({ 'Content-Type': 'application/json' })
+                })
+                    .then((res) => res.json())
+                    .then((res) => {
+                        //console.log(res);
+                        this.setState({
+                            dream: res
+                        })
+                    })
+            }
+           
+    
+        }
+      
     }
     // componentDidUpdate(prevProps,prevState) {
     //     if(JSON.stringify(prevState.dream) !== JSON.stringify(this.state.dream)){

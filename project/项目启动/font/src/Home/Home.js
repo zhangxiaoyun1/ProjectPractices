@@ -4,7 +4,6 @@ import 'antd-mobile/dist/antd-mobile.css';
 import './home.css'
 import { SearchBar, Carousel, Flex, WingBlank } from 'antd-mobile';
 import { Link } from 'react-router-dom'
-// console.log(111);
 
 // 首页
 const PlaceHolder = ({ className = '', ...restProps }) => (
@@ -31,7 +30,7 @@ const PlaceHolder4 = ({ className = '', ...restProps }) => (
         交易服务
     </div>
 );
-var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
+var dreamUser = 0;
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -44,26 +43,48 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-        
-        var userName = JSON.parse(localStorage.getItem('key')).userid;
-        var jsonUserName = JSON.stringify({userName:userName});
-        let url = `http://localhost:3001/api/house/`+jsonUserName;
-        fetch(url,
-        {
-            method: 'GET',
-            headers: new Headers({ 'Content-Type': 'application/json' })
-        })
-            .then((res) => res.json())
-            .then((res) => {
+        if(JSON.parse(localStorage.getItem('key'))===null){
+            fetch('http://localhost:3001/api/house')
+            .then((res)=>res.json())
+            .then((res)=>{
                 this.setState({
-                    data0: res.msg0,
-                    data1:res.msg1,
-                    data2:res.msg2
+                    data0:res.msg
+                });
+            })
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).userid===undefined){
+                fetch('http://localhost:3001/api/house')
+                .then((res)=>res.json())
+                .then((res)=>{
+                    this.setState({
+                        data0:res.msg
+                    });
                 })
-                console.log(res);
-            
+            }else{
+                var userName = JSON.parse(localStorage.getItem('key')).userid;
+                var jsonUserName = JSON.stringify(userName);
+                console.log(jsonUserName);
+                let url = `http://localhost:3001/api/house/`+jsonUserName;
+                fetch(url,
+                {
+                    method: 'GET',
+                    headers: new Headers({ 'Content-Type': 'application/json' })
+                })
+                    .then((res) => res.json())
+                    .then((res) => {
+                        this.setState({
+                            data0: res.msg0,
+                            data1:res.msg1,
+                            data2:res.msg2
+                        })
+                        console.log(res);
+                    
+                    }
+                    )
             }
-            )
+           
+        }
+       
     }
     //添加删除心愿单
     changeDream = (idx, homeid) => {
@@ -198,8 +219,8 @@ export default class Home extends Component {
                                                 {/* <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%', dreamFlag: 'false' }} className='iconfont icon-aixin1'></span> */}
                                                 {
                                                     idx < this.state.data2.length &&this.state.data2.length !==0 && dreamUser === this.state.data2[idx].userid && this.state.data2[idx].dreamflag === true?
-                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: 'red', marginLeft: '45%', marginTop: '2%'}} className='iconfont icon-aixin1'></span>
-                                                    :<span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%'}} className='iconfont icon-aixin1'></span>
+                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: 'red', marginLeft: '45%', marginTop: '2%'}} className='iconfont icon-qq'></span>
+                                                    :<span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%'}} className='iconfont icon-qq'></span>
                                                 }
                                             </div>
                                         </div>
