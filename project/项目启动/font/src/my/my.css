@@ -15,3 +15,17 @@ body{
 .my_div5{width:27px;height: 27px;background:url("./images/right.png") no-repeat center/cover;margin-left: 61%;}
 .my_div6{width:27px;height: 27px;background:url("./images/login.png") no-repeat center/cover;}
 .my_div7{width:27px;height: 27px;background:url("./images/crete.png") no-repeat center/cover;}
+.upimg{
+    width: 80px;
+    height: 80px;
+    position:absolute;
+    opacity: 0;
+}
+.upimgs{
+    width: 80px;
+    height: 80px;
+    position:absolute
+}
+.clearboth{
+    clear:both;
+}
