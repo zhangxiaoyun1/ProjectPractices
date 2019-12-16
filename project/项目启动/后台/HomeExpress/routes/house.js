@@ -268,13 +268,17 @@ router.get('/getLocation',(req,res)=>{
   })
 })
 
-// 关注和点赞
+// 关注
 router.post('/notice',function(req,res){
-  // console.log(req.body.tag);
-  // console.log(req.body.rentid);
   var tag = req.body.tag +1;
-  var clickcount = req.body.clickcount;
-  con.query('update rentwiki set tag=$1 clickcount=$2  where rentid=$3',[tag,clickcount,req.body.rentid])
+  con.query('update rentwiki set tag=$1 where rentid=$2',[tag,req.body.rentid],function(err,result){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.send({ ok: 'true', msg: '成功!' });
+    }
+  })
 })
 
 module.exports = router;
