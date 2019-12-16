@@ -37,8 +37,9 @@ export default class Rentwiki extends Component {
                 <WingBlank>
                     {
                         this.state.wikiDetail.map((item, idx) => {
+                            let path = '/aticleDetail/id='+item.rentid;
                             return (
-                                <Link key={idx} to='/aticleDetail'>
+                                <Link key={idx} to={path}>
                                 <div  className='rent_line'>
                                     <div  className='title1'>
                                         {
@@ -53,13 +54,13 @@ export default class Rentwiki extends Component {
                                     <div className='rentwiki_detail' style={{ marginTop: "1.5%" }}>
                                         <span className='author'>{item.author}</span>
                                         <span style={{ marginLeft: "3%" }}>
-                                            <img style={{ width: '18px', height: "18px" }} src={require('./images/message.png')} />
+                                            <img style={{ width: '18px', height: "18px",marginLeft: '5%'  }} src={require('./images/message.png')} />
                                         </span>
-                                        <span style={{ color: '#333333', fontSize: '14px', marginLeft: '1%' }}>{item.saycount}</span>
+                                        <span style={{ color: '#333333', fontSize: '14px', marginLeft: '5%' }}>{item.saycount}</span>
                                         <span>
-                                            <img style={{ width: '18px', height: '18px', marginLeft: "1%" }} src={require('./images/heart.png')} />
+                                            <img style={{ width: '18px', height: '18px', marginLeft: "5%" }} src={require('./images/heart.png')} />
                                         </span>
-                                        <span style={{ color: '#333333', marginLeft: '1%' }}>{item.clickcount}</span>
+                                        <span style={{ color: '#333333', marginLeft: '5%' }}>{item.clickcount}</span>
                                     </div>
                                 </div>
                                 </Link>
