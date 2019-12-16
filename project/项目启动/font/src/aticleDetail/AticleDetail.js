@@ -2,15 +2,60 @@ import React, { Component } from 'react'
 import './aticleDetail.css'
 import { Link } from 'react-router-dom'
 import { Flex, WingBlank, ActionSheet } from 'antd-mobile';
-import { bold } from 'ansi-colors';
+
 
 export default class AticleDetail extends Component {
+    
     constructor() {
         super();
         this.state = {
             clicked2: 'none',
+            article:[],
+            title:'',
+            content:'',
+            author:'',
+            addtime:'',
+            clickcount:'',
+            saycount:'',
+            a:0,
+            rentid:'',
+            tag:''
         }
+        
     }
+
+    componentDidMount() {
+        
+        fetch('http://localhost:3001/api/rentwiki')
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    article: res.msg
+                },()=>{
+                    var id = this.props.match.params.id.slice(3);
+                    // var item = this.state.article[id];
+                    console.log(this.state.article);
+                    // this.state.article.sort(id);
+                    for(var i = 0; i < this.state.article.length; i++){
+                        if(this.state.article[i].rentid == id){
+                            var item = this.state.article[i];
+                            this.setState({
+                                title:item.title,
+                                author:item.author,
+                                content:item.content,
+                                addtime:item.addtime,
+                                clickcount:item.clickcount,
+                                saycount:item.saycount,
+                                rentid:item.rentid,
+                                tag:item.tag
+                            })
+                        }
+                    }
+                    
+                })
+            })
+    }
+
     dataList = [
         { url: 'share.png', title: '发送给朋友' },
         { url: 'weibo.png', title: '新浪微博' },
@@ -35,6 +80,39 @@ export default class AticleDetail extends Component {
                 this.setState({ clicked2: buttonIndex > -1 ? data[rowIndex][buttonIndex].title : 'cancel' });
             });
     }
+    changValue = ()=>{
+        this.setState({
+            tag:this.state.tag+1
+        })
+        var tag  = this.state.tag;
+        var rentid = this.state.rentid;
+        var clickcount = this.state.clickcount;
+        var notice = JSON.stringify({tag:tag,rentid:rentid,clickcount:clickcount});
+        let url = "http://localhost:3001/api/notice";
+        fetch(url,{
+            method:'POST',
+            body:notice,
+            headers:new Headers({'Content-Type':'application/json'})
+        })
+        
+    }
+
+    add = ()=>{
+        this.setState({
+            a:this.state.a+ 1
+        })
+        if(this.state.a%2!=0){
+            this.setState({
+                clickcount:this.state.clickcount - 1
+            })
+        } 
+        else{
+            this.setState({
+                clickcount:this.state.clickcount + 1
+            })
+        }
+    }
+
     render() {
         return (
             <div>
@@ -43,63 +121,43 @@ export default class AticleDetail extends Component {
                     <h2 className='aticleDetail_nav_h2'>内容详情</h2>
                     <div onClick={this.showShareActionSheetMulpitleLine} style={{ fontSize: 40, position: 'absolute', color: 'white', top: '4.5%', right: '4%' }} className='iconfont icon-shenglvehao'></div>
                 </div>
+                
                 <WingBlank>
-                    <div style={{ width: '100%' }}>
-                        <h1>上海滩的盖茨比之“租房手记”……</h1>
-                    </div>
-                </WingBlank>
-                <WingBlank>
-                    <div className='aticleDetail_div'>
-                        <div style={{ float: 'left' }}>
-                            <img className='actileDetail_img' src={`${require("./images/aticle_01.png")}`} />
+                    <div>
+                        <div style={{ width: '100%' }}>
+                            <h1>{this.state.title}</h1>
                         </div>
-                        <div style={{ float: 'left', width: '300px', height: "70px" }}>
-                            <h4 style={{ fontSize: 22, marginLeft: '3%', marginTop: '3%' }}>潭水清澈</h4>
-                            <p style={{ fontSize: 14, marginLeft: '3%', marginTop: '3%', color: 'gray' }}>2018.08.24 17:41:51 字数 4,334 阅读 48</p>
+                        <div className='aticleDetail_div'>
+                            <div style={{ float: 'left' }}>
+                                <img className='actileDetail_img' src={`${require("./images/aticle_01.png")}`} />
+                            </div>
+                            <div style={{ float: 'left', width: '300px', height: "70px" }}>
+                                <h4 style={{ fontSize: 22, marginLeft: '3%', marginTop: '3%' }}>{this.state.author}</h4>
+                                <p style={{ fontSize: 14, marginLeft: '3%', marginTop: '3%', color: 'gray' }}>{this.state.addtime.slice(0,10)}</p>
+                            </div>
+                            <div onClick={this.changValue} style={{ width: '80px', height: '30px', border: '1px solid red', position: 'absolute', top: '5%', right: '30%', borderRadius: '20px', color: 'red', textAlign: 'center', lineHeight: '30px', fontSize: 18 }}>
+                                {
+                                    this.state.tag%2==0?'已关注':'关注'
+                                }
+                            </div>
                         </div>
-                        <div style={{ width: '50px', height: '30px', border: '1px solid red', position: 'absolute', top: '5%', right: '37%', borderRadius: '20px', color: 'red', textAlign: 'center', lineHeight: '30px', fontSize: 18 }}>
-                            关注
+                        <div style={{ width: '100%', height: '200px' }}>
+                            <img style={{ width: "100%", height: '200px' }} src={`${require("./images/actile_01.jpg")}`} />
+                        </div>
+                        <div style={{ width: '100%',lineHeight:1.6,fontSize:18,textIndent:'2em'}} className='aticle_content' onClick={this.add}>
+                            {this.state.content}
                         </div>
                     </div>
-                </WingBlank>
-                <WingBlank>
-                    <div style={{ width: '100%', height: '200px' }}>
-                        <img style={{ width: "340px", height: '200px' }} src={`${require("./images/actile_01.jpg")}`} />
-                    </div>
-                </WingBlank>
-                <WingBlank>
-                    <div style={{ width: '100%' }}>
-                        <p style={{ fontSize: 18, lineHeight: 1.5, fontWeight: 'bold' }}>关于“租房这件事，我已经无感了。来上海奋斗之前，我确定我短时间内买不起房，来上海之后，我确定我很长时间内买不起房。从一个文艺青年的角度讲，我一直固执地认为我不需要房，我的理想是30岁之前去世界的每一个角落看看。但从现实主义角度来看，实质上我就是一个逃避现实的穷逼。
-                        </p>
-                    </div>
-                </WingBlank>
-                <WingBlank>
-                    <div style={{ width: '100%', height: '20px', border: '1px solid #f1f1f1' }}>
-                        <p style={{ fontSize: 18, color: '#ff9645', fontWeight: bold }}>1</p>
-                    </div>
-                    <div style={{ width: '100%' }}>
-                        <p style={{ lineHeight: '1.8', fontSize: 16 }}>
-                            去年的夏天还很热，我和H一同离开了家乡，来到了上海。在坐了26个小时绿皮火车之后，我们第一站先是去了江苏昆山暂时落脚。印象中那天的昆山天气十分闷热，空气中弥漫的那股湿热似乎要让人抑郁。
-                        </p>
-                        <p style={{ lineHeight: '1.8', fontSize: 16, marginTop: '2%' }}>
-                            在她姐的带领下，我们在街头吃了水煮鱼和螺丝，晚上就在昆山找住宿之地，她姐带我们去自己住的单元楼下面的居民房找住宿的地方。单元楼下几乎每走一段路都会碰到写着租房信息的牌子，俨然一个三无旅馆，但却似乎很适合那些在底层谋生活的人。
-                        </p>
-                        <p style={{ lineHeight: '1.8', fontSize: 16, marginTop: '2%' }}>
-                            在她姐的带领下，我们在街头吃了水煮鱼和螺丝，晚上就在昆山找住宿之地，她姐带我们去自己住的单元楼下面的居民房找住宿的地方。单元楼下几乎每走一段路都会碰到写着租房信息的牌子，俨然一个三无旅馆，但却似乎很适合那些在底层谋生活的人。
-                        </p>
-                        <p style={{ lineHeight: '1.8', fontSize: 16, marginTop: '2%' }}>
-                            在她姐的带领下，我们在街头吃了水煮鱼和螺丝，晚上就在昆山找住宿之地，她姐带我们去自己住的单元楼下面的居民房找住宿的地方。单元楼下几乎每走一段路都会碰到写着租房信息的牌子，俨然一个三无旅馆，但却似乎很适合那些在底层谋生活的人。
-                        </p>
-                    </div>
+                            
                 </WingBlank>
                 <WingBlank>
                     <Flex>
                         <div style={{ position: 'fixed', left:0, bottom: 0, height: '65px', backgroundColor: '#fff', width: '100%' }}>
                             <input defaultValue='写评论' type='text' style={{width:'180px',height:'40px',backgroundColor:'#f1f1f1',borderRadius:'13px',marginTop:'3%',marginLeft:'2%',float:'left'}}/>
                             <div className='actile_div' style={{width:'30px',height:'30px',float:'left',margin:'3.3% 0% 0% 2%'}}></div>
-                            <p style={{float:'left',margin:'5.5% 0% 0% 2%',fontSize:16}}>评论 0</p>
-                            <div className='actile_div1' style={{width:'30px',height:'30px',float:'left',margin:'3.3% 0% 0% 2%'}}></div>
-                            <p style={{float:'left',margin:'5.5% 0% 0% 2%',fontSize:16}}>赞 0</p>
+                            <p style={{float:'left',margin:'5.5% 0% 0% 2%',fontSize:16}}> {this.state.saycount}</p>
+                            <div className='actile_div1' onClick={this.add} style={{width:'30px',height:'30px',float:'left',margin:'3.3% 0% 0% 2%'}}></div>
+                            <p style={{float:'left',margin:'5.5% 0% 0% 2%',fontSize:16}} >{this.state.clickcount}</p>
                         </div>
                     </Flex>
                 </WingBlank>
