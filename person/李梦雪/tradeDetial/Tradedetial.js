@@ -5,11 +5,73 @@ import './tradeDetial.css'
 export default class Tradedetial extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: '请输入您的租期'};
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            address:'',
+            price:'',
+            realname:'请输入您的姓名',
+            phone:'请输入您的手机号',
+            checkin:'请输入您的入住时间',
+            longtime:'请输入您的租期',
+            apname:'',
+            address:'',
+            type:'',
+            face:'',
+            floor:'',
+            lift:'',
+            price:'',
+            data:[]
+        }; 
     }
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    changeName = (e)=>{
+        this.setState({
+            realname:e.target.value
+        })
+        
+    }
+    changePhone = (e)=>{
+        this.setState({
+            phone:e.target.value
+        })
+       
+    }
+    changeCheckin = (e)=>{
+        this.setState({
+            checkin:e.target.value
+        })
+        
+    }
+    
+    changeLongtime = (e)=>{
+        this.setState({
+            longtime:e.target.value
+        })
+        
+    }
+    componentDidMount() {
+        fetch('http://localhost:3001/api/house')
+        .then((res)=>res.json())
+        .then((res)=>{
+            this.setState({
+                data:res.msg
+            })
+            console.log(this.state.data)
+        })
+    }
+
+    push = ()=>{
+        var price = '2000/月';
+        var realname = this.state.realname;
+        var phone = this.state.phone;
+        var checkin = this.state.checkin;
+        var longtime = this.state.longtime;
+        var message = JSON.stringify({realname:realname,phone:phone,checkin:checkin,longtime:longtime,price:price})
+        fetch('http://localhost:3001/api/trade',{
+            method:'POST',
+            body:message,
+            headers:new Headers({'Content-Type':'application/json'})
+   
+        })
+        
     }
 
     render() {
@@ -49,26 +111,29 @@ export default class Tradedetial extends Component {
                    <form action='/' method='POST'>
                       <ul style={{marginTop:'10%',display:'inline-flex'}}>
                         <li className='trade_li1' > 姓 名 ： </li>
-                        <input name=''className='trade_input1' type='text' placeholder='请输入您的姓名' />
+                        <input name='realname' onChange={this.changeName} className='trade_input1' type='text' value={this.state.realname} />
                       </ul> 
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'> 手 机 号 ： </li>
-                        <input name='' type='text' placeholder='请输入您的手机号'className='trade_input1'/>
+                        <input name='phone' onChange={this.changePhone} type='text' value={this.state.phone} className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'>入住时间：</li>
-                        <input name='' type='text' placeholder='请输入您的入住时间'className='trade_input1'/>
+                        <input name='pushtime' onChange={this.changeCheckin} type='text' value={this.state.checkin} className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'> 租 期 ： </li>
-                        <input name='' type='text' placeholder='请输入您的租期' className='trade_input1'/>
+                        <input onChange={this.changeLongtime} name='longtime' type='text' value={this.state.longtime} className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul style={{marginTop:'20%'}}>
-                        <button type='submit' className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
+                          
+                        <Link to={'/pay/price='+2000+'&phone='+'15231157097'}>
+                            <button type='button' onClick={this.push} className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>支付</button>
+                        </Link>
                       </ul>
                       
                    </form>

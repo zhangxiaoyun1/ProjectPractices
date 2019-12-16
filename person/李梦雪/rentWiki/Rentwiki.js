@@ -36,10 +36,8 @@ export default class Rentwiki extends Component {
                 <WhiteSpace />
                 <WingBlank>
                     {
-                        
                         this.state.wikiDetail.map((item, idx) => {
-                            let path = '/aticleDetail/id='+idx;
-                            // console.log(idx)
+                            let path = '/aticleDetail/id='+item.rentid;
                             return (
                                 <Link key={idx} to={path}>
                                 <div  className='rent_line'>

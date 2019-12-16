@@ -1,0 +1,10 @@
+*{padding: 0%;margin: 0%;}
+ul,li{list-style: none;}
+a{list-style: none;}
+.aticleDetail_nav{width: 100%;height: 50px;display: flex;background-color: #ff9645;position: relative;}
+.aticleDetail_nav_h2{line-height: 50px;margin-left: 29%;color:white;}
+.aticleDetail_div{display: flex;width: 100%;height: 70px;position: relative;}
+.actileDetail_img{width: 50px;height: 50px;margin-top: 10%;}
+.aticle_input{width: 50px;height:40px;float: left;}
+.actile_div{background: url('./images/message.png') no-repeat center/cover;}
+.actile_div1{background: url('./images/good.png') no-repeat center/cover;}
