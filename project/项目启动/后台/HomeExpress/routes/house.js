@@ -8,9 +8,6 @@ const https = require('https');
 const con = new pg.Pool(pgdb);
 con.connect();
 
-// router.get('/house',function(req,res){
-//     res.render('house');
-//   })
 //添加房屋信息
 router.post('/house', function (req, res) {
   var homeid = (new Date()).valueOf();
@@ -42,9 +39,53 @@ router.post('/house', function (req, res) {
         }
       })
 })
-//查找住房信息
+/**
+ * 获得所有房源信息列表
+ */
+router.get('/house',function(req,res){
+  con.query("select * from homemessage",function(err,result){
+    if(err){
+      console.log(err);
+    }else{
+      res.send({ok:true,msg:result.rows});
+    }
+  })
+})
+
+/**
+ * 详情页
+ */
+
+//获得房屋详细信息用于详情页 
+router.get('/houses/:homeid',function(req,res){
+  console.log(req.params.homeid);
+  con.query("select * from homemessage where homeid=$1",[req.params.homeid],function(err,result){
+    if(err){
+      console.log(err);
+    }else{
+      res.send({ok:true,msg:result.rows});
+    }
+  })
+})
+//访问百度地图用来展示房源位置
+router.get('/map/:homeid',function(req,res){
+  console.log(req.params.homeid);
+  con.query("select * from homemessage where homeid=$1",[req.params.homeid],function(err,result){
+    if(err){
+      console.log(err);
+    }else{
+      res.send({ok:true,msg:result.rows});
+    }
+  })
+})
+
+/**
+ * 心愿单
+ */
+
+//查找住房信息用于心愿单
 router.get('/house/:id', function (req, res) {
-  // console.log(req)
+  console.log(JSON.parse(req.params.id))
   var homeMessage = JSON.parse(req.params.id);
   var homeUserid = homeMessage.userName;
   var homeidList = [];
@@ -126,41 +167,6 @@ router.get('/getDream/:id', function (req, res) {
     }
   })
 })
-//获取租房百科所有信息
-router.get('/rentwiki', function (req, res) {
-  con.query("select * from rentwiki", function (err, result) {
-    if (err) {
-      res.header('Access-Control-Allow-Origin', '*');
-      console.log(err);
-    } else {
-      console.log(result.rows);
-      res.header('Access-Control-Allow-Origin', '*');
-      res.send({ ok: true, msg: result.rows });
-    }
-  })
-})
-//房屋订单详情信息
-router.get('/trade', function (req, res) {
-  res.render('trade');
-})
-router.post("/trade", function (req, res) {
-  var tradeid = (new Date()).valueOf();
-  var realname = req.body.realname;
-  var phone = req.body.phone;
-  var longtime = req.body.longtime;
-  var price = req.body.price;
-  var pushtime = new Date().toLocaleDateString();
-  con.query(`insert into trademanagermessage(tradeid,realname,phone,longtime,price,pushtime) 
-    values($1,$2,$3,$4,$5,$6)`,
-    [tradeid, realname, phone, longtime, price, pushtime], function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send({ ok: true, msg: '提交成功！' });
-      }
-    })
-})
-
 //添加心愿单
 router.get("/addDream", (req, res) => {
   res.send({ ok: 'true', msg: '传输成功!' });
@@ -199,8 +205,48 @@ router.post("/deleteDream", (req, res) => {
   }
   )
 })
+//获取租房百科所有信息
+router.get('/rentwiki', function (req, res) {
+  con.query("select * from rentwiki", function (err, result) {
+    if (err) {
+      res.header('Access-Control-Allow-Origin', '*');
+      console.log(err);
+    } else {
+      console.log(result.rows);
+      res.header('Access-Control-Allow-Origin', '*');
+      res.send({ ok: true, msg: result.rows });
+    }
+  })
+})
+//房屋订单详情信息
+router.get('/trade', function (req, res) {
+  res.render('trade');
+})
+/**
+ * 添加租房订单
+ */
+router.post("/trade", function (req, res) {
+  var tradeid = (new Date()).valueOf();
+  var realname = req.body.realname;
+  var phone = req.body.phone;
+  var longtime = req.body.longtime;
+  var price = req.body.price;
+  var pushtime = new Date().toLocaleDateString();
+  con.query(`insert into trademanagermessage(tradeid,realname,phone,longtime,price,pushtime) 
+    values($1,$2,$3,$4,$5,$6)`,
+    [tradeid, realname, phone, longtime, price, pushtime], function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send({ ok: true, msg: '提交成功！' });
+      }
+    })
+})
 
 
+/**
+ * 首页地理位置定位
+ */
 
 //接受地理定位
 router.get('/getLocation',(req,res)=>{
@@ -219,6 +265,19 @@ router.get('/getLocation',(req,res)=>{
       location = {province:province,city:city,address:address};
       res.send({ok:'true',msg:location})
     })
+  })
+})
+
+// 关注
+router.post('/notice',function(req,res){
+  var tag = req.body.tag +1;
+  con.query('update rentwiki set tag=$1 where rentid=$2',[tag,req.body.rentid],function(err,result){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.send({ ok: 'true', msg: '成功!' });
+    }
   })
 })
 
