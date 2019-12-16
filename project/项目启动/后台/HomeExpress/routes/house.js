@@ -268,4 +268,13 @@ router.get('/getLocation',(req,res)=>{
   })
 })
 
+// 关注和点赞
+router.post('/notice',function(req,res){
+  // console.log(req.body.tag);
+  // console.log(req.body.rentid);
+  var tag = req.body.tag +1;
+  var clickcount = req.body.clickcount;
+  con.query('update rentwiki set tag=$1 clickcount=$2  where rentid=$3',[tag,clickcount,req.body.rentid])
+})
+
 module.exports = router;
