@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import 'antd-mobile/dist/antd-mobile.css';
 import './home.css'
-import { SearchBar, Carousel, Flex, WingBlank } from 'antd-mobile';
+import { SearchBar, Carousel, Flex, WingBlank, Modal } from 'antd-mobile';
 import { Link } from 'react-router-dom'
+
 
 // 首页
 const PlaceHolder = ({ className = '', ...restProps }) => (
@@ -30,44 +31,148 @@ const PlaceHolder4 = ({ className = '', ...restProps }) => (
         交易服务
     </div>
 );
-const PlaceHolder_home = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home`} {...restProps}>
-        合租
-    </div>
-);
-const PlaceHolder_home1 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home1`} {...restProps}>
-        精装修
-    </div>
-);
-const PlaceHolder_home2 = ({ className = '', ...restProps }) => (
-    <div className={`${className} placeholder_home1`} {...restProps}>
-        近地铁
-    </div>
-);
+
+
+var dreamUser = JSON.parse(localStorage.getItem('key')).userid === undefined ? 0 : JSON.parse(localStorage.getItem('key')).userid;
+const alert = Modal.alert;
+//console.log(dreamUser);
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             imgData: ['home_01.jpg', 'home_02.jpg', 'home_03.jpg'],
             selectedTab: 'blueTab',
-            data:[]
+            data0: [],
+            data1: [],
+            data2: [],
+            location: [],
+            //小区名
+            value: '',
+            //城市名
+            city: ''
+        }
+    }
+    componentDidMount() {
+        //console.log(dreamUser);
+        if (dreamUser === 0) {
+            // console.log("11111");
+            fetch('http://localhost:3001/api/house')
+                .then((res) => res.json())
+                .then((res) => {
+                    this.setState({
+                        data0: res.msg
+                    });
+                })
+        } else {
+            // console.log("222222");
+            var userName = JSON.parse(localStorage.getItem('key')).userid;
+            var jsonUserName = JSON.stringify({ userName: userName });
+            let url = `http://localhost:3001/api/house/` + jsonUserName;
+            fetch(url,
+                {
+                    method: 'GET',
+                    headers: new Headers({ 'Content-Type': 'application/json' })
+                })
+                .then((res) => res.json())
+                .then((res) => {
+                    this.setState({
+                        data0: res.msg0,
+                        data1: res.msg1,
+                        data2: res.msg2
+                    })
+                }
+                )
+        }
+        //地理位置
+        fetch("http://localhost:3001/api/getLocation")
+            .then(res => res.json())
+            .then((res) => {
+                this.setState({
+                    location: res.msg
+                })
+            })
+    }
+    //添加删除增加心愿单
+    changeDream(idx, homeid, dreamUser) {
+        var dreamUser = dreamUser;
+        if (dreamUser === 0) {
+            alert("请先进行登录")
+        } else {
+            var list = "love" + `${idx}`
+            var loveList = document.getElementById(list);
+            var dreamid = (new Date()).valueOf();
+            var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
+            if (loveList.style.color === 'rgb(221, 221, 221)') {
+                loveList.style.color = 'red';
+                var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser })
+                fetch("http://localhost:3001/api/addDream",
+                    {
+                        method: 'POST',
+                        body: addStr,
+                        headers: new Headers({ 'Content-Type': 'application/json' })
+                    }).then((res) => res.json())
+                    .then((res) => {
+                        console.log(res);
+                    })
+            }
+            else {
+                loveList.style.color = 'rgb(221, 221, 221)';
+                var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser });
+                fetch("http://localhost:3001/api/deleteDream",
+                    {
+                        method: 'POST',
+                        body: addStr,
+                        headers: new Headers({ 'Content-Type': 'application/json' })
+                    }
+                ).then((res) => res.json())
+                    .then((res) => {
+                        console.log(res);
+                    })
+            }
 
         }
-        console.log(this.state.src);
+
     }
-    componentDidMount(){
-        fetch('http://localhost:3001/api/house')
-        .then((res)=>res.json())
-        .then((res)=>{
+    //搜索小区房屋信息
+    homeSearch(e) {
+        if (13 === e.keyCode) {
             this.setState({
-                data:res.msg
-            });
-            console.log(res.msg)
-        })
+                value: e.target.value
+            }, () => {
+                var homeSerach = JSON.stringify({ apartment: this.state.value });
+                let url = `http://localhost:3001/api/homeSearch/` + homeSerach
+                fetch(url, {
+                    method: 'GET',
+                    headers: new Headers({ 'Content-Type': 'application/json' })
+                })
+                    .then((res) => res.json())
+                    .then((res) => {
+                        this.setState({
+                            data0: res.msg
+                        })
+                    })
+            })
+            e.target.value = '搜索当地房屋';
+        }
     }
-    //点击添加心愿单
-    addDream=()=>{
+    //切换城市
+    changCity(e) {
+        this.setState({
+            city: e.target.value
+        }, () => {
+            var cityJson = JSON.stringify({ city: this.state.city });
+            var url = `http://localhost:3001/api/citySearch/` + cityJson;
+            fetch(url, {
+                method: 'GET',
+                headers: new Headers({ 'Content-Type': 'application/json' })
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    this.setState({
+                        data0: res.msg
+                    })
+                })
+        })
     }
     render() {
         return (
@@ -77,16 +182,21 @@ export default class Home extends Component {
                 <div id='home_flow'>
                     <div className='home_nav'>
                         <span id="home_icon" className='iconfont icon-diliweizhi'></span>
-                        <div className='home_checkBox'>
-                            <button>石家庄 </button>
-                            <button style={{ fontSize: 25, textAlign: 'center' }} className='iconfont icon-xialajiantou'></button>
+                        <div>
+                            <select className='home_select' onChange={(e) => this.changCity(e)}>
+                                <option>{this.state.location.city}</option>
+                                <option>北京市</option>
+                                <option>天津市</option>
+                                <option>秦皇岛</option>
+                            </select>
                         </div>
-                        <div className='home_input'>
-                            <SearchBar placeholder="搜索" maxLength={8} style={{ backgroundColor: '#ff9645' }} />
+                        <div>
+                            {/* <SearchBar placeholder="搜索" maxLength={8} style={{ backgroundColor: '#ff9645' }} /> */}
+                            <input onKeyDown={(e) => this.homeSearch(e)} name='homeSearch' className='home_input' type='text' placeholder='搜索当地房屋' />
                         </div>
                     </div>
                 </div>
-               {/* 轮播图 */}
+                {/* 轮播图 */}
                 <div id='home_flow1'>
                     <div className='home_carousel'>
                         <Carousel
@@ -137,39 +247,47 @@ export default class Home extends Component {
                 </div>
                 <div>
                     {
-                        this.state.data.map((item)=>(
-                            <WingBlank>
-                            <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
-                                <div style={{ float: 'left' }}>
-                                    <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                        this.state.data0.map((item, idx) => (
+                            <WingBlank key={idx}>
+                                <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
+                                    <Link key={idx} to={"/detail/" + item.homeid}>
+                                        <div style={{ float: 'left' }}>
+                                            <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                                        </div>
+                                    </Link>
+                                    <div style={{ float: 'left', width: '190px', height: '120px' }}>
+                                        <div className='home_p'>
+                                            <span>{item.city}</span>
+                                            <span style={{ padding: '0 3px' }}>|</span>
+                                            <span>{item.address}</span>
+                                        </div>
+                                        <div style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                            <span>{item.type}</span>
+                                            <span style={{ padding: '0 3px' }}>|</span>
+                                            <span>{item.hometype}</span>
+                                        </div>
+                                        <div style={{ fontSize: '13px', height: '20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                            <p className="message3">朝向:{item.face}</p>
+                                            <p className="message4">楼层:{item.floor}</p>
+                                            <p className="message4">电梯:{item.lift}</p>
+                                        </div>
+
+                                        <div style={{ height: '30px', display: 'flex', margintTop: '10px' }}>
+                                            <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%', float: 'left' }}>{item.price}</span>
+                                            {
+
+                                                idx < this.state.data2.length && this.state.data2.length !== 0 && dreamUser === this.state.data2[idx].userid && this.state.data2[idx].dreamflag === true ?
+                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: 'red', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-aixin1'></span>
+                                                    : <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-aixin1'></span>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                                <div style={{ float: 'left', width: '190px', height: '120px' }}>
-                                    <div className='home_p'>
-                                        <span>{item.apname}</span>
-                                        <span style={{padding:'0 3px'}}>|</span>
-                                        <span>{item.address}</span>
-                                    </div>
-                                    <div style={{ fontSize: '13px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
-                                        <span>{item.type}</span>
-                                        <span style={{padding:'0 3px'}}>|</span>
-                                        <span>{item.hometype}</span>
-                                    </div>
-                                    <div style={{ fontSize: '13px',height:'20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
-                                        <p className="message3">朝向:{item.face}</p>
-                                        <p className="message4">楼层:{item.floor}</p>
-                                        <p className="message4">电梯:{item.lift}</p>
-                                    </div>
-                                    <div style={{height:'30px',display:'flex',margintTop:'10px'}}>
-                                        <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%' ,float:'left'}}>{item.price}</span>
-                                        <span style={{position:'relative',right:'-40%',top:'28%'}}><img onClick={this.addDream.bind(this)} style={{width:'20px'}} src={`${require('./images/love.png')}`}></img></span>
-                                    </div>
-                                </div>
-                            </div>
                             </WingBlank>
                         ))
                     }
                 </div>
-           </div>
+            </div>
         )
     }
 
