@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './aticleDetail.css'
 import { Link } from 'react-router-dom'
-import { Flex, WingBlank, ActionSheet } from 'antd-mobile';
+import { Flex, WingBlank, ActionSheet,Toast } from 'antd-mobile';
 
 
 export default class AticleDetail extends Component {
@@ -17,13 +17,14 @@ export default class AticleDetail extends Component {
             addtime:'',
             clickcount:'',
             saycount:'',
-            a:0,
+            a:1,
             rentid:'',
             tag:''
         }
         
     }
 
+    
     componentDidMount() {
         
         fetch('http://localhost:3001/api/rentwiki')
@@ -33,9 +34,6 @@ export default class AticleDetail extends Component {
                     article: res.msg
                 },()=>{
                     var id = this.props.match.params.id.slice(3);
-                    // var item = this.state.article[id];
-                    console.log(this.state.article);
-                    // this.state.article.sort(id);
                     for(var i = 0; i < this.state.article.length; i++){
                         if(this.state.article[i].rentid == id){
                             var item = this.state.article[i];
@@ -86,34 +84,59 @@ export default class AticleDetail extends Component {
         })
         var tag  = this.state.tag;
         var rentid = this.state.rentid;
-        var clickcount = this.state.clickcount;
-        var notice = JSON.stringify({tag:tag,rentid:rentid,clickcount:clickcount});
+        var notice = JSON.stringify({tag:tag,rentid:rentid});
         let url = "http://localhost:3001/api/notice";
         fetch(url,{
             method:'POST',
             body:notice,
             headers:new Headers({'Content-Type':'application/json'})
-        })
-        
+        })    
     }
 
     add = ()=>{
         this.setState({
             a:this.state.a+ 1
+        },()=>{
+            if(this.state.a%2!=0){
+                this.setState({
+                    clickcount:this.state.clickcount - 1
+                },()=>{
+                    var click = this.state.clickcount;
+                    var rentid = this.state.rentid;
+                    var count = JSON.stringify({click:click,rentid:rentid})
+                    let url = "http://localhost:3001/api/click";
+                    fetch(url,{
+                        method:'POST',
+                        body:count,
+                        headers:new Headers({'Content-Type':'application/json'})
+                    });
+                    Toast.success('取消赞', 1);
+                })
+            } 
+            else{
+                this.setState({
+                    clickcount:this.state.clickcount + 1
+                },()=>{
+                    var click = this.state.clickcount;
+                    var rentid = this.state.rentid;
+                    var count = JSON.stringify({click:click,rentid:rentid})
+                    let url = "http://localhost:3001/api/click";
+                    fetch(url,{
+                        method:'POST',
+                        body:count,
+                        headers:new Headers({'Content-Type':'application/json'})
+                    });
+                    Toast.success('点赞成功', 1);
+                })
+            }
+            
         })
-        if(this.state.a%2!=0){
-            this.setState({
-                clickcount:this.state.clickcount - 1
-            })
-        } 
-        else{
-            this.setState({
-                clickcount:this.state.clickcount + 1
-            })
-        }
+        
     }
 
     render() {
+        var user = localStorage.getItem('key');
+        var userid = JSON.parse(user).userid;
         return (
             <div>
                 <div className='aticleDetail_nav'>
