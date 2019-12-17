@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './detail.css';
 import { Link } from 'react-router-dom';
 import BMap  from 'BMap';
-import {NavBar,Icon,TabBar, Carousel, Flex, WingBlank,ActionSheet ,WhiteSpace} from 'antd-mobile';
+import {Modal, Button, Toast ,NavBar,Icon,TabBar, Carousel, Flex, WingBlank,ActionSheet ,WhiteSpace} from 'antd-mobile';
 //弹窗部分
 const isIPhone = new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(window.navigator.userAgent);
 let wrapProps;
@@ -11,20 +11,21 @@ if (isIPhone) {
     onTouchStart: e => e.preventDefault(),
   };
 }
+const alert = Modal.alert;
 export default class Detail extends Component {
     constructor() {
         super();
         this.state = {
-            imgData: ['detail_01.jpg', 'detail_02.jpg', 'detail_03.jpg', 'detail_04.jpg', 'detail_05.jpg', 'detail_06.jpg'],
-            // imgData: [],
+            imgData: [],
             clicked2: 'none',
-            clicked: 'none',
-            data:[]
+            data:[],
+            sdata:['1','2','3'],
+            imgheight:200
         }
     }
     componentDidMount(){
         var homeid = this.props.match.params.homeid;
-        let url=`http://localhost:3001/api/house/`+homeid;
+        let url=`http://49.235.251.57:8000/api/houses/`+homeid;
         fetch(url,{
             method:"GET", 
             headers: new Headers({
@@ -33,19 +34,17 @@ export default class Detail extends Component {
         })
         .then((res)=>res.json())
         .then((res)=>{
-            // var imagedata;
-            // if(res.msg[0].homeimage.indexOf(',')>=0){
-            //     imagedata = (res.msg[0].homeimage).split(',');
-            // }else{
-            //     imagedata=[];
-            //     imagedata[0]= res.msg[0].homeimage;
-            // }
-            // console.log(imagedata)
+            var imagedata;
+            if(res.msg[0].homeimage.indexOf(',')>=0){
+                imagedata = (res.msg[0].homeimage).split(',');
+            }else{
+                imagedata=[];
+                imagedata[0]= res.msg[0].homeimage;
+            }
             this.setState({
-                // imgData:imagedata,
+                imgData:imagedata,
                 data:res.msg
             })
-            // console.log(this.state.imgData);
             var map = new BMap.Map("map1"); // 创建Map实例
             map.centerAndZoom(res.msg[0].city, 12);      
             // 创建地址解析器实例     
@@ -64,6 +63,13 @@ export default class Detail extends Component {
                 }
                 map.addEventListener("click", showInfo);
         })
+        setTimeout(() => {
+            this.setState(state=>{
+                return{
+                    imgData:state.imgData
+                }
+            });
+          }, 100);
 
     }
     /**
@@ -72,6 +78,59 @@ export default class Detail extends Component {
     back=()=>{
         window.location.href="http://localhost:3000/#/appTaber"
     }
+    /**
+     * 收藏改变颜色
+     */
+    changeColor = (idx, homeid) => {
+        var list = "love" + `${idx}`
+        var dreamid = (new Date()).valueOf();
+        console.log(homeid);
+        if(JSON.parse(localStorage.getItem('key'))===null){
+           alert("未登录")
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).userid===undefined){
+                alert("未登录")
+            }else{
+                var shou=document.getElementById('shou');
+                var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
+                if (shou.style.color === 'gray') {
+                    shou.style.color = 'red';
+                    var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser })
+                    fetch("http://49.235.251.57:8000/api/addDream",
+                        {
+                            method: 'POST',
+                            body: addStr,
+                            headers: new Headers({ 'Content-Type': 'application/json' })
+                        }).then((res) => res.json())
+                        .then((res) => {
+                            console.log(res);
+                        })
+                } 
+                else {
+                    shou.style.color = 'gray';
+                    var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser });
+                    fetch("http://49.235.251.57:8000/api/deleteDream",
+                        {
+                            method: 'POST',
+                            body: addStr,
+                            headers: new Headers({ 'Content-Type': 'application/json' })
+                        }
+                    ).then((res) => res.json())
+                        .then((res) => {
+                            console.log(res);
+                        })
+                }
+            }
+          
+        }
+    }
+    /**
+     * 提交订单
+     */
+    toRent=()=>{
+        window.location.href="http://localhost:3000/#/tradeDetail"
+    }
+    //右上角点击分享
     dataList = [
         { url: 'share.png', title: '发送给朋友' },
         { url: 'weibo.png', title: '新浪微博' },
@@ -96,20 +155,6 @@ export default class Detail extends Component {
           this.setState({ clicked2: buttonIndex > -1 ? data[rowIndex][buttonIndex].title : 'cancel' });
         });
       }
-      phone=()=>{
-        const BUTTONS = ['12345678901','对方看不到你的真实号码'];
-        ActionSheet.showActionSheetWithOptions({
-          options: BUTTONS,
-          cancelButtonIndex: BUTTONS.length - 1,
-          destructiveButtonIndex: BUTTONS.length - 2,
-          maskClosable: true,
-          'data-seed': 'logId',
-          wrapProps,
-        },
-        (buttonIndex) => {
-          this.setState({ clicked: BUTTONS[buttonIndex] });
-        });
-      }
     render() {
         return (
             <div>
@@ -120,18 +165,23 @@ export default class Detail extends Component {
                     <div onClick={this.showShareActionSheetMulpitleLine} style={{fontSize:40,position:'absolute',color:'white',top:'4.5%',right:'4%'}} className='iconfont icon-shenglvehao'></div>
                 </div>
                 {/* 轮播图 */}
-                <div style={{marginTop:51}}>
-                    <Carousel autoplay={false} infinite>
+                <div style={{marginTop:51,height:200,overflow:'hidden'}}>
+                <Carousel
+                    autoplay={true}
+                    infinite={true}
+                >
                         {this.state.imgData.map(val => (
                             <a
                                 key={val}
-                                style={{ display: 'inline-block', width: '100%', height: 220 }}
+                                style={{ display: 'inline-block', width: '100%', height:this.state.imgheight }}
                             >
                                 <img
-                                    // src={'http://49.235.251.57:8000/api/house/' + `${val}`}
-                                    src={require('./images/'+`${val}`)}
+                                     src={'http://49.235.251.57:8000/api/housess/' + `${val}`}
                                     alt=""
-                                    style={{ width: '100%', verticalAlign: 'top' }}
+                                    style={{ width: '100%',height:this.state.imgheight, verticalAlign: 'top' }}
+                                    onLoad={() => {
+                                        window.dispatchEvent(new Event('resize'));
+                                    }}
                                 />
                             </a>
                         ))}
@@ -139,13 +189,13 @@ export default class Detail extends Component {
                 </div>
                 {/* 房屋信息 */}
                     {
-                        this.state.data.map((item)=>(
-                            <div>
+                        this.state.data.map((item,idx)=>(
+                            <div key={idx}>
                                 <WingBlank>
                                 <div style={{margin:"3% auto 0 auto" }}>
                                     <span style={{fontFamily:'黑体',fontSize:'17px',fontWeight:'bolder'}}>{item.type}</span>
                                     <span style={{padding:'0 4px',fontWeight:'bolder'}}>-</span>
-                                    <span style={{fontFamily:'黑体',fontSize:'17px',fontWeight:'bolder'}}>{item.address}</span>
+                                    <span style={{fontFamily:'黑体',fontSize:'17px',fontWeight:'bolder'}}>{item.apname}</span>
                                 </div>
                                 </WingBlank>
                                 <WingBlank>
@@ -235,9 +285,9 @@ export default class Detail extends Component {
                                                     <div style={{marginLeft:10,width:70}}>
                                                         <p style={{fontSize:18,fontWeight:'bolder',color:'#686767'}}>房主：</p>
                                                     </div>
-                                                    <div className='detail_div'>
+                                                    {/* <div className='detail_div'>
                                                         <img src={require('./images/detail_02.png')}/>
-                                                    </div>
+                                                    </div> */}
                                                     <div style={{ width: '70%', height: '80px',marginLeft:'15px',color:'#686767'}}>
                                                         <p style={{ fontSize: 18, height: '20px',marginTop:'23px',color:'#fff'}}>{item.realname}</p>
                                                         <p style={{ fontSize: 11, marginLeft: '2%', color: '#000',height: '20px',marginTop:'5px'}}>实名认证</p>
@@ -246,12 +296,12 @@ export default class Detail extends Component {
                                                 {/* 详细地址 */}
                                                 <div style={{width:'100%',color:'#686767'}}>
                                                     <p style={{fontSize:18,fontWeight:'bolder',margin:'0 10px 0 10px'}}>详细地址:</p>
-                                                    <p style={{fontSize:15,fontWeight:'bolder',margin:'7px 10px 0 10px'}}>河北省秦皇岛市碧水华庭4栋3单元501</p>
+                                                    <p style={{fontSize:15,fontWeight:'bolder',margin:'7px 10px 0 10px'}}>{item.address}</p>
                                                 </div>
                                                 {/* 房屋简介 */}
                                                 <div style={{width:'100%',marginTop:15,color:'#686767'}}>
                                                     <p style={{fontSize:18,fontWeight:'bolder',margin:'0 10px 10px 10px'}}>房源简介:</p>
-                                                    <p style={{fontSize:15,fontWeight:'bolder',margin:'0 10px 0 10px',lineHeight:1.4}}>优质好房优质好房优质好房优质好房优质好房优质好房优质好房优质好房优质好房优质好房</p>
+                                                    <p style={{fontSize:15,fontWeight:'bolder',margin:'0 10px 0 10px',lineHeight:1.4}}>{item.detail}</p>
                                                 </div>
                                             </div> 
                                         </div>
@@ -280,38 +330,43 @@ export default class Detail extends Component {
                                     </div>
                                 </WingBlank>
                                 <div style={{height:'65px'}}></div>
+                                <div style={{ width: '100%', height: "65px", position: 'fixed', bottom: 0, backgroundColor: '#f5f5f9' }}>
+                                    <Flex>
+                                        <div style={{ width: '16%', height: '65px', float: 'left', marginTop: '2%' }}>
+                                            <div id='shou' onClick={()=>this.changeColor(idx,item.homeid)} style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-zan1'></div>
+                                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
+                                                <p>收藏</p>
+                                            </div>
+                                        </div>
+                                        <div style={{ width: '16%', height: '65px', float: 'left', marginLeft: '2%', marginTop: '2%' }}>
+                                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 31, textAlign: 'center', color: 'gray' }} className='iconfont icon-rili'></div>
+                                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
+                                                <p>预约看房</p>
+                                            </div>
+                                        </div>
+                                        <div style={{ width: '33%', height: '65px', marginLeft: '2%' }}>
+                                            <Button onClick={() =>
+                                                        alert('拨打电话',item.phone, [
+                                                        { text: '取消', onPress: () => console.log('cancel') },
+                                                        { text: '确定', onPress: () => console.log('ok') },
+                                                        ])} style={{ width: '100%', height: "50px", background: "linear-gradient(to right,#ff9645, #fa9e57, #fcc193)",borderRadius:'3px', marginTop: '3%', border: 'none', color: '#ffffff',}}>
+                                            <p style={{ fontSize: 20, lineHeight: '30px' }}>电话房主</p>
+                                            <p style={{ fontSize: 10, lineHeight: '20px' }}>平台转接 防骚扰</p>
+                                            </Button>
+                                        </div>
+                                        <div style={{ width: '33%', height: '65px', marginLeft: '2%' }}>
+                                            <Link to={"/tradeDetail/" + item.homeid}><button  style={{ width: '100%', height: "50px", background: "linear-gradient(to right,#58e968, #6eeb7c,#a4e4ac)",borderRadius:'3px', marginTop: '3%', border: 'none', color: '#ffffff', fontSize: 20, lineHeight: '50px' }}>
+                                                <p style={{ fontSize: 20, lineHeight: '30px' }}>我要租房</p>
+                                                <p style={{ fontSize: 10, lineHeight: '20px' }}>直联房租 0中介</p>
+                                            </button></Link>
+                                        </div>
+                                    </Flex>
+                                </div>
                             </div>
                         ))
                     }
                 {/* 底部 */}
-                <div style={{ width: '100%', height: "65px", position: 'fixed', bottom: 0, backgroundColor: '#f5f5f9' }}>
-                    <Flex>
-                        <div style={{ width: '16%', height: '65px', float: 'left', marginTop: '2%' }}>
-                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-aixin'></div>
-                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
-                                <p>收藏</p>
-                            </div>
-                        </div>
-                        <div style={{ width: '16%', height: '65px', float: 'left', marginLeft: '2%', marginTop: '2%' }}>
-                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 31, textAlign: 'center', color: 'gray' }} className='iconfont icon-rili'></div>
-                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
-                                <p>预约看房</p>
-                            </div>
-                        </div>
-                        <div style={{ width: '33%', height: '65px', marginLeft: '2%' }}>
-                            <button onClick={()=>this.phone()} style={{ width: '100%', height: "50px", background: "linear-gradient(to right,#ff9645, #fa9e57, #fcc193)",borderRadius:'3px', marginTop: '3%', border: 'none', color: '#ffffff',}}>
-                               <p style={{ fontSize: 20, lineHeight: '30px' }}>电话房主</p>
-                               <p style={{ fontSize: 10, lineHeight: '20px' }}>平台转接 防骚扰</p>
-                            </button>
-                        </div>
-                        <div style={{ width: '33%', height: '65px', marginLeft: '2%' }}>
-                            <button style={{ width: '100%', height: "50px", background: "linear-gradient(to right,#58e968, #6eeb7c, #85e791)",borderRadius:'3px', marginTop: '3%', border: 'none', color: '#ffffff', fontSize: 20, lineHeight: '50px' }}>
-                                <p style={{ fontSize: 20, lineHeight: '30px' }}>我要下单</p>
-                                <p style={{ fontSize: 10, lineHeight: '20px' }}>平台转接 防骚扰</p>
-                            </button>
-                        </div>
-                    </Flex>
-                </div>
+              
             </div>
         )
     }

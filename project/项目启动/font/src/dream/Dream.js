@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { WhiteSpace, WingBlank } from 'antd-mobile';
 import './dream.css'
-
 var dreamUser = JSON.parse(localStorage.getItem('key')).userid === undefined ? 0 : JSON.parse(localStorage.getItem('key')).userid;
 export default class Dream extends Component {
     constructor() {
@@ -12,29 +11,33 @@ export default class Dream extends Component {
         }
     }
     componentDidMount() {
-        console.log(dreamUser);
         if (dreamUser !== 0) {
             var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
             var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
-            let url = `http://localhost:3001/api/getDream/` + dreamUserid;
-            fetch(url, {
-                method: 'GET',
-                headers: new Headers({ 'Content-Type': 'application/json' })
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    //console.log(res);
+            fetch('http://49.235.251.57:8000/api/getDream/'+ dreamUserid)
+            .then((res)=>res.json())
+            .then((res)=>{
+                for (var i = 0; i < res.length; i++) {
+                    var imagedata;
+                    if (res[i].homeimage.indexOf(',') >= 0) {
+                        imagedata = (res[i].homeimage).split(',');
+                    } else {
+                        imagedata = [];
+                        imagedata[0] = res[i].homeimage;
+                    }
+                    res[i].homeimage = imagedata[0];
                     this.setState({
                         dream: res
-                    })
-                })
+                    });
+                }
+            })
         }
-
+      
     }
     render() {
         return (
             <div style={{ width: '100%', height: '100%' }}>
-                <div style={{ display: 'flex', textAlign: 'center', backgroundColor: '#ff9645', lineHeight: 2 }}>
+                <div style={{ display: 'flex', textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', lineHeight: 2 }}>
                     <span style={{ margin: '0 auto', fontSize: 25, color: 'white' }}>
                         心愿单
                     </span>
@@ -45,7 +48,7 @@ export default class Dream extends Component {
                             <Link key={idx} to={"/detail/" + item.homeid}>
                                 <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
                                     <div style={{ float: 'left' }}>
-                                        <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                                        <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={'http://49.235.251.57:8000/api/housess/' + `${item.homeimage}`} alt='' />
                                     </div>
                                     <div style={{ float: 'left', width: '190px', height: '120px' }}>
                                         <div className='dream_p'>

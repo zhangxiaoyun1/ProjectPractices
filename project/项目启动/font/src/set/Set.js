@@ -9,17 +9,17 @@ export default class Set extends Component {
      */
     exitLogin=()=>{
         if(JSON.parse(localStorage.getItem('key'))===null){
-            window.location.href="http://localhost:3000/#/my"
+            window.location.href="http://localhost:3000/#/appTaber"
         }else{
             localStorage.setItem('key',JSON.stringify({"iname":'用户名',"realname":null}))
-            window.location.href="http://localhost:3000/#/my"
+            window.location.href="http://localhost:3000/#/appTaber"
         } 
     }
     render() {
         return (
             <div>
                 <div className='set_nav'>
-                    <Link to='/my'><div style={{ fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '30%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></div></Link>
+                    <Link to='/appTaber'><div style={{ fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '30%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></div></Link>
                     <h2 className='set_nav_h2'>设置</h2>
                 </div>
                 <WingBlank>

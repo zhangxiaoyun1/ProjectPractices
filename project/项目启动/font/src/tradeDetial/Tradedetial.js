@@ -1,21 +1,95 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
-import {WhiteSpace, WingBlank} from 'antd-mobile';
+import {Modal,ActionSheet,WhiteSpace, WingBlank, Button, Toast} from 'antd-mobile';
 import './tradeDetial.css'
+
+const alert=Modal.alert;
 export default class Tradedetial extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: '请输入您的租期'};
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            value: '请输入您的租期',
+            longtime:0,
+            tradeid:0,
+            data:[],
+        };
+        this.price=0;
     }
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    componentDidMount(){
+        var homeid = this.props.match.params.homeid;
+        let url=`http://localhost:3001/api/houses/`+homeid;
+        fetch(url,{
+            method:"GET", 
+            headers: new Headers({
+                'Content-Type': 'application/json'
+                })
+        })
+        .then((res)=>res.json())
+        .then((res)=>{
+            this.setState({
+                data:res.msg,                
+            })
+            this.price=(res.msg[0].price).slice(0,-2)
+        })
+        this.setState({
+            tradeid:(new Date()).valueOf()
+        })
     }
 
+    toTrade=()=>{
+        var userid=JSON.parse(localStorage.getItem('key').userid);
+        var rentername=document.getElementById('rentername').value;//租客姓名
+        var renterphone=document.getElementById('renterphone').value;//租客手机号
+        var checkin=document.getElementById('checkin').value;//入住时间
+        var longtime=document.getElementById('longtime').value;//租期
+        var price=document.getElementById('money').value;//租期
+        if(rentername!==''&&renterphone!==''&&checkin!==''&&longtime!==''&&price!==''){
+            let url=`http://localhost:3001/api/trade`;
+            let data={
+                userid:userid,
+                tradeid:this.state.tradeid,
+                rentername:rentername,
+                renterphone:renterphone,
+                checkin:checkin,
+                longtime:longtime,
+                price:price
+            }
+            //将对象转换为字符串传递
+            var send=JSON.stringify(data);
+            //发送post请求
+            fetch(url,{
+                method: 'POST', 
+                body: send, 
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                    })
+            })
+            .then((res)=>res.json())
+            .then((res)=>{
+                //接收响应信息，如果为true,则跳转登录页面
+                console.log(this.state.tradeid)
+                if(res.ok===true){
+                    window.location.href=`http://localhost:3000/#/pay/`+`${this.state.tradeid}`
+                    
+                }else{
+                    window.location.href="http://localhost:3000/#/loginin"
+                }
+            }).catch(function(err){
+                console.log(err);
+            })
+        }else{
+            alert("请把信息填写完整");
+        }
+    }
+    handleChange=(e)=>{
+        this.setState({
+            longtime:e.target.value
+        });
+    }
     render() {
         return (
             <div>
-                <div style={{display:'flex',textAlign:'center',backgroundColor:'#ff9645',lineHeight:2}}>
+                <div style={{display:'flex',textAlign:'center',background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2}}>
                     <Link to='/appTaber'>
                         <img src={require('./images/return.png')} style={{width:30,height:30,paddingTop:10}}/>
                     </Link>
@@ -23,56 +97,75 @@ export default class Tradedetial extends Component {
                         订单详情
                     </span>
                </div>
-               <hr/>
-               <WingBlank>             
-                   <div className='box1'>
-                        <div className='box2' >
-                            <img className='img1' src={require('./images/1.jpg')} />
-                        </div>
-                        <div className='box4'>
-                            <div className="address">北沙滩 南沙滩 天和人家 附近 中和家园 精装 次卧</div>
-                            <div className='span2'>南沙滩 | 北沙滩7号院</div>    
-                            <div className='message'>
-                                <div className='message1'>合租</div>
-                                <div className='message2'>精装修</div>
-                                <div className='message2'>近地铁</div>
-                            </div>
-                            <div className='box5'>
-                                <span className='price'>2600元/月</span>    
-                            </div>
-                        </div>
-                    </div>       
-               </WingBlank>
+               <hr/>        
+               <div>
+                    {
+                        this.state.data.map((item, idx) => (
+                                <WingBlank key={idx}>
+                                    <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
+                                            <div style={{width: '42%', height: '100px',  float: 'left' }}>
+                                                <img style={{ width: '100%', height: '100%', marginTop: '6%' }} src={`${require('./images/1.jpg')}`} alt='' />
+                                            </div>
+                                        <div style={{ float: 'left', width: '55%', height: '120px' }}>
+                                            <div className='home_p'>
+                                                <span>{item.city}</span>
+                                                <span style={{ padding: '0 3px' }}>|</span>
+                                                <span>{item.address}</span>
+                                            </div>
+                                            <div style={{ fontSize: '0.9em', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                                <span>{item.type}</span>
+                                                <span style={{ padding: '0 3px' }}>|</span>
+                                                <span>{item.hometype}</span>
+                                            </div>
+                                            <div style={{ fontSize: '0.8em', height: '20px', marginLeft: '2%', color: 'gray', marginTop: '3%' }}>
+                                                <p className="message3">朝向:{item.face}</p>
+                                                <p className="message4">楼层:{item.floor}</p>
+                                                <p className="message4">电梯:{item.lift}</p>
+                                            </div>
+
+                                            <div style={{ height: '30px', display: 'flex', margintTop: '10px' }}>
+                                                <span style={{ fontSize: '1.1em', color: 'red', marginLeft: '2%', marginTop: '5%', float: 'left' }}>{item.price}</span>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </WingBlank>
+                        ))
+                    }
+                </div>
                <hr/>
 
                <div style={{textAlign:'center'}}>
-                   <form action='/' method='POST'>
+                   <div>
                       <ul style={{marginTop:'10%',display:'inline-flex'}}>
                         <li className='trade_li1' > 姓 名 ： </li>
-                        <input name=''className='trade_input1' type='text' placeholder='请输入您的姓名' />
+                        <input id='rentername' name='' className='trade_input1' type='text' placeholder='请输入您的姓名'/>
                       </ul> 
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'> 手 机 号 ： </li>
-                        <input name='' type='text' placeholder='请输入您的手机号'className='trade_input1'/>
+                        <input id='renterphone' name='' type='text' placeholder='请输入您的手机号' className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'>入住时间：</li>
-                        <input name='' type='text' placeholder='请输入您的入住时间'className='trade_input1'/>
+                        <input id='checkin' name='' type='text' placeholder='请输入您的入住时间' className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'> 租 期 ： </li>
-                        <input name='' type='text' placeholder='请输入您的租期' className='trade_input1'/>
+                        <input id='longtime' onChange={this.handleChange} value={this.state.longtime} name='longtime' type='text' placeholder='请输入您的租期' className='trade_input1'/>
+                      </ul>
+                      <br/>
+                      <ul className='trade_ul1'>
+                        <li className='trade_li1'> 租  金： </li>
+                        <input id='money' name='' type='text' placeholder='' className='trade_input1' value={`${this.state.longtime}`*`${this.price}`}/>
                       </ul>
                       <br/>
                       <ul style={{marginTop:'20%'}}>
-                        <button type='submit' className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
+                        <button onClick={()=>this.toTrade()} className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
                       </ul>
-                      
-                   </form>
-                   
+                   </div>
                </div>
             </div>
         )

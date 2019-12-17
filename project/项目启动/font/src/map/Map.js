@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {WhiteSpace, WingBlank} from 'antd-mobile';
 import BMap  from 'BMap';
 import {TabBar,Flex} from 'antd-mobile'
+
 export default class Map extends Component {
     constructor(props){
         super(props);
@@ -16,7 +17,7 @@ export default class Map extends Component {
     componentDidMount(){
         var homeid = this.props.match.params.homeid;
         console.log(homeid);
-        let url=`http://localhost:3001/api/map/`+homeid;
+        let url=`http://49.235.251.57:8000/api/map/`+homeid;
         fetch(url,{
             method:"GET", 
             headers: new Headers({
@@ -55,10 +56,21 @@ export default class Map extends Component {
      * 展示附近公交站地图信息
      */
     toBus=()=>{
+        var bus=document.getElementById('bus');
+        var food=document.getElementById('food');
+        var shop=document.getElementById('shop');
+        var yinhang=document.getElementById('yinhang');
+        var yiyuan=document.getElementById('yiyuan');
+        bus.style.color='#ff9645';
+        food.style.color='gray';
+        shop.style.color='gray';
+        yiyuan.style.color='gray';
+        yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11);  
-        map.enableScrollWheelZoom(true);   //启用滚轮放大缩小，默认禁用
-        map.enableContinuousZoom();     
+        var myIcon = new BMap.Icon("/images/gongjiaoche.png", new BMap.Size(300,157));
+        var marker2 = new BMap.Marker({icon:myIcon});  // 创建标注
+        map.addOverlay(marker2);              // 将标注添加到地图中
         var local = new BMap.LocalSearch(map,   
                         { renderOptions:{map: map, autoViewport: true}});      
         local.searchNearby("公交",this.state.data[0].address);
@@ -67,6 +79,16 @@ export default class Map extends Component {
      * 展示附近餐饮地图信息
      */
     toFood=()=>{
+        var bus=document.getElementById('bus');
+        var food=document.getElementById('food');
+        var shop=document.getElementById('shop');
+        var yinhang=document.getElementById('yinhang');
+        var yiyuan=document.getElementById('yiyuan');
+        bus.style.color='gray';
+        food.style.color='#ff9645';
+        shop.style.color='gray';
+        yiyuan.style.color='gray';
+        yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11);      
         var local = new BMap.LocalSearch(map,   
@@ -77,16 +99,36 @@ export default class Map extends Component {
      * 展示附近购物地图信息
      */
     toShop=()=>{
+        var bus=document.getElementById('bus');
+        var food=document.getElementById('food');
+        var shop=document.getElementById('shop');
+        var yinhang=document.getElementById('yinhang');
+        var yiyuan=document.getElementById('yiyuan');
+        bus.style.color='gray';
+        food.style.color='gray';
+        shop.style.color='#ff9645';
+        yiyuan.style.color='gray';
+        yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11);      
         var local = new BMap.LocalSearch(map,   
                         { renderOptions:{map: map, autoViewport: true}});      
-        local.searchNearby("购物",this.state.data[0].address);
+        local.searchNearby("超市",this.state.data[0].address);
     }
     /**
      * 展示附近医院地图信息
      */
     toYiyuan=()=>{
+        var bus=document.getElementById('bus');
+        var food=document.getElementById('food');
+        var shop=document.getElementById('shop');
+        var yinhang=document.getElementById('yinhang');
+        var yiyuan=document.getElementById('yiyuan');
+        bus.style.color='gray';
+        food.style.color='gray';
+        shop.style.color='gray';
+        yiyuan.style.color='#ff9645';
+        yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11);      
         var local = new BMap.LocalSearch(map,   
@@ -97,8 +139,19 @@ export default class Map extends Component {
      * 展示附近银行地图信息
      */
     toBank=()=>{
+        var bus=document.getElementById('bus');
+        var food=document.getElementById('food');
+        var shop=document.getElementById('shop');
+        var yinhang=document.getElementById('yinhang');
+        var yiyuan=document.getElementById('yiyuan');
+        bus.style.color='gray';
+        food.style.color='gray';
+        shop.style.color='gray';
+        yiyuan.style.color='gray';
+        yinhang.style.color='#ff9645';
         var map = new BMap.Map("mapContainer");         
-        map.centerAndZoom(this.state.data[0].city, 11);      
+        map.centerAndZoom(this.state.data[0].city, 11); 
+             
         var local = new BMap.LocalSearch(map,   
                         { renderOptions:{map: map, autoViewport: true}});      
         local.searchNearby("银行",this.state.data[0].address);
@@ -106,7 +159,7 @@ export default class Map extends Component {
     render() {
         return (
             <div style={{height:'100%',width:'100%',}}>
-                <div style={{width:'100%',display:'flex',position:'fixed',top:0,zIndex:2,textAlign:'center',backgroundColor:'#ff9645',lineHeight:2}}>
+                <div style={{width:'100%',display:'flex',position:'fixed',top:0,zIndex:2,textAlign:'center',background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2}}>
                     <div onClick={()=>this.back()}>
                         <span className="iconfont icon-fanhui" style={{margin:'0 auto',fontSize:25,color:'white'}}></span>
                         <span style={{margin:'0 auto',fontSize:25,color:'white'}}>
@@ -118,32 +171,32 @@ export default class Map extends Component {
                <div style={{ width: '100%', height: "65px", position: 'fixed', bottom: 0, backgroundColor: '#f5f5f9' }}>
                     <Flex>
                         <div onClick={()=>this.toBus()} style={{ width: '20%', height: '65px', float: 'left', marginTop: '2%' }}>
-                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-jiaotong'></div>
-                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
+                            <div id='bus' style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-jiaotong'></div>
+                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' ,color: 'gray' }}>
                                 <p>公交</p>
                             </div>
                         </div>
                         <div onClick={()=>this.toFood()} style={{ width: '20%', height: '65px', float: 'left', marginLeft: '2%', marginTop: '2%' }}>
-                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 31, textAlign: 'center', color: 'gray' }} className='iconfont icon-canyin'></div>
-                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
+                            <div  id='food' style={{ width: '100%', height: '35px', float: 'left', fontSize: 31, textAlign: 'center', color: 'gray' }} className='iconfont icon-canyin'></div>
+                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' ,color: 'gray' }}>
                                 <p>餐饮</p>
                             </div>
                         </div>
                         <div onClick={()=>this.toShop()} style={{ width: '20%', height: '65px', float: 'left', marginTop: '2%' }}>
-                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-shangdian-'></div>
-                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
+                            <div id='shop' style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-shangdian-'></div>
+                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center',color: 'gray'  }}>
                                 <p>购物</p>
                             </div>
                         </div>
                         <div onClick={()=>this.toBank()} style={{ width: '20%', height: '65px', float: 'left', marginTop: '2%' }}>
-                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-fangzu'></div>
-                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
+                            <div id='yinhang' style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-fangzu'></div>
+                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center',color: 'gray'  }}>
                                 <p>银行</p>
                             </div>
                         </div>
                         <div onClick={()=>this.toYiyuan()} style={{ width: '20%', height: '65px', float: 'left', marginTop: '2%' }}>
-                            <div style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-yiyuan'></div>
-                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center' }}>
+                            <div id='yiyuan' style={{ width: '100%', height: '35px', float: 'left', fontSize: 34, textAlign: 'center', color: 'gray' }} className='iconfont icon-yiyuan'></div>
+                            <div style={{ width: '100%', height: '30px', float: 'left', textAlign: 'center',color: 'gray'  }}>
                                 <p>医院</p>
                             </div>
                         </div>

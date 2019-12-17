@@ -14,11 +14,14 @@ export default class Message extends Component {
     render() {
         return (
             <div style={{width:'100%'}}>
-                <div style={{display:'flex',textAlign:'center',backgroundColor:'#ff9645',lineHeight:2}}>
-                    <span style={{margin:'0 auto',fontSize:25,color:'white'}}>
+                  <div style={{ display: 'flex', textAlign: 'center',background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', lineHeight: 2 }}>
+                    <Link to='/appTaber'>
+                    <div style={{ fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '5%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></div>
+                    </Link>
+                    <span style={{ margin: '0 auto', fontSize: 25, color: 'white' }}>
                         消息
                     </span>
-               </div>
+                </div>
                <div>
                    <div className='message_div1'>
                         <div className='message_div2'>

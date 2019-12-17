@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
-import { WhiteSpace, Button, WingBlank} from 'antd-mobile';
+import { WhiteSpace} from 'antd-mobile';
 import  './realName.css'
 
 export default class Realname extends Component {
@@ -28,7 +28,7 @@ export default class Realname extends Component {
         //将对象转换为字符串传递
         var send=JSON.stringify(data);
         console.log(send)
-        fetch('http://localhost:3001/api/user/real',{
+        fetch('http://49.235.251.57:8000/api/user/real',{
             method: 'POST', 
             body: send, // data can be `string` or {object}!
             headers: new Headers({
@@ -38,9 +38,9 @@ export default class Realname extends Component {
         .then((res)=>res.json())
         .then((res)=>{
             //接收响应信息，如果为true,则跳转我的页面
-           console.log(res.msg)
            if(res.ok===true){
-               window.location.href="http://localhost:3000/#/my"
+                localStorage.setItem('key',JSON.stringify(res.msg))
+                window.location.href="http://localhost:3000/#/appTaber"
            }else{
             this.setState({
                 text:res.msg
@@ -54,7 +54,7 @@ export default class Realname extends Component {
     render() {
         return (
             <div style={{width:'100%',height:'100%'}}>
-                <div style={{display:'flex',backgroundColor:'crimson',lineHeight:2,color:'white'}}>
+                <div style={{display:'flex',background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2,color:'white'}}>
                     <div>
                         <Link to='/item'>
                             <img src={require('./images/return.png')} style={{width:30,height:30,paddingTop:10,marginLeft:10,}}/>

@@ -3,6 +3,7 @@ import Home from '../Home/Home'
 import Dream from '../dream/Dream'
 import Message from  '../message/Message'
 import My from '../my/My';
+import Life from '../life/Life';
 import {TabBar} from 'antd-mobile'
 
 
@@ -20,7 +21,7 @@ export default class AppTaber extends Component {
             <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0}}>
                 <TabBar
                     unselectedTintColor="#949494"
-                    tintColor="#ff9645"
+                    tintColor="#FC3453"
                     barTintColor="white"
                     tabBarPosition="bottom"
                     hidden={this.state.hidden}
@@ -28,8 +29,8 @@ export default class AppTaber extends Component {
                     <TabBar.Item
                         title="首页"
                         key="firstPage"
-                        icon={<i style={{fontSize:25}} className='iconfont icon-01'></i>}
-                        selectedIcon={<i style={{fontSize:25}} className='iconfont icon-01'></i>}
+                        icon={<i style={{fontSize:25}} className='iconfont icon-shouye'></i>}
+                        selectedIcon={<i style={{fontSize:25}} className='iconfont icon-shouye'></i>}
                         selected={this.state.selectedTab === 'blueTab'}
                         onPress={() => {
                             this.setState({
@@ -54,10 +55,10 @@ export default class AppTaber extends Component {
                         <Dream />
                     </TabBar.Item>
                     <TabBar.Item
-                        icon={<i style={{fontSize:25}} className='iconfont icon-xinfeng'></i>}
-                        selectedIcon={<i style={{fontSize:25}} className='iconfont icon-xinfeng'></i>}
-                        title="消息"
-                        key="Message"
+                        icon={<i style={{fontSize:25}} className='iconfont icon-huapen'></i>}
+                        selectedIcon={<i style={{fontSize:25}} className='iconfont icon-huapen'></i>}
+                        title="生活"
+                        key="life"
                         selected={this.state.selectedTab === 'greenTab'}
                         onPress={() => {
                             this.setState({
@@ -65,7 +66,7 @@ export default class AppTaber extends Component {
                             });
                         }}
                     >
-                        <Message />
+                        <Life />
                     </TabBar.Item>
                     <TabBar.Item
                         icon={<i style={{fontSize:25}} className='iconfont icon-wode'></i>}

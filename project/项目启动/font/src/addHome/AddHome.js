@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import './addhome.css'
 import {Link} from 'react-router-dom'
 
-import { ImagePicker, WingBlank, SegmentedControl } from 'antd-mobile';
+import {Modal, ImagePicker, WingBlank, SegmentedControl } from 'antd-mobile';
 
 const data = [];
-
+const alert=Modal.alert;
 class ImagePickerExample extends React.Component {
   state = {
     files: data,
@@ -17,7 +17,6 @@ class ImagePickerExample extends React.Component {
     this.setState({
       files,
     });
-    //this.upimg();
   }
   onSegChange = (e) => {
     const index = e.nativeEvent.selectedSegmentIndex;
@@ -26,22 +25,6 @@ class ImagePickerExample extends React.Component {
     });
    console.log(1);
   }
-//   upimg=()=>{
-//       var file={files:this.state.files};
-//       console.log(file);
-//       let url=`http://49.235.251.57:8000/api/house/upimg`;
-//         fetch(url,{
-//             method:"POST",
-//             body:file,
-//             headers: new Headers({
-//                 'Content-Type': 'application/json'
-//             })
-//         })
-//         .then((res)=>res.json())
-//         .then((res)=>{
-//             console.log(1);
-//         })
-//   }
   render() {
     const { files } = this.state;
     return (
@@ -95,47 +78,52 @@ export default class AddHome extends Component {
         var userid=JSON.parse(localStorage.getItem('key')).userid;
         var files=this.state.files;
         //传给后端的数据
-        if(owername!==''&&phone!==''&&price!==''&&city!==''&&address!==''&&type!==''&&hometype!==''&&
-        floor!==''&&face!==''&&lift!==''&&wifi!==''&&heating!==''&&conditioner!==''&&apname!==''&&detail!==''){
-            let data={
-                userid:userid,
-                realname:owername,
-                price:price,
-                phone:phone,
-                city:city,
-                address:address,
-                type:type,
-                hometype:hometype,
-                floor:floor,
-                face:face,
-                lift:lift,
-                wifi:wifi,
-                apname:apname,
-                heating:heating,
-                conditioner:conditioner,
-                files:files
-            }
-            //将对象转换为字符串传递
-            var send=JSON.stringify(data);
-            console.log(send)
-            //发送post请求
-            fetch('http://49.235.251.57:8000/api/house',{
-                method: 'POST', 
-                body: send,
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                    })
-            })
-            .then((res)=>res.json())
-            .then((res)=>{
-                //接收响应信息，如果为true,则跳转登录页面
-                if(res.ok===true){
-                    console.log(res.ok);
-                    //window.location.href="http://localhost:3000/#/appTaber"
+        if(owername===JSON.parse(localStorage.getItem('key')).realname){
+            if(owername!==''&&phone!==''&&price!==''&&city!==''&&address!==''&&type!==''&&hometype!==''&&
+            floor!==''&&face!==''&&lift!==''&&wifi!==''&&heating!==''&&conditioner!==''&&apname!==''&&detail!==''){
+                let data={
+                    userid:userid,
+                    realname:owername,
+                    price:price,
+                    phone:phone,
+                    city:city,
+                    address:address,
+                    type:type,
+                    hometype:hometype,
+                    floor:floor,
+                    face:face,
+                    lift:lift,
+                    wifi:wifi,
+                    apname:apname,
+                    heating:heating,
+                    conditioner:conditioner, 
+                    detail:detail,
+                    files:files,
+                   
                 }
-            }).catch(function(err){
-                console.log(err);
-            })
+                //将对象转换为字符串传递
+                var send=JSON.stringify(data);
+                console.log(send)
+                //发送post请求
+                fetch('http://49.235.251.57:8000/api/house',{
+                    method: 'POST', 
+                    body: send,
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                        })
+                })
+                .then((res)=>res.json())
+                .then((res)=>{
+                    //接收响应信息，如果为true,则跳转登录页面
+                    if(res.ok===true){
+                        alert('提交成功')
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                })
+            }
+        }else{
+            alert('信息与实名认证信息不符');
         }
     }
     render() {

@@ -22,7 +22,7 @@ export default class Rentwiki extends Component {
     render() {
         return (
             <div style={{ height: '100%', width: '100%', }}>
-                <div style={{ display: 'flex', textAlign: 'center', backgroundColor: '#ff9645', lineHeight: 2 }}>
+                <div style={{ display: 'flex', textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', lineHeight: 2 }}>
                     <Link to='/appTaber'>
                         <img src={require('./images/return.png')} style={{ width: 30, height: 30, paddingTop: 10 }} />
                     </Link>
@@ -36,10 +36,8 @@ export default class Rentwiki extends Component {
                 <WhiteSpace />
                 <WingBlank>
                     {
-                        
                         this.state.wikiDetail.map((item, idx) => {
-                            let path = '/aticleDetail/id='+idx;
-                            // console.log(idx)
+                            let path = '/aticleDetail/id='+item.rentid;
                             return (
                                 <Link key={idx} to={path}>
                                 <div  className='rent_line'>

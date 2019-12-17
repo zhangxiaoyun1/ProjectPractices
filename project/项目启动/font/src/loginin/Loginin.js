@@ -20,65 +20,131 @@ export default class Loginin extends Component {
     }
     addItem=()=>{
         // 页面输入的信息
-        this.state.warningname='';
-        this.state.warningpwd='';
-        this.state.warningpwd2='';
-        this.state.warningphone='';
-        var iname=document.getElementById('iname').value;//用户名
-        var password=document.getElementById('password').value;//密码
-        var password2=document.getElementById('password2').value;//确认密码
-        var phone=document.getElementById('phone').value;//手机号
-        var code=document.getElementById('code').value;
-        if(iname.length === 0){
-            this.setState({
-                warningname:'请输入用户名'
-            })
-        }else if(password === ''){
-            this.setState({
-                warningpwd:'请输入密码'
-            })
-        }else if(password !== password2){ 
-            this.setState({
-                warningpwd2:'两次密码不一致'
-            })
-        }else if(phone.length!==11){
-            this.setState({
-                warningphone:'手机号格式错误'
-            })
-        }else if(this.state.code!==code){
-            this.setState({
-                warningcode:'验证码错误'
-            })
-        }else{
-              //传给后端的数据
-            let data={
-                iname:iname,//用户名
-                password:password,//密码
-                phone:phone,//手机号
-            }
-            //将对象转换为字符串传递
-            var send=JSON.stringify(data);
-            console.log(send)
-            //发送post请求
-            fetch('http://localhost:3001/api/user/reg',{
-                method: 'POST', 
-                body: send, // data can be `string` or {object}!
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                    })
-            })
-            .then((res)=>res.json())
-            .then((res)=>{
-                //接收响应信息，如果为true,则跳转登录页面
-                if(res.ok===true){
-                    window.location.href="http://localhost:3000/#/login"
-                }else{
-                    window.location.href="http://localhost:3000/#/loginin"
+        if(JSON.parse(localStorage.getItem('key'))=== null){
+            this.state.warningname='';
+            this.state.warningpwd='';
+            this.state.warningpwd2='';
+            this.state.warningphone='';
+            var iname=document.getElementById('iname').value;//用户名
+            var password=document.getElementById('password').value;//密码
+            var password2=document.getElementById('password2').value;//确认密码
+            var phone=document.getElementById('phone').value;//手机号
+            var code=document.getElementById('code').value;
+            if(iname.length === 0){
+                this.setState({
+                    warningname:'请输入用户名'
+                })
+            }else if(password === ''){
+                this.setState({
+                    warningpwd:'请输入密码'
+                })
+            }else if(password !== password2){ 
+                this.setState({
+                    warningpwd2:'两次密码不一致'
+                })
+            }else if(phone.length!==11){
+                this.setState({
+                    warningphone:'手机号格式错误'
+                })
+            }else if(this.state.code!==code){
+                this.setState({
+                    warningcode:'验证码错误'
+                })
+            }else{
+                //传给后端的数据
+                let data={
+                    iname:iname,//用户名
+                    password:password,//密码
+                    phone:phone,//手机号
                 }
-            }).catch(function(err){
-                console.log(err);
-            })
+                //将对象转换为字符串传递
+                var send=JSON.stringify(data);
+                console.log(send)
+                //发送post请求
+                fetch('http://49.235.251.57:8000/api/user/reg',{
+                    method: 'POST', 
+                    body: send, // data can be `string` or {object}!
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                        })
+                })
+                .then((res)=>res.json())
+                .then((res)=>{
+                    //接收响应信息，如果为true,则跳转登录页面
+                    if(res.ok===true){
+                        window.location.href="http://localhost:3000/#/login"
+                    }else{
+                        window.location.href="http://localhost:3000/#/loginin"
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                })
+                }
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).iname !== '用户名'){
+                alert('请先退出登录')
+            }else{
+                this.state.warningname='';
+                this.state.warningpwd='';
+                this.state.warningpwd2='';
+                this.state.warningphone='';
+                var iname=document.getElementById('iname').value;//用户名
+                var password=document.getElementById('password').value;//密码
+                var password2=document.getElementById('password2').value;//确认密码
+                var phone=document.getElementById('phone').value;//手机号
+                var code=document.getElementById('code').value;
+                if(iname.length === 0){
+                    this.setState({
+                        warningname:'请输入用户名'
+                    })
+                }else if(password === ''){
+                    this.setState({
+                        warningpwd:'请输入密码'
+                    })
+                }else if(password !== password2){ 
+                    this.setState({
+                        warningpwd2:'两次密码不一致'
+                    })
+                }else if(phone.length!==11){
+                    this.setState({
+                        warningphone:'手机号格式错误'
+                    })
+                }else if(this.state.code!==code){
+                    this.setState({
+                        warningcode:'验证码错误'
+                    })
+                }else{
+                    //传给后端的数据
+                    let data={
+                        iname:iname,//用户名
+                        password:password,//密码
+                        phone:phone,//手机号
+                    }
+                    //将对象转换为字符串传递
+                    var send=JSON.stringify(data);
+                    //发送post请求
+                    fetch('http://49.235.251.57:8000/api/user/reg',{
+                        method: 'POST', 
+                        body: send, // data can be `string` or {object}!
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                            })
+                    })
+                    .then((res)=>res.json())
+                    .then((res)=>{
+                        //接收响应信息，如果为true,则跳转登录页面
+                        if(res.ok===true){
+                            window.location.href="http://localhost:3000/#/login"
+                        }else{
+                            window.location.href="http://localhost:3000/#/loginin"
+                        }
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+                    }
             }
+        }
+        
     }
     //获取验证码
     code=()=>{
@@ -111,8 +177,8 @@ export default class Loginin extends Component {
         return (
             
             <div style={{height:'100%',width:'100%',}}>
-                <div style={{display:'flex',textAlign:'center',backgroundColor:'#ff9645',lineHeight:2}}>
-                    <Link >
+                <div style={{display:'flex',textAlign:'center',background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2}}>
+                    <Link to='/appTaber'>
                         <img src={require('./images/return.png')} style={{width:30,height:30,paddingTop:10}}/>
                     </Link>
                     <span style={{margin:'0 auto',fontSize:25,color:'white'}}>

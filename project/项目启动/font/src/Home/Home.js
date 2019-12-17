@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import 'antd-mobile/dist/antd-mobile.css';
 import './home.css'
-import { SearchBar, Carousel, Flex, WingBlank, Modal } from 'antd-mobile';
+import { SearchBar, NavBar, Icon, Carousel, Flex, WingBlank, Modal } from 'antd-mobile';
 import { Link } from 'react-router-dom'
 
 
@@ -13,12 +13,12 @@ const PlaceHolder = ({ className = '', ...restProps }) => (
 );
 const PlaceHolder1 = ({ className = '', ...restProps }) => (
     <div className={`${className} placeholder1`} {...restProps}>
-        出租
+        我要发布
     </div>
 );
 const PlaceHolder2 = ({ className = '', ...restProps }) => (
     <div className={`${className} placeholder1`} {...restProps}>
-        租房
+        帮我找房
     </div>
 );
 const PlaceHolder3 = ({ className = '', ...restProps }) => (
@@ -28,14 +28,13 @@ const PlaceHolder3 = ({ className = '', ...restProps }) => (
 );
 const PlaceHolder4 = ({ className = '', ...restProps }) => (
     <div className={`${className} placeholder1`} {...restProps}>
-        交易服务
+        地图找房
     </div>
 );
 
 
 var dreamUser = JSON.parse(localStorage.getItem('key')).userid === undefined ? 0 : JSON.parse(localStorage.getItem('key')).userid;
 const alert = Modal.alert;
-//console.log(dreamUser);
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -53,21 +52,28 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-        //console.log(dreamUser);
         if (dreamUser === 0) {
-            // console.log("11111");
-            fetch('http://localhost:3001/api/house')
+            fetch('http://49.235.251.57:8000/api/house')
                 .then((res) => res.json())
                 .then((res) => {
-                    this.setState({
-                        data0: res.msg
-                    });
-                })
+                    for (var i = 0; i < res.msg.length; i++) {
+                        var imagedata;
+                        if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg[i].homeimage).split(',');
+                        } else {
+                            imagedata = [];
+                            imagedata[0] = res.msg[i].homeimage;
+                        }
+                        res.msg[i].homeimage = imagedata[0];
+                        this.setState({
+                            data0: res.msg
+                        });
+                    }
+            })
         } else {
-            // console.log("222222");
             var userName = JSON.parse(localStorage.getItem('key')).userid;
             var jsonUserName = JSON.stringify({ userName: userName });
-            let url = `http://localhost:3001/api/house/` + jsonUserName;
+            let url = `http://49.235.251.57:8000/api/house/` + jsonUserName;
             fetch(url,
                 {
                     method: 'GET',
@@ -75,6 +81,16 @@ export default class Home extends Component {
                 })
                 .then((res) => res.json())
                 .then((res) => {
+                    for(var i =0;i<res.msg0.length;++i){
+                        var imagedata;
+                    if (res.msg0[i].homeimage.indexOf(',') >= 0) {
+                        imagedata = (res.msg0[i].homeimage).split(',');
+                    } else {
+                        imagedata = [];
+                        imagedata[0] = res.msg0[i].homeimage;
+                    }
+                    res.msg0[i].homeimage=imagedata[0];
+                    }
                     this.setState({
                         data0: res.msg0,
                         data1: res.msg1,
@@ -84,7 +100,7 @@ export default class Home extends Component {
                 )
         }
         //地理位置
-        fetch("http://localhost:3001/api/getLocation")
+        fetch("http://49.235.251.57:8000/api/getLocation")
             .then(res => res.json())
             .then((res) => {
                 this.setState({
@@ -92,9 +108,31 @@ export default class Home extends Component {
                 })
             })
     }
+
+
+    /**
+     * 跳转地图找房
+     */
+    home_login=()=>{
+        if(JSON.parse(localStorage.getItem('key'))===null){
+            alert("请先登录");
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).iname==='用户名'){
+                alert("请先登录");
+            }else{
+                  if(JSON.parse(localStorage.getItem('key')).realname===null){
+                        alert('请进行实名认证');
+                    }else{
+                        window.location.href= "http://localhost:3000/#/addhome"
+                    }
+            }
+          
+        }
+    }
     //添加删除增加心愿单
     changeDream(idx, homeid, dreamUser) {
         var dreamUser = dreamUser;
+        console.log(dreamUser)
         if (dreamUser === 0) {
             alert("请先进行登录")
         } else {
@@ -105,7 +143,7 @@ export default class Home extends Component {
             if (loveList.style.color === 'rgb(221, 221, 221)') {
                 loveList.style.color = 'red';
                 var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser })
-                fetch("http://localhost:3001/api/addDream",
+                fetch("http://49.235.251.57:8000/api/addDream",
                     {
                         method: 'POST',
                         body: addStr,
@@ -118,7 +156,7 @@ export default class Home extends Component {
             else {
                 loveList.style.color = 'rgb(221, 221, 221)';
                 var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser });
-                fetch("http://localhost:3001/api/deleteDream",
+                fetch("http://49.235.251.57:8000/api/deleteDream",
                     {
                         method: 'POST',
                         body: addStr,
@@ -140,7 +178,7 @@ export default class Home extends Component {
                 value: e.target.value
             }, () => {
                 var homeSerach = JSON.stringify({ apartment: this.state.value });
-                let url = `http://localhost:3001/api/homeSearch/` + homeSerach
+                let url = `http://49.235.251.57:8000/api/homeSearch/` + homeSerach
                 fetch(url, {
                     method: 'GET',
                     headers: new Headers({ 'Content-Type': 'application/json' })
@@ -161,7 +199,7 @@ export default class Home extends Component {
             city: e.target.value
         }, () => {
             var cityJson = JSON.stringify({ city: this.state.city });
-            var url = `http://localhost:3001/api/citySearch/` + cityJson;
+            var url = `http://49.235.251.57:8000/api/citySearch/` + cityJson;
             fetch(url, {
                 method: 'GET',
                 headers: new Headers({ 'Content-Type': 'application/json' })
@@ -181,18 +219,21 @@ export default class Home extends Component {
                 {/* 表头搜索定位 */}
                 <div id='home_flow'>
                     <div className='home_nav'>
-                        <span id="home_icon" className='iconfont icon-diliweizhi'></span>
-                        <div>
+                        <span style={{float:"left"}} id="home_icon" className='iconfont icon-diliweizhi'></span>
+                        <div style={{float:"left"}}>
                             <select className='home_select' onChange={(e) => this.changCity(e)}>
                                 <option>{this.state.location.city}</option>
                                 <option>北京市</option>
                                 <option>天津市</option>
                                 <option>秦皇岛</option>
                             </select>
+                            {/* <Link to='/citylist'><p style={{width:60,lineHeight:'50px',textAlign:'center',fontSize:'17px',color:'#fff'}}>{this.state.location.city}</p></Link> */}
                         </div>
-                        <div>
-                            {/* <SearchBar placeholder="搜索" maxLength={8} style={{ backgroundColor: '#ff9645' }} /> */}
+                        <div style={{width:'60%',float:"left"}}>
                             <input onKeyDown={(e) => this.homeSearch(e)} name='homeSearch' className='home_input' type='text' placeholder='搜索当地房屋' />
+                        </div>
+                        <div  style={{float:'right',lineHeight:'50px',textAlign:'center'}}>
+                           <Link to='/message'><span className='iconfont icon-news' style={{color:'#fff',fontSize:'26px'}}></span></Link> 
                         </div>
                     </div>
                 </div>
@@ -224,10 +265,10 @@ export default class Home extends Component {
                     <div className='home_list'>
                         <WingBlank>
                             <Flex>
-                                <Flex.Item><Link to='/addhome'><PlaceHolder onClick={this.home_login} style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#51CEFF', backgroundSize: '62px 62px' }} /></Link></Flex.Item>
+                                <Flex.Item><PlaceHolder onClick={()=>this.home_login()} style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#51CEFF', backgroundSize: '62px 62px' }} /></Flex.Item>
                                 <Flex.Item><Link to='/rentHome'><PlaceHolder style={{ background: `url(${require('./images/home_06.png')}) no-repeat`, backgroundColor: '#D061DE', backgroundSize: '55px 55px', backgroundPosition: 'center' }} /></Link></Flex.Item>
                                 <Flex.Item><Link to='/rentWiki'><PlaceHolder style={{ background: `url(${require('./images/home_07.png')}) no-repeat`, backgroundColor: '#57DE92', backgroundSize: '50px 50px', backgroundPosition: 'center' }} /></Link></Flex.Item>
-                                <Flex.Item><Link to='/tradeDetail'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#FDA42F', backgroundSize: '62px 62px' }} /></Link></Flex.Item>
+                                <Flex.Item><Link to='/mapp'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#FDA42F', backgroundSize: '62px 62px' }} /></Link></Flex.Item>
                             </Flex>
                             <Flex>
                                 <Flex.Item><PlaceHolder1 /></Flex.Item>
@@ -252,7 +293,7 @@ export default class Home extends Component {
                                 <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
                                     <Link key={idx} to={"/detail/" + item.homeid}>
                                         <div style={{ float: 'left' }}>
-                                            <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={`${require('./images/home_08.jpg')}`} alt='' />
+                                            <img style={{ width: '150px', height: '100px', marginTop: '6%' }} src={'http://49.235.251.57:8000/api/housess/' + `${item.homeimage}`} alt='' />
                                         </div>
                                     </Link>
                                     <div style={{ float: 'left', width: '190px', height: '120px' }}>
@@ -277,8 +318,8 @@ export default class Home extends Component {
                                             {
 
                                                 idx < this.state.data2.length && this.state.data2.length !== 0 && dreamUser === this.state.data2[idx].userid && this.state.data2[idx].dreamflag === true ?
-                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: 'red', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-aixin1'></span>
-                                                    : <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-aixin1'></span>
+                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: 'red', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-zan1'></span>
+                                                    : <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-zan1'></span>
                                             }
                                         </div>
                                     </div>

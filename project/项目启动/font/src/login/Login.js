@@ -20,7 +20,7 @@ export default class Login extends Component {
         };
         //将传输的对象转换为字符串传输
         let send=JSON.stringify(data);
-        let url=`http://localhost:3001/api/user/login`;
+        let url=`http://49.235.251.57:8000/api/user/login`;
         fetch(url,{
             method:"POST",
             body:send,
@@ -30,7 +30,6 @@ export default class Login extends Component {
         })
         .then((res)=>res.json())
         .then((res)=>{
-            console.log(res.msg);
             if(res.ok===true){
                 localStorage.setItem('key',JSON.stringify(res.msg))
                 window.location.href="http://localhost:3000/#/appTaber"
@@ -57,7 +56,7 @@ export default class Login extends Component {
         return (
             <div style={{height:'100%',width:'100%',position:'fixed'}}>
                 {/* 头 */}
-                <div style={{display:'flex',textAlign:'center',background:'#ff9645',lineHeight:2}}>
+                <div style={{display:'flex',textAlign:'center',background:'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2}}>
                         <Link to='/appTaber'>
                             <img src={require('./images/return.png')} style={{width:30,height:30,paddingTop:10}}/>
                         </Link>
