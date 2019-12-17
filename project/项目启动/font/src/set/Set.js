@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import './set.css'
-import { WingBlank, Flex } from 'antd-mobile';
+import { WingBlank, Flex,Modal } from 'antd-mobile';
 import {Link} from 'react-router-dom'
 
+const alert = Modal.alert;
 export default class Set extends Component {
     /**
      * 退出登录
@@ -11,8 +12,9 @@ export default class Set extends Component {
         if(JSON.parse(localStorage.getItem('key'))===null){
             window.location.href="http://localhost:3000/#/appTaber"
         }else{
+            alert("退出成功!")
             localStorage.setItem('key',JSON.stringify({"iname":'用户名',"realname":null}))
-            window.location.href="http://localhost:3000/#/appTaber"
+            //window.location.href="http://localhost:3000/#/appTaber"
         } 
     }
     render() {
