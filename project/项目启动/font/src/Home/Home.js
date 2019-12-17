@@ -316,13 +316,13 @@ export default class Home extends Component {
                                             <p className="message4">电梯:{item.lift}</p>
                                         </div>
 
-                                        <div style={{ height: '30px', display: 'flex', margintTop: '10px' }}>
-                                            <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%', float: 'left' }}>{item.price}</span>
+                                        <div style={{ height: '30px', display: 'flex', margintTop: '10px',position:'relative' }}>
+                                            <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%'}}>{item.price}</span>
                                             {
 
                                                 idx < this.state.data2.length && this.state.data2.length !== 0 && dreamUser === this.state.data2[idx].userid && this.state.data2[idx].dreamflag === true ?
-                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: 'red', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-zan1'></span>
-                                                    : <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: '#ddd', marginLeft: '45%', marginTop: '2%' }} className='iconfont icon-zan1'></span>
+                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: 'red',position:'absolute',top:'2%',left:'78%' }} className='iconfont icon-zan1'></span>
+                                                    : <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: '#ddd',position:'absolute',top:'2%',left:'78%' }} className='iconfont icon-zan1'></span>
                                             }
                                         </div>
                                     </div>
