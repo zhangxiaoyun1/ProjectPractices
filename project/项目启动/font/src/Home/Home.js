@@ -39,7 +39,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            imgData: ['home_11.jpg', 'home_12.jpg', 'home_13.jpg'],
+            imgData: ['home_01.jpg', 'home_02.jpg', 'home_03.jpg'],
             selectedTab: 'blueTab',
             data0: [],
             data1: [],
@@ -73,7 +73,7 @@ export default class Home extends Component {
         } else {
             var userName = JSON.parse(localStorage.getItem('key')).userid;
             var jsonUserName = JSON.stringify({ userName: userName });
-            let url = `http://49.235.251.57:8000/api/house/` + jsonUserName;
+            let url = `http://49.235.251.57:8000/api/house/` + userName;
             fetch(url,
                 {
                     method: 'GET',
@@ -223,12 +223,9 @@ export default class Home extends Component {
                         <div style={{float:"left"}}>
                             <select className='home_select' onChange={(e) => this.changCity(e)}>
                                 <option>{this.state.location.city}</option>
-                                <option>北京</option>
-                                <option>天津</option>
+                                <option>北京市</option>
+                                <option>天津市</option>
                                 <option>秦皇岛</option>
-                                <option>张家口</option>
-                                <option>保定</option>
-                                <option>邯郸</option>
                             </select>
                             {/* <Link to='/citylist'><p style={{width:60,lineHeight:'50px',textAlign:'center',fontSize:'17px',color:'#fff'}}>{this.state.location.city}</p></Link> */}
                         </div>
@@ -268,9 +265,9 @@ export default class Home extends Component {
                     <div className='home_list'>
                         <WingBlank>
                             <Flex>
-                                <Flex.Item><PlaceHolder onClick={()=>this.home_login()} style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#F47B87', backgroundSize: '62px 62px' }} /></Flex.Item>
-                                <Flex.Item><Link to='/rentHome'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#D061DE', backgroundSize: '62px 62px', backgroundPosition: 'center' }} /></Link></Flex.Item>
-                                <Flex.Item><Link to='/rentWiki'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#57DE92', backgroundSize: '62px 62px', backgroundPosition: 'center' }} /></Link></Flex.Item>
+                                <Flex.Item><PlaceHolder onClick={()=>this.home_login()} style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#51CEFF', backgroundSize: '62px 62px' }} /></Flex.Item>
+                                <Flex.Item><Link to='/rentHome'><PlaceHolder style={{ background: `url(${require('./images/home_06.png')}) no-repeat`, backgroundColor: '#D061DE', backgroundSize: '55px 55px', backgroundPosition: 'center' }} /></Link></Flex.Item>
+                                <Flex.Item><Link to='/rentWiki'><PlaceHolder style={{ background: `url(${require('./images/home_07.png')}) no-repeat`, backgroundColor: '#57DE92', backgroundSize: '50px 50px', backgroundPosition: 'center' }} /></Link></Flex.Item>
                                 <Flex.Item><Link to='/mapp'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#FDA42F', backgroundSize: '62px 62px' }} /></Link></Flex.Item>
                             </Flex>
                             <Flex>

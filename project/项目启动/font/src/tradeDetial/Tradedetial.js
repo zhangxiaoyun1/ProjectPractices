@@ -9,15 +9,16 @@ export default class Tradedetial extends Component {
         super(props);
         this.state = {
             value: '请输入您的租期',
-            longtime:0,
+            longtime:1,
             tradeid:0,
             data:[],
+            price:0
         };
         this.price=0;
     }
     componentDidMount(){
         var homeid = this.props.match.params.homeid;
-        let url=`http://localhost:3001/api/houses/`+homeid;
+        let url=`http://49.235.251.57:8000/api/houses/`+homeid;
         fetch(url,{
             method:"GET", 
             headers: new Headers({
@@ -26,10 +27,19 @@ export default class Tradedetial extends Component {
         })
         .then((res)=>res.json())
         .then((res)=>{
+            var imagedata;
+            if (res.msg[0].homeimage.indexOf(',') >= 0) {
+                imagedata = (res.msg[0].homeimage).split(',');
+            } else {
+                imagedata = [];
+                imagedata[0] = res.msg[0].homeimage;
+            }
+            res.msg[0].homeimage=imagedata[0];
             this.setState({
-                data:res.msg,                
+                data:res.msg,
+                price: (res.msg[0].price).slice(0,-2)            
             })
-            this.price=(res.msg[0].price).slice(0,-2)
+            this.price=(res.msg[0].price).slice(0,-2)  
         })
         this.setState({
             tradeid:(new Date()).valueOf()
@@ -37,14 +47,14 @@ export default class Tradedetial extends Component {
     }
 
     toTrade=()=>{
-        var userid=JSON.parse(localStorage.getItem('key').userid);
+        var userid=JSON.parse(localStorage.getItem('key')).userid;
         var rentername=document.getElementById('rentername').value;//租客姓名
         var renterphone=document.getElementById('renterphone').value;//租客手机号
         var checkin=document.getElementById('checkin').value;//入住时间
         var longtime=document.getElementById('longtime').value;//租期
         var price=document.getElementById('money').value;//租期
         if(rentername!==''&&renterphone!==''&&checkin!==''&&longtime!==''&&price!==''){
-            let url=`http://localhost:3001/api/trade`;
+            let url=`http://49.235.251.57:8000/api/trade`;
             let data={
                 userid:userid,
                 tradeid:this.state.tradeid,
@@ -83,7 +93,8 @@ export default class Tradedetial extends Component {
     }
     handleChange=(e)=>{
         this.setState({
-            longtime:e.target.value
+            longtime:e.target.value,
+            price:e.target.value * this.price
         });
     }
     render() {
@@ -104,7 +115,7 @@ export default class Tradedetial extends Component {
                                 <WingBlank key={idx}>
                                     <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
                                             <div style={{width: '42%', height: '100px',  float: 'left' }}>
-                                                <img style={{ width: '100%', height: '100%', marginTop: '6%' }} src={`${require('./images/1.jpg')}`} alt='' />
+                                                <img style={{ width: '100%', height: '100%', marginTop: '6%' }} src={'http://49.235.251.57:8000/api/housess/' + `${item.homeimage}`} alt='' />
                                             </div>
                                         <div style={{ float: 'left', width: '55%', height: '120px' }}>
                                             <div className='home_p'>
@@ -149,21 +160,23 @@ export default class Tradedetial extends Component {
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'>入住时间：</li>
-                        <input id='checkin' name='' type='text' placeholder='请输入您的入住时间' className='trade_input1'/>
+                        <input id='checkin' name='' type='text' placeholder='2010-01-01' className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
-                        <li className='trade_li1'> 租 期 ： </li>
-                        <input id='longtime' onChange={this.handleChange} value={this.state.longtime} name='longtime' type='text' placeholder='请输入您的租期' className='trade_input1'/>
+                        <li className='trade_li1' style={{marginLeft:'5%'}}> 租 期 ： </li>
+                        <input style={{width:'40%'}} id='longtime' onChange={this.handleChange} value={this.state.longtime} name='longtime' type='text' placeholder='请输入您的租期' className='trade_input1'/>
+                        <span style={{fontSize:'24px'}}>个月</span>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'> 租  金： </li>
-                        <input id='money' name='' type='text' placeholder='' className='trade_input1' value={`${this.state.longtime}`*`${this.price}`}/>
+                        <input style={{width:'50%'}} id='money' name='' type='text' className='trade_input1' value={this.state.price} onChange={this.handleChange}/>
+                        <span style={{fontSize:'24px'}}>元</span>
                       </ul>
                       <br/>
                       <ul style={{marginTop:'20%'}}>
-                        <button onClick={()=>this.toTrade()} className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
+                        <button onClick={this.toTrade} className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
                       </ul>
                    </div>
                </div>
