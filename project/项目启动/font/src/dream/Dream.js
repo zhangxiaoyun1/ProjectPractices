@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { WhiteSpace, WingBlank } from 'antd-mobile';
 import './dream.css'
 
+var dreamUser = JSON.parse(localStorage.getItem('key')).userid === undefined ? 0 : JSON.parse(localStorage.getItem('key')).userid;
 export default class Dream extends Component {
     constructor() {
         super();
@@ -11,61 +12,25 @@ export default class Dream extends Component {
         }
     }
     componentDidMount() {
-        if(JSON.parse(localStorage.getItem('key'))===null){
-            fetch('http://localhost:3001/api/house')
-            .then((res)=>res.json())
-            .then((res)=>{
-                this.setState({
-                    data0:res.msg
-                });
+        console.log(dreamUser);
+        if (dreamUser !== 0) {
+            var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
+            var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
+            let url = `http://localhost:3001/api/getDream/` + dreamUserid;
+            fetch(url, {
+                method: 'GET',
+                headers: new Headers({ 'Content-Type': 'application/json' })
             })
-        }else{
-            if(JSON.parse(localStorage.getItem('key')).userid===undefined){
-                fetch('http://localhost:3001/api/house')
-                .then((res)=>res.json())
-                .then((res)=>{
+                .then((res) => res.json())
+                .then((res) => {
+                    //console.log(res);
                     this.setState({
-                        data0:res.msg
-                    });
-                })
-            }else{
-                var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
-                var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
-                let url = `http://localhost:3001/api/getDream/` + dreamUserid;
-                fetch(url, {
-                    method: 'GET',
-                    headers: new Headers({ 'Content-Type': 'application/json' })
-                })
-                    .then((res) => res.json())
-                    .then((res) => {
-                        //console.log(res);
-                        this.setState({
-                            dream: res
-                        })
+                        dream: res
                     })
-            }
-           
-    
+                })
         }
-      
+
     }
-    // componentDidUpdate(prevProps,prevState) {
-    //     if(JSON.stringify(prevState.dream) !== JSON.stringify(this.state.dream)){
-    //         var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
-    //         var dreamUserid = JSON.stringify({ dreamMessage: dreamMessage });
-    //         let url = `http://localhost:3001/api/getDream/` + dreamUserid;
-    //         fetch(url, { 
-    //             method: 'GET',
-    //             headers: new Headers({ 'Content-Type': 'application/json' })
-    //         })
-    //             .then((res) => res.json())
-    //             .then((res) => {
-    //                 this.setState({
-    //                     dream: res
-    //                 })
-    //             })
-    //     }
-    // }
     render() {
         return (
             <div style={{ width: '100%', height: '100%' }}>
