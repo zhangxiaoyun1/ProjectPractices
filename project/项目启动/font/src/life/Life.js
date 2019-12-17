@@ -9,14 +9,14 @@ export default class Life extends Component {
             <div >
                 <div style={{display:'flex',textAlign:'center',background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2}}>
                     <Link to='/appTaber'>
-                        <img src={require('./images/return.png')} style={{width:30,height:30,paddingTop:10}}/>
+                        <img src={require('./images/return.png')} style={{width:"30px",height:"30px",marginTop:"30%"}}/>
                     </Link>
                     <span style={{margin:'0 auto',fontSize:25,color:'white'}}>
                         生活服务
                     </span>
                </div>
                <div style={{display:'flex'}}>
-                   <img src={require('./images/lifehead.jpg')} style={{width:'100%'}}/>
+                   <img src={require('./images/lifehead.jpg')} style={{width:'100%',height:'60%'}}/>
                </div>
                <div>
                     <ul>
