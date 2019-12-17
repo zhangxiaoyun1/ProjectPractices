@@ -34,24 +34,27 @@
     margin-right: 5%;
   }
   .loginn{
-    width:70%;
-    height:35px;
-    margin: 0 auto;
-    text-align: center;
+    width:100%;
+    height:50px;
+    margin-top: 10%;
   }
   .loginn button{
     width:50%;
-    height:35px;
+    height:50px;
     background: linear-gradient(to right,#FE8084, #FE8E90, #FE9695);
     border:none;
     border-radius: 17px;
     color:#fff;
+    font-size: 22px;
+    margin-left: 24%;
   }
   /* 协议 */
   .deal{
     height: 15px;
-    width: 70%;
-    margin:5% auto 0 auto;
+    width: 100%;
+    /* margin:5% auto 0 auto; */
+    margin-left: 16%;
+    margin-top: 2%;
   }
   /* 第三方登录 */
   .login_third{
