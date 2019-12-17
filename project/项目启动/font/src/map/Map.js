@@ -67,13 +67,22 @@ export default class Map extends Component {
         yiyuan.style.color='gray';
         yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
-        map.centerAndZoom(this.state.data[0].city, 11);  
-        var myIcon = new BMap.Icon("/images/gongjiaoche.png", new BMap.Size(300,157));
-        var marker2 = new BMap.Marker({icon:myIcon});  // 创建标注
-        map.addOverlay(marker2);              // 将标注添加到地图中
-        var local = new BMap.LocalSearch(map,   
-                        { renderOptions:{map: map, autoViewport: true}});      
-        local.searchNearby("公交",this.state.data[0].address);
+        map.centerAndZoom(this.state.data[0].city, 12,1000);  
+        
+        // 创建地址解析器实例     
+        var myGeo = new BMap.Geocoder();      
+        // 将地址解析结果显示在地图上，并调整地图视野    
+        myGeo.getPoint(this.state.data[0].address, function(point){      
+                if (point) {  
+                    map.centerAndZoom(point, 18);  
+                    var local = new BMap.LocalSearch(map,   
+                                    { renderOptions:{map: map, autoViewport: true}});      
+                    local.searchNearby("公交",point,1000);
+                    // var marker = new BMap.Marker(point); // 创建标注   
+                    // map.addOverlay(marker); // 将标注添加到地图中
+                }      
+            }, this.state.data[0].city);
+
     }
     /**
      * 展示附近餐饮地图信息
@@ -91,9 +100,19 @@ export default class Map extends Component {
         yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11);      
-        var local = new BMap.LocalSearch(map,   
-                        { renderOptions:{map: map, autoViewport: true}});      
-        local.searchNearby("餐饮",this.state.data[0].address);
+        // 创建地址解析器实例     
+        var myGeo = new BMap.Geocoder();      
+        // 将地址解析结果显示在地图上，并调整地图视野    
+        myGeo.getPoint(this.state.data[0].address, function(point){      
+                if (point) {  
+                    map.centerAndZoom(point, 18);  
+                    var local = new BMap.LocalSearch(map,   
+                                    { renderOptions:{map: map, autoViewport: true}});      
+                    local.searchNearby("餐饮",point,1000);
+                    // var marker = new BMap.Marker(point); // 创建标注   
+                    // map.addOverlay(marker); // 将标注添加到地图中
+                }      
+            }, this.state.data[0].city);
     }
     /**
      * 展示附近购物地图信息
@@ -111,9 +130,19 @@ export default class Map extends Component {
         yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11);      
-        var local = new BMap.LocalSearch(map,   
-                        { renderOptions:{map: map, autoViewport: true}});      
-        local.searchNearby("超市",this.state.data[0].address);
+        // 创建地址解析器实例     
+        var myGeo = new BMap.Geocoder();      
+        // 将地址解析结果显示在地图上，并调整地图视野    
+        myGeo.getPoint(this.state.data[0].address, function(point){      
+                if (point) {  
+                    map.centerAndZoom(point, 18);  
+                    var local = new BMap.LocalSearch(map,   
+                                    { renderOptions:{map: map, autoViewport: true}});      
+                    local.searchNearby("购物",point,1000);
+                    // var marker = new BMap.Marker(point); // 创建标注   
+                    // map.addOverlay(marker); // 将标注添加到地图中
+                }      
+            }, this.state.data[0].city);
     }
     /**
      * 展示附近医院地图信息
@@ -131,9 +160,19 @@ export default class Map extends Component {
         yinhang.style.color='gray';
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11);      
-        var local = new BMap.LocalSearch(map,   
-                        { renderOptions:{map: map, autoViewport: true}});      
-        local.searchNearby("医院",this.state.data[0].address);
+        // 创建地址解析器实例     
+        var myGeo = new BMap.Geocoder();      
+        // 将地址解析结果显示在地图上，并调整地图视野    
+        myGeo.getPoint(this.state.data[0].address, function(point){      
+                if (point) {  
+                    map.centerAndZoom(point, 18);  
+                    var local = new BMap.LocalSearch(map,   
+                                    { renderOptions:{map: map, autoViewport: true}});      
+                    local.searchNearby("医院",point,1000);
+                    // var marker = new BMap.Marker(point); // 创建标注   
+                    // map.addOverlay(marker); // 将标注添加到地图中
+                }      
+            }, this.state.data[0].city);
     }
     /**
      * 展示附近银行地图信息
@@ -152,9 +191,19 @@ export default class Map extends Component {
         var map = new BMap.Map("mapContainer");         
         map.centerAndZoom(this.state.data[0].city, 11); 
              
-        var local = new BMap.LocalSearch(map,   
-                        { renderOptions:{map: map, autoViewport: true}});      
-        local.searchNearby("银行",this.state.data[0].address);
+       // 创建地址解析器实例     
+       var myGeo = new BMap.Geocoder();      
+       // 将地址解析结果显示在地图上，并调整地图视野    
+       myGeo.getPoint(this.state.data[0].address, function(point){      
+               if (point) {  
+                   map.centerAndZoom(point, 18);  
+                   var local = new BMap.LocalSearch(map,   
+                                   { renderOptions:{map: map, autoViewport: true}});      
+                   local.searchNearby("银行",point,1000);
+                   // var marker = new BMap.Marker(point); // 创建标注   
+                   // map.addOverlay(marker); // 将标注添加到地图中
+               }      
+           }, this.state.data[0].city);
     }
     render() {
         return (

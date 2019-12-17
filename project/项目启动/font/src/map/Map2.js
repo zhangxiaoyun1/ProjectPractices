@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
-import {WhiteSpace, WingBlank} from 'antd-mobile';
 import BMap  from 'BMap';
-import {TabBar,Flex} from 'antd-mobile'
 export default class Map extends Component {
     constructor(props){
         super(props);
         this.state={
             data:[],
-            selectedTab: 'redTab',
-            hidden: false,
-            fullScreen: false,
             locationvalue:'石家庄'
         }
     }
@@ -27,14 +21,17 @@ export default class Map extends Component {
                 })
                 var map = new BMap.Map("mapContainer");
                 map.centerAndZoom(res.msg.city, 13);
-                map.enableScrollWheelZoom();  
-                var local = new BMap.LocalSearch(map, {
-                    renderOptions: {
-                        map: map
-                    }
-                });
-                // local.search(res.msg.city);   //初始化定位
-                local.searchNearby("小区",res.msg.city);
+                 // 创建地址解析器实例     
+                var myGeo = new BMap.Geocoder();      
+                // 将地址解析结果显示在地图上，并调整地图视野    
+                myGeo.getPoint(res.msg.city, function(point){      
+                        if (point) {  
+                            map.centerAndZoom(point, 18);  
+                            var local = new BMap.LocalSearch(map,   
+                                            { renderOptions:{map: map, autoViewport: true}});      
+                            local.searchNearby("小区",point);
+                        }      
+                    }, res.msg.city);
             })   
     }
     getValue=() =>{
@@ -42,21 +39,39 @@ export default class Map extends Component {
         if(input===''){
             var map = new BMap.Map("mapContainer");
             map.centerAndZoom(this.state.locationvalue, 13);
-            map.enableScrollWheelZoom();
-            var local = new BMap.LocalSearch(map, {
-                renderOptions: {
-                    map: map
-                }
-            });
-            // local.search(this.state.locationvalue);   
-            local.searchNearby("小区",this.state.locationvalue);
+            // 创建地址解析器实例     
+            var myGeo = new BMap.Geocoder();      
+            // 将地址解析结果显示在地图上，并调整地图视野    
+            myGeo.getPoint(this.state.locationvalue, function(point){      
+                    if (point) {  
+                        map.centerAndZoom(point, 18);  
+                        var local = new BMap.LocalSearch(map, {
+                            renderOptions: {
+                                map: map
+                            }
+                        });
+                        // local.search(this.state.locationvalue);   
+                        local.searchNearby("小区",point);
+                    }      
+                }, this.state.locationvalue);
         }else{
             var map = new BMap.Map("mapContainer");
             map.centerAndZoom(input, 13);
-            map.enableScrollWheelZoom();    
-            var local = new BMap.LocalSearch(map,   
-                            { renderOptions:{map: map, autoViewport: true}});      
-            local.searchNearby("小区",input);
+          map.enableScrollWheelZoom();
+            // 创建地址解析器实例     
+            var myGeo = new BMap.Geocoder();      
+            // 将地址解析结果显示在地图上，并调整地图视野    
+            myGeo.getPoint(input, function(point){      
+                    if (point) {  
+                        map.centerAndZoom(point, 18);  
+                        var local = new BMap.LocalSearch(map, {
+                            renderOptions: {
+                                map: map
+                            }
+                        }); 
+                        local.searchNearby("小区",point);
+                    }      
+                }, input);
         }
        
     }
