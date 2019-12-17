@@ -44,19 +44,22 @@ export default class Tradedetial extends Component {
         this.setState({
             tradeid:(new Date()).valueOf()
         })
+        
     }
 
     toTrade=()=>{
         var userid=JSON.parse(localStorage.getItem('key')).userid;
+        var adress=this.state.data[0].address;
         var rentername=document.getElementById('rentername').value;//租客姓名
         var renterphone=document.getElementById('renterphone').value;//租客手机号
         var checkin=document.getElementById('checkin').value;//入住时间
-        var longtime=document.getElementById('longtime').value;//租期
-        var price=document.getElementById('money').value;//租期
+        var longtime=document.getElementById('longtime').value+'个月';//租期
+        var price=document.getElementById('money').value+'元';//租期
         if(rentername!==''&&renterphone!==''&&checkin!==''&&longtime!==''&&price!==''){
             let url=`http://49.235.251.57:8000/api/trade`;
             let data={
                 userid:userid,
+                adress:adress,
                 tradeid:this.state.tradeid,
                 rentername:rentername,
                 renterphone:renterphone,
@@ -77,10 +80,8 @@ export default class Tradedetial extends Component {
             .then((res)=>res.json())
             .then((res)=>{
                 //接收响应信息，如果为true,则跳转登录页面
-                console.log(this.state.tradeid)
                 if(res.ok===true){
                     window.location.href=`http://localhost:3000/#/pay/`+`${this.state.tradeid}`
-                    
                 }else{
                     window.location.href="http://localhost:3000/#/loginin"
                 }
@@ -176,7 +177,7 @@ export default class Tradedetial extends Component {
                       </ul>
                       <br/>
                       <ul style={{marginTop:'20%'}}>
-                        <button onClick={this.toTrade} className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
+                        <button onClick={()=>this.toTrade()} className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
                       </ul>
                    </div>
                </div>
