@@ -4,20 +4,6 @@ import {WhiteSpace, WingBlank,Toast,} from 'antd-mobile';
 
 export default class Pay extends Component {
 
-    constructor(props){
-        super(props);
-        this.state={
-            
-            pwd:'请输入您的密码'
-        }
-    }
-
-    
-    changePwd = (e)=>{
-        this.setState({
-            pwd:e.target.value
-        })
-    }
 
     successToast = ()=> { 
         if(this.state.pwd ==='请输入您的密码' || this.state.pwd === ''){
@@ -47,11 +33,11 @@ export default class Pay extends Component {
                 </div>
                 <div style={{textAlign:'center',marginTop:'20%'}}>
                     <span style={{fontSize:40}}>￥</span>
-                    <span style={{fontSize:50,fontWeight:'bold'}}>{this.props.match.params.price.slice(6,10)}</span>
+                    <span style={{fontSize:50,fontWeight:'bold'}}>6000</span>
                 </div>
                 <div style={{height:'20%',width:'100%',marginTop:'8%'}}>
                     <span style={{float:'left',marginLeft:'5%'}}>支付宝账号</span>
-                    <span style={{float:'right',marginRight:'5%'}}>{this.props.match.params.price.slice(17)}</span>
+                    <span style={{float:'right',marginRight:'5%'}}>12345678910</span>
                 </div>
                 <br/>
                 <hr style={{marginTop:'3%'}}/>
@@ -72,7 +58,7 @@ export default class Pay extends Component {
                 <div style={{height:'20%',width:'100%',marginTop:'3%'}}>
                     <span style={{float:'left',marginLeft:'5%'}}>输入密码</span>
                     <span style={{float:'right'}}>
-                        <input onChange={this.changePwd} style={{width:'80%'}} type='password' value={this.state.pwd}/>
+                        <input style={{width:'80%'}} type='password' placeholder='请输入密码'/>
                     </span>
                 </div>
 
