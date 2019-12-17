@@ -14,7 +14,7 @@ export default class Pay extends Component {
 
     componentDidMount(){
         var tradeid = this.props.match.params.tradeid;
-        let url=`http://localhost:3001/api/trade/`+tradeid;
+        let url=`http://49.235.251.57/api/trade/`+tradeid;
         fetch(url)
         .then((res)=>res.json())
         .then((res)=>{
