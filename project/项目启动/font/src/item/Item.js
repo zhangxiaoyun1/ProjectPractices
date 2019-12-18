@@ -6,8 +6,8 @@ export default class Item extends Component {
     render() {
         return (
             <div style={{height:'100%',width:'100%',}}>
-                <div style={{display:'flex',textAlign:'center',backgroundColor:'#ff9645',lineHeight:2}}>
-                    <Link to='appTaber'>
+                <div style={{display:'flex',textAlign:'center',background:'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2}}>
+                    <Link to='/my'>
                         <img src={require('./images/return.png')} style={{width:30,height:30,paddingTop:10}}/>
                     </Link>
                     <span style={{margin:'0 auto',fontSize:25,color:'white'}}>
