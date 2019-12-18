@@ -188,7 +188,6 @@ router.get('/rentwiki',function(req,res){
         res.header('Access-Control-Allow-Origin', '*');
         console.log(err);
       }else{
-        // console.log(result.rows);
         res.header('Access-Control-Allow-Origin', '*');
         res.send({ok:true,msg:result.rows});
       }
@@ -197,6 +196,7 @@ router.get('/rentwiki',function(req,res){
 //房屋订单详情信息
 router.post("/trade", function (req, res) {
   var userid=req.body.userid;
+  var adress=req.body.adress;
   var tradeid = (new Date()).valueOf();
   var rentername = req.body.rentername;
   var renterphone = req.body.renterphone;
@@ -204,9 +204,9 @@ router.post("/trade", function (req, res) {
   var longtime = req.body.longtime;
   var price = req.body.price;
   var pushtime = new Date().toLocaleDateString();
-  con.query(`insert into trademanagermessage(tradeid,rentername,renterphone,checkin,longtime,price,pushtime) 
-    values($1,$2,$3,$4,$5,$6,$7)`,
-    [tradeid, rentername, renterphone, checkin,longtime, price, pushtime], function (err, result) {
+  con.query(`insert into trademanagermessage(tradeid,adress,rentername,renterphone,checkin,longtime,price,pushtime) 
+    values($1,$2,$3,$4,$5,$6,$7,$8)`,
+    [tradeid,adress, rentername, renterphone, checkin,longtime, price, pushtime], function (err, result) {
       if (err) {
         console.log(err);
       } else {
@@ -226,7 +226,6 @@ router.get('/trade/:tradeid',function(req,res){
     if(err){
       console.log(err);
     }else{
-      console.log(result.rows);
       res.send({ok:true,msg:result.rows[0]});
     }
   })
@@ -321,7 +320,6 @@ router.get('/houses/:homeid',function(req,res){
 })
 //访问百度地图
 router.get('/map/:homeid',function(req,res){
-  console.log(req.params.homeid);
   con.query("select * from homemessage where homeid=$1",[req.params.homeid],function(err,result){
     if(err){
       console.log(err);
@@ -332,7 +330,17 @@ router.get('/map/:homeid',function(req,res){
 })
 //接受地理定位
 router.get('/getLocation',(req,res)=>{
-  let apiUrl = "https://api.map.baidu.com/location/ip?ak=DxehXP3OwiGt3bRZGkajTMx6v2AeItkm&coor=bd09l"
+   
+//通过req的hearers来获取客户端ip
+var getIp = function(req) {
+    var ip = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddres || req.socket.remoteAddress || '';
+    if(ip.split(',').length>0){
+        ip = ip.split(',')[0];
+    }
+    return ip;
+  } 
+  var clientIp = getIp(req);
+  let apiUrl = "https://api.map.baidu.com/location/ip?ip="+clientIp.split(":")[3]+"&ak=DxehXP3OwiGt3bRZGkajTMx6v2AeItkm&coor=bd09l"
   var location = {};
   https.get(apiUrl, (res1) => {
     var result = "";
@@ -342,7 +350,7 @@ router.get('/getLocation',(req,res)=>{
     res1.on("end", function () {
       result = JSON.parse(result);
       var province = result.content.address_detail.province;
-      var city = result.content.address_detail.city;
+      var city = result.content.address_detail.city.slice(0,-1);
       var address = result.content.address;
       location = {province:province,city:city,address:address};
       res.send({ok:'true',msg:location})
@@ -375,7 +383,7 @@ router.get('/citySearch/:id', (req, res) => {
 
 })
 // 关注
-router.post('/noclick',function(req,res){
+router.post('/notice',function(req,res){
   var tag = req.body.tag +1;
   con.query('update rentwiki set tag=$1 where rentid=$2',[tag,req.body.rentid],function(err,result){
     if(err){

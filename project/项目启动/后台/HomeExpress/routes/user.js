@@ -88,21 +88,28 @@ router.post('/user/real', function (req, res, next) {
     }
   })
 })
-//忘记密码
-router.get('/user/forget', function (req, res, next) {
-  res.render('forget');
-});
-router.post('/user/forget', function (req, res, next) {
-  var phone = req.body.phone;
-  var password = req.body.password;
-  con.query(`update usermessage set password=$1
-  where phone=$2`, [password, phone], function (err, result) {
-    if (err) {
+router.post('/user/forget',function(req,res,next){
+  var phone=req.body.phone;
+  var password=req.body.password;
+  con.query("select * from usermessage where phone=$1",[phone],function(err,result){
+    if(err){
       console.log(err);
-    } else {
-      res.send({ ok: true, msg: '修改成功' });
+    }else{
+      if(result.rows.length===0){
+        res.send({ok:false,msg:'用户不存在'});
+      }else{
+        con.query(`update usermessage set password=$1
+        where phone=$2`,[password,phone],function(err,result){
+          if(err){
+            console.log(err);
+          }else{
+              res.send({ok:true,msg:result.rows[0]});
+          }
+        })
+      }
     }
   })
+  
 })
 //上传头像
 router.post('/user/upimgs', function (req, res, next) {
