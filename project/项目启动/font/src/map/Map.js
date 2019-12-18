@@ -32,14 +32,14 @@ export default class Map extends Component {
                     data: res.msg
                 })
                 var map = new BMap.Map("mapContainer"); // 创建Map实例
-                map.centerAndZoom(res.msg[0].city, 12);
+                // map.centerAndZoom(res.msg[0].city, 13,1000);
                 // 创建地址解析器实例     
                 var myGeo = new BMap.Geocoder();
                 // 将地址解析结果显示在地图上，并调整地图视野    
                 myGeo.getPoint(res.msg[0].address, function (point) {
                     if (point) {
 
-                        map.centerAndZoom(point, 18);
+                        map.centerAndZoom(point, 13);
                         var marker = new BMap.Marker(point); // 创建标注   
                         map.addOverlay(marker); // 将标注添加到地图中
                     }

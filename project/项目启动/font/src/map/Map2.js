@@ -21,13 +21,13 @@ export default class Map extends Component {
                     locationvalue: res.msg.city
                 })
                 var map = new BMap.Map("mapContainer");
-                map.centerAndZoom(res.msg.city, 13);
+                // map.centerAndZoom(res.msg.city, 13);
                 // 创建地址解析器实例     
                 var myGeo = new BMap.Geocoder();
                 // 将地址解析结果显示在地图上，并调整地图视野    
                 myGeo.getPoint(res.msg.city, function (point) {
                     if (point) {
-                        map.centerAndZoom(point, 18);
+                        map.centerAndZoom(point, 13);
                         var local = new BMap.LocalSearch(map,
                             { renderOptions: { map: map, autoViewport: true } });
                         local.searchNearby("小区", point);
@@ -39,13 +39,13 @@ export default class Map extends Component {
         var input = document.getElementById('iname').value;
         if (input === '') {
             var map = new BMap.Map("mapContainer");
-            map.centerAndZoom(this.state.locationvalue, 13);
+            // map.centerAndZoom(this.state.locationvalue, 13);
             // 创建地址解析器实例     
             var myGeo = new BMap.Geocoder();
             // 将地址解析结果显示在地图上，并调整地图视野    
             myGeo.getPoint(this.state.locationvalue, function (point) {
                 if (point) {
-                    map.centerAndZoom(point, 18);
+                    map.centerAndZoom(point, 13);
                     var local = new BMap.LocalSearch(map, {
                         renderOptions: {
                             map: map
@@ -57,14 +57,14 @@ export default class Map extends Component {
             }, this.state.locationvalue);
         } else {
             var map = new BMap.Map("mapContainer");
-            map.centerAndZoom(input, 13);
-            map.enableScrollWheelZoom();
+            // map.centerAndZoom(input, 13);
+            // map.enableScrollWheelZoom();
             // 创建地址解析器实例     
             var myGeo = new BMap.Geocoder();
             // 将地址解析结果显示在地图上，并调整地图视野    
             myGeo.getPoint(input, function (point) {
                 if (point) {
-                    map.centerAndZoom(point, 18);
+                    map.centerAndZoom(point, 13);
                     var local = new BMap.LocalSearch(map, {
                         renderOptions: {
                             map: map
@@ -86,12 +86,6 @@ export default class Map extends Component {
         return (
             <div style={{ height: '100%', width: '100%', }}>
                 <div style={{ width: '100%', display: 'flex', position: 'fixed', top: 0, zIndex: 2, textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', lineHeight: 2 }}>
-                    {/* <div onClick={()=>this.back()}>
-                        <span className="iconfont icon-fanhui" style={{margin:'0 auto',fontSize:25,color:'white'}}></span>
-                        <span style={{margin:'0 auto',fontSize:25,color:'white'}}>
-                           地图找房
-                        </span>
-                    </div> */}
                     <div className='map_nav'>
                         <button onClick={() => this.back()} style={{ background: 'none', border: 'none', fontSize: 26, color: 'white', lineHeight: '50px'}} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
                         <h2 className='map_nav_h2'>地图找房</h2>
