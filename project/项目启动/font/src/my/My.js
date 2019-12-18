@@ -37,7 +37,7 @@ export default class My extends Component {
     }
 
     componentDidMount(){
-        let url=`http://localhost:3001/api/trade`;
+        let url=`http://49.235.251.57:8000/api/trade`;
         fetch(url)
         .then((res)=>res.json())
         .then((res)=>{
@@ -61,7 +61,6 @@ export default class My extends Component {
                     }
                 }
             }
-            console.log(res.msg)
         })
     }
     /**
