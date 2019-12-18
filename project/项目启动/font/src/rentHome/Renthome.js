@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { SearchBar, Flex, WhiteSpace, WingBlank } from 'antd-mobile';
+import { SearchBar, WingBlank } from 'antd-mobile';
 import './rentHome.css';
 
 
@@ -50,7 +50,6 @@ export default class Renthome extends Component {
             .then((res) => {
                 for (var i = 0; i < res.msg.length; i++) {
                     if ((res.msg[i].apname).indexOf(this.state.value)>=0) {
-                        console.log(res.msg[i].city);
                         data3 = [...data3, res.msg[i]]
                     }
                 }
@@ -81,7 +80,6 @@ export default class Renthome extends Component {
 
                 for (var i = 0; i < res.msg.length; i++) {
                     if (res.msg[i].city === li1) {
-                        console.log(res.msg[i].city);
                         data3 = [...data3, res.msg[i]]
                     }
                 }
@@ -107,7 +105,6 @@ export default class Renthome extends Component {
             .then((res) => {
                 for (var i = 0; i < res.msg.length; i++) {
                     if (res.msg[i].price === li2) {
-                        console.log(res.msg[i].type);
                         data4 = [...data4, res.msg[i]]
 
                     }
@@ -157,7 +154,6 @@ export default class Renthome extends Component {
             .then((res) => {
                 for (var i = 0; i < res.msg.length; i++) {
                     if (res.msg[i].type === li4) {
-                        console.log(res.msg[i].type);
                         data6 = [...data6, res.msg[i]];
                     }
                 }
@@ -195,7 +191,6 @@ export default class Renthome extends Component {
                     })
             } else {
                 var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
-                console.log(loveList.style.color);
                 if (loveList.style.color === 'rgb(221, 221, 221)') {
                     loveList.style.color = 'red';
                     var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser })
