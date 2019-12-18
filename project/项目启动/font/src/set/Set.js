@@ -8,13 +8,18 @@ export default class Set extends Component {
      * 退出登录
      */
     exitLogin=()=>{
-        if(JSON.parse(localStorage.getItem('key')).iname = '用户名'){
+        if(JSON.parse(localStorage.getItem('key'))===null){
             alert('未登录');
         }else{
-            alert("成功退出!")
-            localStorage.setItem('key',JSON.stringify({"iname":'用户名',"realname":null}))
-            //window.location.href="http://localhost:3000/#/login"
-        } 
+             if(JSON.parse(localStorage.getItem('key')).iname === '用户名'){
+                alert('未登录');
+            }else{
+                alert("成功退出!")
+                localStorage.setItem('key',JSON.stringify({"iname":'用户名',"realname":null}))
+                //window.location.href="http://localhost:3000/#/login"
+            } 
+        }
+       
     }
     change=()=>{
         if(JSON.parse(localStorage.getItem('key'))===null){
