@@ -11,7 +11,7 @@ export default class Rentwiki extends Component {
         }
     }
     componentDidMount() {
-        fetch('http://localhost:3001/api/rentwiki')
+        fetch('http://49.235.251.57:8000/api/rentwiki')
             .then((res) => res.json())
             .then((res) => {
                 this.setState({
@@ -22,7 +22,7 @@ export default class Rentwiki extends Component {
     render() {
         return (
             <div style={{ height: '100%', width: '100%', }}>
-                <div style={{ display: 'flex', textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', lineHeight: 2 }}>
+                <div style={{ display: 'flex', textAlign: 'center', background:  'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', lineHeight: 2 }}>
                     <Link to='/appTaber'>
                         <img src={require('./images/return.png')} style={{ width: 30, height: 30, paddingTop: 10 }} />
                     </Link>
@@ -31,7 +31,7 @@ export default class Rentwiki extends Component {
                     </span>
                 </div>
                 <div>
-                    <img src={require("./images/wiki.JPG")} style={{ width: '100%', height: 150 }} />
+                    <img src={require("./images/wiki.jpg")} style={{ width: '100%', height: 150 }} />
                 </div>
                 <WhiteSpace />
                 <WingBlank>
@@ -51,16 +51,13 @@ export default class Rentwiki extends Component {
                                             item.content
                                         }
                                     </div>
-                                    <div className='rentwiki_detail' style={{ marginTop: "1.5%" }}>
+                                    <div className='rentwiki_detail' style={{ marginTop: "2%" ,marginBottom:'3%'}}>
                                         <span className='author'>{item.author}</span>
-                                        <span style={{ marginLeft: "3%" }}>
-                                            <img style={{ width: '18px', height: "18px",marginLeft: '5%'  }} src={require('./images/message.png')} />
+                                        <span style={{float:'right',display:'inline-flex',marginRight:'5%'}}>
+                                            <img style={{ width: '22px', height: '22px', }} src={require('./images/heart.png')} />
+                                            <span style={{ color: '#333333', fontSize:20,fontWeight:200,marginLeft:'20%' }}>{item.clickcount}</span>
                                         </span>
-                                        <span style={{ color: '#333333', fontSize: '14px', marginLeft: '5%' }}>{item.saycount}</span>
-                                        <span>
-                                            <img style={{ width: '18px', height: '18px', marginLeft: "5%" }} src={require('./images/heart.png')} />
-                                        </span>
-                                        <span style={{ color: '#333333', marginLeft: '5%' }}>{item.clickcount}</span>
+                                        
                                     </div>
                                 </div>
                                 </Link>
