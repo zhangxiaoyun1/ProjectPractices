@@ -13,8 +13,10 @@ export default class Dream extends Component {
     componentDidMount() {
         if (dreamUser !== 0) {
             var dreamMessage = JSON.parse(localStorage.getItem('key')).userid;
+            console.log(dreamMessage);
             var dreamMessage1 = JSON.stringify({dreamMessage:dreamMessage});
-            fetch('http://49.235.251.57:8000/api/getDream/'+ dreamMessage1)
+            console.log(dreamMessage1);
+            fetch('http://49.235.251.57:8000/api/getDream/'+ dreamMessage)
             .then((res)=>res.json())
             .then((res)=>{
                 for (var i = 0; i < res.length; i++) {
