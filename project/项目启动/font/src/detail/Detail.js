@@ -81,47 +81,13 @@ export default class Detail extends Component {
     /**
      * 收藏改变颜色
      */
-    changeColor = (idx, homeid) => {
-        var list = "love" + `${idx}`
-        var dreamid = (new Date()).valueOf();
-        console.log(homeid);
-        if(JSON.parse(localStorage.getItem('key'))===null){
-           alert("未登录")
-        }else{
-            if(JSON.parse(localStorage.getItem('key')).userid===undefined){
-                alert("未登录")
-            }else{
-                var shou=document.getElementById('shou');
-                var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
-                if (shou.style.color === 'gray') {
-                    shou.style.color = 'red';
-                    var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser })
-                    fetch("http://49.235.251.57:8000/api/addDream",
-                        {
-                            method: 'POST',
-                            body: addStr,
-                            headers: new Headers({ 'Content-Type': 'application/json' })
-                        }).then((res) => res.json())
-                        .then((res) => {
-                            console.log(res);
-                        })
-                } 
-                else {
-                    shou.style.color = 'gray';
-                    var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser });
-                    fetch("http://49.235.251.57:8000/api/deleteDream",
-                        {
-                            method: 'POST',
-                            body: addStr,
-                            headers: new Headers({ 'Content-Type': 'application/json' })
-                        }
-                    ).then((res) => res.json())
-                        .then((res) => {
-                            console.log(res);
-                        })
-                }
-            }
-          
+    changeColor = () => {
+        var shou=document.getElementById('shou')
+        if (shou.style.color === 'gray') {
+            shou.style.color = 'red';
+        } 
+        else {
+            shou.style.color = 'gray';
         }
     }
     /**

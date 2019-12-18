@@ -266,7 +266,6 @@ export default class Renthome extends Component {
                             <li className='rentHome_li1'>
                                 <select style={{ width: '100%', color: 'grey' }} id="li4" value={this.state.value4} onChange={this.handleChange4}>
                                     <option value='方式'>方式</option>
-                                    <option value='合租'>合租</option>
                                     <option value='单租'>单租</option>
                                     <option value='整租'>整租</option>
 
