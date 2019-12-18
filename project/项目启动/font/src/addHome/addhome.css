@@ -5,10 +5,10 @@ a{list-style: none;}
 .addhome_nav{width: 100%;height: 50px;display: flex;background: linear-gradient(to right,#F55E7E, #F47B87, #F58B7F);}
 .addhome_nav_h2{line-height: 50px;margin-left: 29%;color: #ffffff;}
 .addhome_label{font-size: 20px;margin-left: 10%;margin-top: 5%;color: #535252;}
-.addhome_input{width: 210px;height: 35px;margin-top: 7%;margin-left: 2%;border:none;border-radius:10px;background-color:rgba(243, 186, 225, 0.664);}
-.addhome_input1{width: 210px;height: 35px;margin-top: 7%;margin-left: 2%;border:none;border-radius:10px;background-color:rgba(243, 186, 225, 0.664);}
-.addhome_input2{width: 210px;height: 35px;margin-top: 7%;border:none;border-radius:10px;background-color:rgba(243, 186, 225, 0.664);}
-.addhome_fieldset{width: 310px;height: 500px;border: 1px solid rgba(221, 100, 171, 0.664);margin-left: 8%;margin-top: 5%;}
+.addhome_input{width: 210px;height: 35px;margin-top: 7%;margin-left: 2%;border:none;border-radius:10px;background-color:#F1F3F4;}
+.addhome_input1{width: 210px;height: 35px;margin-top: 7%;margin-left: 2%;border:none;border-radius:10px;background-color:#F1F3F4;}
+.addhome_input2{width: 210px;height: 35px;margin-top: 7%;border:none;border-radius:10px;background-color:#F1F3F4;}
+.addhome_fieldset{width: 310px;height: 500px;border: 0.4px solid rgb(243, 152, 161);margin-left: 8%;margin-top: 5%;}
 .tijiao{
     width:100%;
     height:50px;
@@ -16,12 +16,13 @@ a{list-style: none;}
     /* text-align: center; */
   }
   .tijiao button{
-    width:50%;
-    height:45px;
-    background: linear-gradient(to right,#FE8084, #FE8E90, #FE9695);
+    width:150px;
+    height:40px;
+    border-radius:15px;
+    font-weight:lighter;
+    background-color:#FC3554 ;
     border:none;
-    border-radius: 10px;
     color:#fff;
-    font-size: 23px;
-    margin-left: 25%;
+    font-size: 25px;
+    margin-left: 28%;
   }
