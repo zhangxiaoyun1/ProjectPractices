@@ -21,7 +21,9 @@ import Map from './map/Map'
 import Map2 from './map/Map2'
 import Pay from './pay/Pay'
 import CityList from './citylist/CityList'
-import Message from './message/Message'
+import Message from './message/Message';
+import About from './about/About'
+import Kefu from './kefu/Kefu'
 export default class App extends Component {
   render() {
     return (
@@ -51,6 +53,8 @@ export default class App extends Component {
                   <Route exact path='/pay/:tradeid' component={Pay}/>
                   <Route exact path='/message' component={Message}/>
                   <Route exact path='/citylist' component={CityList}/>
+                  <Route exact path='/center' component={About}/>
+                  <Route exact path='/kefu' component={Kefu}/>
                 </Switch>
                 {/* <AticleDetail/> */}
               </div>
