@@ -1,21 +1,30 @@
 import React, { Component } from 'react'
 import './set.css'
-import { WingBlank, Flex,Modal } from 'antd-mobile';
-import {Link} from 'react-router-dom'
-
-const alert = Modal.alert;
+import { Modal,WingBlank, Flex } from 'antd-mobile';
+import { Link} from 'react-router-dom'
+ const alert=Modal.alert;
 export default class Set extends Component {
     /**
      * 退出登录
      */
     exitLogin=()=>{
         if(JSON.parse(localStorage.getItem('key'))===null){
-            window.location.href="http://localhost:3000/#/appTaber"
+            alert('未登录');
         }else{
-            alert("退出成功!")
             localStorage.setItem('key',JSON.stringify({"iname":'用户名',"realname":null}))
-            //window.location.href="http://localhost:3000/#/appTaber"
+            window.location.href="http://localhost:3000/#/login"
         } 
+    }
+    change=()=>{
+        if(JSON.parse(localStorage.getItem('key'))===null){
+            alert('未登录');
+        }else{
+            if(JSON.parse(localStorage.getItem('key')).iname==='用户名'){
+                alert('未登录');
+            }else{
+                window.location.href="http://localhost:3000/#/password"
+            }
+        }
     }
     render() {
         return (
@@ -34,10 +43,10 @@ export default class Set extends Component {
                     </div>
                 </WingBlank>
                 <WingBlank>
-                    <div style={{ width: '100%', height: '50px', marginTop: '5%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
+                   <div style={{ width: '100%', height: '50px', marginTop: '5%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
                         <Flex>
                             <div className="set_div2"></div>
-                            <p style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>账号安全</p>
+                            <p onClick={()=>this.change()} style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>账号安全</p>
                             <div className='set_div1'></div>
                         </Flex>
                     </div>
