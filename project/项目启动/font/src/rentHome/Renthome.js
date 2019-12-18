@@ -25,11 +25,10 @@ export default class Renthome extends Component {
             .then((res) => res.json())
             .then((res) => {
                 for (var i = 0; i < res.msg.length; ++i) {
-                    var imagedata;
+                    var imagedata = [];
                     if (res.msg[i].homeimage.indexOf(',') >= 0) {
                         imagedata = (res.msg[i].homeimage).split(',');
                     } else {
-                        imagedata = [];
                         imagedata[0] = res.msg[i].homeimage;
                     }
                     res.msg[i].homeimage = imagedata[0];
@@ -38,31 +37,11 @@ export default class Renthome extends Component {
                     data0: res.msg
                 });
             })
-        }
+    }
 
     /**
      * 搜索框
      */
-    toSearch = () => {
-        var data3 = [];
-        fetch('http://49.235.251.57:8000/api/house')
-            .then((res) => res.json())
-            .then((res) => {
-                for (var i = 0; i < res.msg.length; i++) {
-                    if (res.msg[i].city === this.state.value) {
-                        console.log(res.msg[i].city);
-                        data3 = [...data3, res.msg[i]]
-                    }
-                }
-                this.setState({
-                    data0: data3,
-                    value1: '位置',
-                    value2: '租金',
-                    value3: '户型',
-                    value4: '方式',
-                })
-            })
-    }
     onChange = (value) => {
         this.setState({ value });
     };
@@ -78,10 +57,15 @@ export default class Renthome extends Component {
         fetch('http://49.235.251.57:8000/api/house')
             .then((res) => res.json())
             .then((res) => {
-
                 for (var i = 0; i < res.msg.length; i++) {
                     if (res.msg[i].city === li1) {
-                        console.log(res.msg[i].city);
+                        var imagedata = [];
+                        if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg[i].homeimage).split(',');
+                        } else {
+                            imagedata[0] = res.msg[i].homeimage;
+                        }
+                        res.msg[i].homeimage = imagedata[0];
                         data3 = [...data3, res.msg[i]]
                     }
                 }
@@ -107,9 +91,14 @@ export default class Renthome extends Component {
 
                 for (var i = 0; i < res.msg.length; i++) {
                     if (res.msg[i].price === li2) {
-                        console.log(res.msg[i].type);
+                        var imagedata = [];
+                        if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg[i].homeimage).split(',');
+                        } else {
+                            imagedata[0] = res.msg[i].homeimage;
+                        }
+                        res.msg[i].homeimage = imagedata[0];
                         data4 = [...data4, res.msg[i]]
-
                     }
                 }
                 this.setState({
@@ -133,7 +122,13 @@ export default class Renthome extends Component {
             .then((res) => {
                 for (var i = 0; i < res.msg.length; i++) {
                     if (res.msg[i].hometype === li3) {
-                        console.log(res.msg[i].hometype);
+                        var imagedata = [];
+                        if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg[i].homeimage).split(',');
+                        } else {
+                            imagedata[0] = res.msg[i].homeimage;
+                        }
+                        res.msg[i].homeimage = imagedata[0];
                         data5 = [...data5, res.msg[i]]
 
                     }
@@ -159,7 +154,13 @@ export default class Renthome extends Component {
             .then((res) => {
                 for (var i = 0; i < res.msg.length; i++) {
                     if (res.msg[i].type === li4) {
-                        console.log(res.msg[i].type);
+                        var imagedata = [];
+                        if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg[i].homeimage).split(',');
+                        } else {
+                            imagedata[0] = res.msg[i].homeimage;
+                        }
+                        res.msg[i].homeimage = imagedata[0];
                         data6 = [...data6, res.msg[i]];
                     }
                 }
@@ -173,53 +174,53 @@ export default class Renthome extends Component {
                 })
             })
     }
-        //添加删除增加心愿单
-        changeDream(idx, homeid, dreamUser) {
-            var dreamUser = dreamUser;
-            console.log(dreamUser);
-            if (dreamUser === 0) {
-                alert("请先进行登录")
-            } else {
-                var list = "love" + `${idx}`
-                var loveList = document.getElementById(list);
-                var dreamid = (new Date()).valueOf();
-                var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
-                if (loveList.style.color === 'rgb(221, 221, 221)') {
-                    loveList.style.color = 'red';
-                    var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser })
-                    fetch("http://49.235.251.57:8000/api/addDream",
-                        {
-                            method: 'POST',
-                            body: addStr,
-                            headers: new Headers({ 'Content-Type': 'application/json' })
-                        }).then((res) => res.json())
-                        .then((res) => {
-                            console.log(res);
-                        })
-                }
-                else {
-                    loveList.style.color = 'rgb(221, 221, 221)';
-                    var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser });
-                    fetch("http://49.235.251.57:8000/api/deleteDream",
-                        {
-                            method: 'POST',
-                            body: addStr,
-                            headers: new Headers({ 'Content-Type': 'application/json' })
-                        }
-                    ).then((res) => res.json())
-                        .then((res) => {
-                            console.log(res);
-                        })
-                }
-    
+    //添加删除增加心愿单
+    changeDream(idx, homeid, dreamUser) {
+        var dreamUser = dreamUser;
+        console.log(dreamUser);
+        if (dreamUser === 0) {
+            alert("请先进行登录")
+        } else {
+            var list = "love" + `${idx}`
+            var loveList = document.getElementById(list);
+            var dreamid = (new Date()).valueOf();
+            var dreamUser = JSON.parse(localStorage.getItem('key')).userid;
+            if (loveList.style.color === 'rgb(221, 221, 221)') {
+                loveList.style.color = 'red';
+                var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser })
+                fetch("http://49.235.251.57:8000/api/addDream",
+                    {
+                        method: 'POST',
+                        body: addStr,
+                        headers: new Headers({ 'Content-Type': 'application/json' })
+                    }).then((res) => res.json())
+                    .then((res) => {
+                        console.log(res);
+                    })
             }
-    
+            else {
+                loveList.style.color = 'rgb(221, 221, 221)';
+                var addStr = JSON.stringify({ dreamid: dreamid, homeid: homeid, dreamUser: dreamUser });
+                fetch("http://49.235.251.57:8000/api/deleteDream",
+                    {
+                        method: 'POST',
+                        body: addStr,
+                        headers: new Headers({ 'Content-Type': 'application/json' })
+                    }
+                ).then((res) => res.json())
+                    .then((res) => {
+                        console.log(res);
+                    })
+            }
+
         }
+
+    }
     render() {
         return (
             <div>
                 {/* 头 */}
-                <div style={{zIndex:'2', width: '100%', display: 'flex', textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', height: '50px', position: 'fixed' }}>
+                <div style={{ zIndex: '2', width: '100%', display: 'flex', textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', height: '50px', position: 'fixed' }}>
                     <Link to='/appTaber'>
                         <img src={require('./images/return.png')} style={{ width: 30, height: 30, paddingTop: 10 }} />
                     </Link>
