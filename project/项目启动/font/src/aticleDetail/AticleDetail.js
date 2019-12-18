@@ -195,6 +195,7 @@ export default class AticleDetail extends Component {
                     </div>
                             
                 </WingBlank>
+                <div style={{height:'60px'}}></div>
                 <WingBlank>
                     <Flex>
                         <div style={{ position: 'fixed', left:0, bottom: 0, height: '65px', backgroundColor: 'rgb(255, 242, 241)', width: '100%', textAlign:'center',}}>
