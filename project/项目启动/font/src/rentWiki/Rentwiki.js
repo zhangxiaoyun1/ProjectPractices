@@ -31,7 +31,7 @@ export default class Rentwiki extends Component {
                     </span>
                 </div>
                 <div>
-                    <img src={require("./images/wiki.jpg")} style={{ width: '100%', height: 150 }} />
+                    <img src={require("./images/wiki.JPG")} style={{ width: '100%', height: 150 }} />
                 </div>
                 <WhiteSpace />
                 <WingBlank>
