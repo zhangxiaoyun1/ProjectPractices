@@ -69,7 +69,7 @@ export default class Home extends Component {
                             data0: res.msg
                         });
                     }
-            })
+                })
         } else {
             var userName = JSON.parse(localStorage.getItem('key')).userid;
             var jsonUserName = JSON.stringify({ userName: userName });
@@ -81,15 +81,15 @@ export default class Home extends Component {
                 })
                 .then((res) => res.json())
                 .then((res) => {
-                    for(var i =0;i<res.msg0.length;++i){
+                    for (var i = 0; i < res.msg0.length; ++i) {
                         var imagedata;
-                    if (res.msg0[i].homeimage.indexOf(',') >= 0) {
-                        imagedata = (res.msg0[i].homeimage).split(',');
-                    } else {
-                        imagedata = [];
-                        imagedata[0] = res.msg0[i].homeimage;
-                    }
-                    res.msg0[i].homeimage=imagedata[0];
+                        if (res.msg0[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg0[i].homeimage).split(',');
+                        } else {
+                            imagedata = [];
+                            imagedata[0] = res.msg0[i].homeimage;
+                        }
+                        res.msg0[i].homeimage = imagedata[0];
                     }
                     this.setState({
                         data0: res.msg0,
@@ -113,20 +113,20 @@ export default class Home extends Component {
     /**
      * 跳转地图找房
      */
-    home_login=()=>{
-        if(JSON.parse(localStorage.getItem('key'))===null){
+    home_login = () => {
+        if (JSON.parse(localStorage.getItem('key')) === null) {
             alert("请先登录");
-        }else{
-            if(JSON.parse(localStorage.getItem('key')).iname==='用户名'){
+        } else {
+            if (JSON.parse(localStorage.getItem('key')).iname === '用户名') {
                 alert("请先登录");
-            }else{
-                  if(JSON.parse(localStorage.getItem('key')).realname===null){
-                        alert('请进行实名认证');
-                    }else{
-                        window.location.href= "http://localhost:3000/#/addhome"
-                    }
+            } else {
+                if (JSON.parse(localStorage.getItem('key')).realname === null) {
+                    alert('请进行实名认证');
+                } else {
+                    window.location.href = "http://localhost:3000/#/addhome"
+                }
             }
-          
+
         }
     }
     //添加删除增加心愿单
@@ -185,6 +185,16 @@ export default class Home extends Component {
                 })
                     .then((res) => res.json())
                     .then((res) => {
+                        for(var i =0;i<res.msg.length;++i){
+                            var imagedata;
+                        if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg[i].homeimage).split(',');
+                        } else {
+                            imagedata = [];
+                            imagedata[0] = res.msg[i].homeimage;
+                        }
+                        res.msg[i].homeimage=imagedata[0];
+                        }
                         this.setState({
                             data0: res.msg
                         })
@@ -206,6 +216,16 @@ export default class Home extends Component {
             })
                 .then((res) => res.json())
                 .then((res) => {
+                    for (var i = 0; i < res.msg.length; ++i) {
+                        var imagedata;
+                        if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                            imagedata = (res.msg[i].homeimage).split(',');
+                        } else {
+                            imagedata = [];
+                            imagedata[0] = res.msg[i].homeimage;
+                        }
+                        res.msg[i].homeimage = imagedata[0];
+                    }
                     this.setState({
                         data0: res.msg
                     })
@@ -219,8 +239,8 @@ export default class Home extends Component {
                 {/* 表头搜索定位 */}
                 <div id='home_flow'>
                     <div className='home_nav'>
-                        <span style={{float:"left"}} id="home_icon" className='iconfont icon-diliweizhi'></span>
-                        <div style={{float:"left"}}>
+                        <span style={{ float: "left" }} id="home_icon" className='iconfont icon-diliweizhi'></span>
+                        <div style={{ float: "left" }}>
                             <select className='home_select' onChange={(e) => this.changCity(e)}>
                                 <option>{this.state.location.city}</option>
                                 <option>北京</option>
@@ -232,11 +252,11 @@ export default class Home extends Component {
                             </select>
                             {/* <Link to='/citylist'><p style={{width:60,lineHeight:'50px',textAlign:'center',fontSize:'17px',color:'#fff'}}>{this.state.location.city}</p></Link> */}
                         </div>
-                        <div style={{width:'60%',float:"left"}}>
+                        <div style={{ width: '60%', float: "left" }}>
                             <input onKeyDown={(e) => this.homeSearch(e)} name='homeSearch' className='home_input' type='text' placeholder='搜索当地房屋' />
                         </div>
-                        <div  style={{float:'right',lineHeight:'50px',textAlign:'center'}}>
-                           <Link to='/message'><span className='iconfont icon-news' style={{color:'#fff',fontSize:'26px'}}></span></Link> 
+                        <div style={{ float: 'right', lineHeight: '50px', textAlign: 'center' }}>
+                            <Link to='/message'><span className='iconfont icon-news' style={{ color: '#fff', fontSize: '26px' }}></span></Link>
                         </div>
                     </div>
                 </div>
@@ -268,7 +288,7 @@ export default class Home extends Component {
                     <div className='home_list'>
                         <WingBlank>
                             <Flex>
-                                <Flex.Item><PlaceHolder onClick={()=>this.home_login()} style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#F47B87', backgroundSize: '62px 62px' }} /></Flex.Item>
+                                <Flex.Item><PlaceHolder onClick={() => this.home_login()} style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#F47B87', backgroundSize: '62px 62px' }} /></Flex.Item>
                                 <Flex.Item><Link to='/rentHome'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#D061DE', backgroundSize: '62px 62px', backgroundPosition: 'center' }} /></Link></Flex.Item>
                                 <Flex.Item><Link to='/rentWiki'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#57DE92', backgroundSize: '62px 62px', backgroundPosition: 'center' }} /></Link></Flex.Item>
                                 <Flex.Item><Link to='/mapp'><PlaceHolder style={{ background: `url(${require('./images/home_05.png')}) no-repeat`, backgroundColor: '#FDA42F', backgroundSize: '62px 62px' }} /></Link></Flex.Item>
@@ -316,13 +336,13 @@ export default class Home extends Component {
                                             <p className="message4">电梯:{item.lift}</p>
                                         </div>
 
-                                        <div style={{ height: '30px', display: 'flex', margintTop: '10px',position:'relative' }}>
-                                            <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%'}}>{item.price}</span>
+                                        <div style={{ height: '30px', display: 'flex', margintTop: '10px', position: 'relative' }}>
+                                            <span style={{ fontSize: '17px', color: 'red', marginLeft: '2%', marginTop: '5%' }}>{item.price}</span>
                                             {
 
                                                 idx < this.state.data2.length && this.state.data2.length !== 0 && dreamUser === this.state.data2[idx].userid && this.state.data2[idx].dreamflag === true ?
-                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: 'red',position:'absolute',top:'2%',left:'78%' }} className='iconfont icon-zan1'></span>
-                                                    : <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: '#ddd',position:'absolute',top:'2%',left:'78%' }} className='iconfont icon-zan1'></span>
+                                                    <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: 'red', position: 'absolute', top: '2%', left: '78%' }} className='iconfont icon-zan1'></span>
+                                                    : <span id={"love" + `${idx}`} onClick={() => this.changeDream(idx, item.homeid, dreamUser)} style={{ fontSize: 30, color: '#ddd', position: 'absolute', top: '2%', left: '78%' }} className='iconfont icon-zan1'></span>
                                             }
                                         </div>
                                     </div>
