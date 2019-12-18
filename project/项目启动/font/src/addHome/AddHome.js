@@ -163,18 +163,18 @@ export default class AddHome extends Component {
                             <legend style={{ fontSize: 24 }}>具体表述</legend>
                             <div className='form-group'>
                                 <label style={{ fontSize: 18, marginLeft: '2%' }}>类型:</label>
-                                <select id="type" name='userType' style={{ width: '60px', height: '30px', marginLeft: '2%', border:'1px solid  rgba(243, 186, 225, 0.664)' }}>
+                                <select id="type" name='userType' style={{ width: '60px', height: '30px', marginLeft: '2%', border:'0.4px solid rgb(243, 152, 161)' }}>
                                     <option>单租</option>
                                     <option>整租</option>
                                 </select>
                                 <label style={{ marginLeft: '10%', fontSize: 18 }}>户型:</label>
-                                <input id="hometype" name='userHomeType' style={{ width: '75px', height: '31px', marginLeft: '3%', border: 'none', background: 'none',border:'1px solid  rgba(243, 186, 225, 0.664)' }} placeholder='如三室两厅' />
+                                <input id="hometype" name='userHomeType' style={{ width: '75px', height: '31px', marginLeft: '3%', border: 'none', background: 'none',border:'0.4px solid rgb(243, 152, 161)' }} placeholder='如三室两厅' />
                             </div>
                             <div className='form-group' style={{ marginTop: '4%', marginLeft: '2%' }}>
                                 <label style={{ fontSize: 18 }}>楼层:</label>
-                                <input id="floor" name='userFloor' style={{ width: '57px', height: '30px', marginLeft: '2%', border: 'none', background: 'none', border:'1px solid  rgba(243, 186, 225, 0.664)' }} placeholder='1层' />
+                                <input id="floor" name='userFloor' style={{ width: '57px', height: '30px', marginLeft: '2%', border: 'none', background: 'none', border:'0.4px solid rgb(243, 152, 161)' }} placeholder='1层' />
                                 <label style={{ marginLeft: '10%', fontSize: 18 }}>朝向:</label>
-                                <select id="face" name='userFloor' style={{ width: '60px', height: '30px', marginLeft: '4%',border:'1px solid  rgba(243, 186, 225, 0.664)' }}>
+                                <select id="face" name='userFloor' style={{ width: '60px', height: '30px', marginLeft: '4%',border:'0.4px solid rgb(243, 152, 161)' }}>
                                     <option>东</option>
                                     <option>南</option>
                                     <option>西</option>
@@ -183,31 +183,31 @@ export default class AddHome extends Component {
                             </div>
                             <div className='form-group' style={{ marginTop: '4%', marginLeft: '2%' }}>
                                 <label style={{ fontSize: 18 }}>电梯:</label>
-                                <select id="lift" name='userLift' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', background: 'none', border:'1px solid  rgba(243, 186, 225, 0.664)' }}>
+                                <select id="lift" name='userLift' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', background: 'none', border:'0.4px solid rgb(243, 152, 161)' }}>
                                     <option>有</option>
                                     <option>无</option>
                                 </select>
                                 <label style={{ marginLeft: '10%', fontSize: 18 }}>WIFI:</label>
-                                <select id="wifi" name='userWifi' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', background: 'none',border:'1px solid  rgba(243, 186, 225, 0.664)' }} >
+                                <select id="wifi" name='userWifi' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', background: 'none',border:'0.4px solid rgb(243, 152, 161)' }} >
                                     <option>有</option>
                                     <option>无</option>
                                 </select>
                             </div>
                             <div className='form-group' style={{ marginTop: '4%', marginLeft: '2%' }}>
                                 <label style={{ fontSize: 18 }}>供暖:</label>
-                                <select id="heating" name='userHeating' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', background: 'none', border:'1px solid  rgba(243, 186, 225, 0.664)' }}>
+                                <select id="heating" name='userHeating' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', background: 'none', border:'0.4px solid rgb(243, 152, 161)' }}>
                                     <option>有</option>
                                     <option>无</option>
                                 </select>
                                 <label style={{ marginLeft: '10%', fontSize: 18 }}>空调:</label>
-                                <select id="conditioner" name='userCon' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', border:'1px solid  rgba(243, 186, 225, 0.664)'}} >
+                                <select id="conditioner" name='userCon' style={{ width: '60px', height: '30px', marginLeft: '2%', border: 'none', border:'0.4px solid rgb(243, 152, 161)'}} >
                                     <option>有</option>
                                     <option>无</option>
                                 </select>
                             </div>
                             <div style={{marginTop:'10px'}}>
                                 <span style={{ fontSize: 18 ,float:"left"}}>详细描述:</span>
-                                <textarea placeholder='不超过100个字' style={{border:'1px solid  rgba(243, 186, 225, 0.664)'}} name="detail" id="detail" cols="30" rows="10"></textarea>
+                                <textarea placeholder='不超过100个字' style={{border:'0.4px solid rgb(243, 152, 161)'}} name="detail" id="detail" cols="30" rows="10"></textarea>
                             </div>
                             <div className='form-group' style={{marginTop:'4%',marginLeft:'2%',height:'150px',overflow:'scroll'}}>
                                 <ImagePickerExample getimg={this.getimg}/>

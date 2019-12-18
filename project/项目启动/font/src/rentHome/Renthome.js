@@ -224,7 +224,7 @@ export default class Renthome extends Component {
                     <Link to='/appTaber'>
                         <img src={require('./images/return.png')} style={{ width: 30, height: 30, paddingTop: 10 }} />
                     </Link>
-                    <h2 style={{ lineHeight: '50px', marginLeft: '30%', color: '#ffffff' }}>帮我找房</h2>
+                    <h2 style={{ lineHeight: '50px', marginLeft: '30%', color: '#ffffff',fontWeight:'normal',fontSize:25 }}>帮我找房</h2>
                 </div>
                 {/* 导航栏 */}
                 <WingBlank>

@@ -93,15 +93,15 @@ export default class Map extends Component {
                         </span>
                     </div> */}
                     <div className='map_nav'>
-                        <button onClick={() => this.back()} style={{ background: 'none', border: 'none', fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '5%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
+                        <button onClick={() => this.back()} style={{ background: 'none', border: 'none', fontSize: 26, color: 'white', lineHeight: '50px'}} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
                         <h2 className='map_nav_h2'>地图找房</h2>
                     </div>
                 </div>
                 <div style={{ height: 51 }}></div>
                 <div style={{ height: 800 }} className="mapContainer" id="mapContainer"></div>
-                <div style={{ width: '100%', height: "65px", position: 'fixed', bottom: 0, backgroundColor: '#f5f5f9' }}>
-                    <input id="iname" type='text' autoComplete="off" placeholder='请输入要查找城市' style={{ backgroundColor: 'antiquewhite', borderRadius: 10, width: '55%', height: 35, margin: "10px 0 0 25px" }} />
-                    <button style={{ width: '20%', height: 35, backgroundColor: 'antiquewhite', borderRadius: 10, border: 0, margin: '0 0 0 10px' }} id="search" onClick={() => this.getValue()}>搜索</button>
+                <div style={{ width: '100%', height: "60px", position: 'fixed', bottom: 0, backgroundColor: '#fff' }}>
+                    <input id="iname" type='text' autoComplete="off" placeholder='请输入要查找城市' style={{ backgroundColor: '#F1F3F4', borderRadius: 10, width: '55%', height: 35, margin: "10px 0 0 40px" }} />
+                    <button style={{ width: '20%', height: 35, backgroundColor: '#FC3554', borderRadius: 10, border: 0, margin: '0 0 0 10px' ,color:'#fff'}} id="search" onClick={() => this.getValue()}>搜索</button>
                 </div>
             </div>
         )

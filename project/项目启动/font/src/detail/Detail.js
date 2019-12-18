@@ -160,7 +160,7 @@ export default class Detail extends Component {
             <div>
                 {/* 头 */}
                 <div className='detail_nav'>
-                    <button onClick={()=>this.back()} style={{background:'none',border:'none', fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '5%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
+                    <button onClick={()=>this.back()} style={{background:'none',border:'none', fontSize: 26, color: 'white', lineHeight: '50px'}} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
                     <h2 className='detail_nav_h2'>房屋详情</h2>
                     <div onClick={this.showShareActionSheetMulpitleLine} style={{fontSize:40,position:'absolute',color:'white',top:'4.5%',right:'4%'}} className='iconfont icon-shenglvehao'></div>
                 </div>

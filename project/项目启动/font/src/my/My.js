@@ -79,13 +79,19 @@ export default class My extends Component {
     * 去实名认证
     */
     realName = () => {
-        window.location.href = "http://localhost:3000/#/realName"
+        window.location.href = "http://localhost:3000/#/item"
     }
     /**
     * 去设置
     */
     toSet = () => {
         window.location.href = "http://localhost:3000/#/set"
+    }
+    /**
+     * 关于我们
+     */
+    about = ()=>{
+        window.location.href = 'http://localhost:3000/#/about'
     }
     upimgs = () => {
         if(JSON.parse(localStorage.getItem('key')) === null || JSON.parse(localStorage.getItem('key')).iname === '用户名'){
@@ -211,7 +217,7 @@ export default class My extends Component {
                     <div style={{ width: '100%', height: '50px', marginTop: '7%', borderTop: '1px solid #f1f1f1', borderBottom: '1px solid #f1f1f1' }}>
                         <Flex>
                             <div className="my_div"></div>
-                            <p style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>关于我们</p>
+                            <p onClick={() => this.about()} style={{ fontSize: 20, lineHeight: '50px', color: '#5a5a5a', marginLeft: '4%' }}>关于我们</p>
                             <div className='my_div1'></div>
                         </Flex>
                     </div>

@@ -26,10 +26,10 @@
     border:none;
   }
   .regforget :first-child{
-    color: #FE8E90;
+    color: #FC3554;
   }
   .regforget :last-child{
-    color: #FE8E90;
+    color: #FC3554;
     float: right;
     margin-right: 5%;
   }
@@ -39,13 +39,14 @@
     margin-top: 10%;
   }
   .loginn button{
-    width:50%;
-    height:50px;
-    background: linear-gradient(to right,#FE8084, #FE8E90, #FE9695);
+    width:150px;
+    height:40px;
+    background: #FC3554;
     border:none;
-    border-radius: 17px;
+    border-radius: 15px;
     color:#fff;
-    font-size: 22px;
+    font-size: 25px;
+    font-weight: lighter;
     margin-left: 24%;
   }
   /* 协议 */
