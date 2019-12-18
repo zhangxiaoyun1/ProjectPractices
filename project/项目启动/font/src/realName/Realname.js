@@ -73,16 +73,16 @@ export default class Realname extends Component {
                <div className='b2 '>
                    {/* <WingBlank> */}
                     <span> 姓 名 ： </span>
-                    <input name='realName' id="realname" type='text' autocomplete="off" placeholder='与证件姓名一致' style={{backgroundColor:'antiquewhite',borderRadius:10,width:210,height:35}} />
+                    <input name='realName' id="realname" type='text' autocomplete="off" placeholder='与证件姓名一致' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <span> 手机号 ： </span>
-                    <input name='phone' id="phone" type='text' autocomplete="off" placeholder='请输入您的手机号' style={{backgroundColor:'antiquewhite',borderRadius:10,width:210,height:35}} />
+                    <input name='phone' id="phone" type='text' autocomplete="off" placeholder='请输入您的手机号' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <span> 证 件 ： </span>
-                    <input name='idCard' id="idcard" type='text' autocomplete="off" placeholder='请输入您的身份证号' style={{backgroundColor:'antiquewhite',borderRadius:10,width:210,height:35}} />
+                    <input name='idCard' id="idcard" type='text' autocomplete="off" placeholder='请输入您的身份证号' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <span> 性 别 ： </span>
-                    <input name='sex' id="sex" type='text' autocomplete="off" placeholder='请输入您的性别' style={{backgroundColor:'antiquewhite',borderRadius:10,width:210,height:35}} />
+                    <input name='sex' id="sex" type='text' autocomplete="off" placeholder='请输入您的性别' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <WhiteSpace />
                     <WhiteSpace />
@@ -91,7 +91,7 @@ export default class Realname extends Component {
                     <WhiteSpace />
                     <WhiteSpace />
                     <WhiteSpace />
-                    <button onClick={()=>this.realItem()} style={{backgroundColor:'crimson',fontSize:25,textAlign:'center',width:"35%",margin:'0 auto',height:40,borderRadius:19,color:'white'}}>立即授权</button>
+                    <button onClick={()=>this.realItem()} style={{background:'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',fontSize:25,textAlign:'center',width:"60%",height:'50px',borderRadius:19,color:'white'}}>立即授权</button>
         <p style={{width:"70%",margin:'5% auto 0 auto',color:'#8a8787'}}>{this.state.text}</p>
                </div>
             </div>
