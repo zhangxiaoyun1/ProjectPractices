@@ -1,4 +1,38 @@
 *{padding: 0%;margin: 0%;}
 ul,li{list-style: none;}
 a{list-style: none;}
-.carousel_btn{border: none;background: none;width: 50px;height: 30px;position: absolute;top: 90%;left: 83%;border: 1px solid #ffffff;color: aliceblue;border-radius: 10px;}
+.carousel_btn{
+    border: none;
+    background: none;
+    width: 50px;
+    height: 30px;
+    position: absolute;
+    top: 90%;
+    left: 83%;
+    color: rgb(216, 218, 219);
+    border-radius: 10px;
+}
+.carousel_btn1{
+    border: none;
+    background: none;
+    width: 80px;
+    height: 35px;
+    position: absolute;
+    top: 75%;
+    left: 15%;
+    border: 1px solid #ffffff;
+    color: aliceblue;
+    border-radius: 10px;
+}
+.carousel_btn2{
+    border: none;
+    background: none;
+    width: 80px;
+    height: 35px;
+    position: absolute;
+    top: 75%;
+    right: 15%;
+    border: 1px solid #ffffff;
+    color: aliceblue;
+    border-radius: 10px;
+}

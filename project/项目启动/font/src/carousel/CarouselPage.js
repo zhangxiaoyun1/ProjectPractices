@@ -25,13 +25,19 @@ export default class CarouselPage extends Component {
                                 key={val}
                                 style={{ float: 'left', width: '100%', height: this.state.hei, background: 'url(' + require('./images/' + `${val}`) + ') no-repeat center/cover' }}
                             >
-                                <Link to='/appTaber'><button className='carousel_btn'>跳过</button></Link>
+                                <div>
+                                    <Link to='/appTaber'><button className='carousel_btn'>跳过</button></Link>
+                                    <Link to='/loginin'><button className='carousel_btn1'>注册</button></Link>
+                                    <Link to='/login'><button className='carousel_btn2'>登录</button></Link>
+                                </div>
+                               
                             </a>
                             :
                             <a
                                 key={val}
                                 style={{ float: 'left', width: '100%', height: this.state.hei, background: 'url(' + require('./images/' + `${val}`) + ') no-repeat center/cover' }}
                             >
+                                <Link to='/appTaber'><button className='carousel_btn'>跳过</button></Link>
                             </a>
                     ))}
                 </Carousel>
