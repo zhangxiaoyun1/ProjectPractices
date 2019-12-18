@@ -75,14 +75,15 @@ export default class Life extends Component {
                             
                             <p className='life_p'>智能设备</p>
                         </li>
-
+                        <Link to='/kefu'>
                         <li className='life_li'>
                             <div className='life_div' style={{backgroundColor:'#ea6c6d'}}>
                                 <img src={require('./images/kefu.png')} className='life_img'/>
                             </div>
                             
-                            <p className='life_p'>客服中心</p>
+                            <p className='life_p' style={{color:'#333'}}>客服中心</p>
                         </li>
+                        </Link>
                         <li className='life_li'>
                             <div className='life_div' style={{backgroundColor:'#07ba07'}}>
                                 <img src={require('./images/shop.png')} className='life_img' />
