@@ -76,13 +76,13 @@ export default class Realname extends Component {
                     <input name='realName' id="realname" type='text' autocomplete="off" placeholder='与证件姓名一致' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <span style={{color:'#535252'}}> 手机号 ： </span>
-                    <input name='phone' id="phone" type='text' autocomplete="off" placeholder='请输入您的手机号' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
+                    <input name='phone' id="phone" type='text' autoComplete="off" placeholder='请输入您的手机号' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <span style={{color:'#535252'}}> 证 件 ： </span>
-                    <input name='idCard' id="idcard" type='text' autocomplete="off" placeholder='请输入您的身份证号' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
+                    <input name='idCard' id="idcard" type='text' autoComplete="off" placeholder='请输入您的身份证号' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <span style={{color:'#535252'}}> 性 别 ： </span>
-                    <input name='sex' id="sex" type='text' autocomplete="off" placeholder='请输入您的性别' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
+                    <input name='sex' id="sex" type='text' autoComplete="off" placeholder='请输入您的性别' style={{ backgroundColor: '#F1F3F4',borderRadius:10,width:210,height:35}} />
                     <WhiteSpace/>
                     <WhiteSpace />
                     <WhiteSpace />
