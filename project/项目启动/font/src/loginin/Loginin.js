@@ -32,7 +32,7 @@ export default class Loginin extends Component {
             var code=document.getElementById('code').value;
             if(iname.length === 0){
                 this.setState({
-                    warningname:'请输入用户名'
+                    warningname:'请输入昵称'
                 })
             }else if(password === ''){
                 this.setState({
@@ -40,11 +40,11 @@ export default class Loginin extends Component {
                 })
             }else if(password !== password2){ 
                 this.setState({
-                    warningpwd2:'两次密码不一致'
+                    warningpwd2:'密码不一致'
                 })
             }else if(phone.length!==11){
                 this.setState({
-                    warningphone:'手机号格式错误'
+                    warningphone:'格式错误'
                 })
             }else if(this.state.code!==code){
                 this.setState({
@@ -95,7 +95,7 @@ export default class Loginin extends Component {
                 var code=document.getElementById('code').value;
                 if(iname.length === 0){
                     this.setState({
-                        warningname:'请输入用户名'
+                        warningname:'请输入昵称'
                     })
                 }else if(password === ''){
                     this.setState({
@@ -103,13 +103,13 @@ export default class Loginin extends Component {
                     })
                 }else if(password !== password2){ 
                     this.setState({
-                        warningpwd2:'两次密码不一致'
+                        warningpwd2:'密码不一致'
                     })
                 }else if(phone.length!==11){
                     this.setState({
-                        warningphone:'手机号格式错误'
+                        warningphone:'格式错误'
                     })
-                }else if(this.state.code!==code){
+                }else if(this.state.code!==code || code===''){
                     this.setState({
                         warningcode:'验证码错误'
                     })
@@ -189,59 +189,77 @@ export default class Loginin extends Component {
                <WhiteSpace />
                <WhiteSpace />
                <div className='b3'>
-                    <WingBlank>
-                        <form>
-                            <span> 昵 称 ：</span>
-                            <input id="iname" type='text' autocomplete="off" placeholder='请输入您的昵称' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35,marginLeft:25}} />
-                            <span style={{fontSize:'14px',color:'red'}}>
+                    <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                        <WingBlank>
+                            <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>昵&nbsp;&nbsp;&nbsp;&nbsp;称</p>
+                            <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'45%',height:35,margin:"0 auto"}}>
+                            <span className="iconfont icon-wode" style={{paddingLeft:'3%',color:'#B3B3B3'}}></span>
+                                <input id="iname" autoComplete="off" type='text' placeholder='昵称' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'60%',height:35,marginLeft:10}} />
+                            </div>
+                            <span style={{fontSize:'14px',color:'red',lineHeight:'35px'}}>
                                 {this.state.warningname}
                             </span>
-                            <WhiteSpace/>
-                            <span> 密 码 ：</span>
-                            <input name='password' autocomplete="off" id="password"  type='password' placeholder='请输入您的密码' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35,marginLeft:26}}/>
-                            <span style={{fontSize:'14px',color:'red'}}>
+                        </WingBlank>
+                    </div>
+                    <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                        <WingBlank>
+                            <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>密&nbsp;&nbsp;&nbsp;&nbsp;码</p>
+                            <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'45%',height:35,margin:"0 auto"}}>
+                                <span className="iconfont icon-mima" style={{paddingLeft:'3%',color:'#B3B3B3'}}></span>
+                                <input id="password" autoComplete="off" type='password' placeholder='密码' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'60%',height:35,marginLeft:10}} />
+                            </div>
+                            <span style={{fontSize:'14px',color:'red',lineHeight:'35px'}}>
                                 {this.state.warningpwd}
                             </span>
-                            <WhiteSpace/>
-                            <span>确认密码：</span>
-                            <input  name='password2' autocomplete="off" id="password2" type='password' placeholder='请再次输入您的密码' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35}}/>
-                            <span style={{fontSize:'14px',color:'red'}}>
+                        </WingBlank>
+                    </div>
+                    <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                        <WingBlank>
+                            <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>确认密码</p>
+                            <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'45%',height:35,margin:"0 auto"}}>
+                                <span className="iconfont icon-mima" style={{paddingLeft:'3%',color:'#B3B3B3'}}></span>
+                                <input id="password2" autoComplete="off" type='password' placeholder='确认密码' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'60%',height:35,marginLeft:10}} />
+                            </div>
+                            <span style={{fontSize:'14px',color:'red',lineHeight:'35px'}}>
                                 {this.state.warningpwd2}
                             </span>
-                            <WhiteSpace/>
-                            <span>手机号：</span>
-                            <input  name="phone" autocomplete="off" id="phone" type='text' placeholder='请输入您的手机号' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35,marginLeft:19}}/>              
-                            <span style={{fontSize:'14px',color:'red'}}>
+                        </WingBlank>
+                    </div>
+                    <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                        <WingBlank>
+                            <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>手&nbsp;机&nbsp;号</p>
+                            <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'45%',height:35,margin:"0 auto"}}>
+                                <span className="iconfont icon-dianhua" style={{paddingLeft:'3%',color:'#B3B3B3'}}></span>
+                                <input id="phone" autoComplete="off" type='text' placeholder='手机号' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'60%',height:35,marginLeft:10}} />
+                            </div>
+                            <span style={{fontSize:'14px',color:'red',lineHeight:'35px'}}>
                                 {this.state.warningphone}
                             </span>
+                        </WingBlank>
+                    </div>
+                    <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                        <WingBlank>
+                        <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>验&nbsp;证&nbsp;码</p>
+                        <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'45%',height:35,margin:"0 auto"}}>
+                            <span className="iconfont icon-verify-fill" style={{paddingLeft:'3%',color:'#B3B3B3'}}></span>
+                            <input id="code" autoComplete="off" type='text' placeholder='验证码' style={{backgroundColor:'#F1F3F4',borderRadius:10,width:'50%',height:35,marginLeft:10}} />
+                        </div>
+                        <div style={{float:'right'}}>
+                        <div id="box" onClick={()=>this.code()}>点击获取</div>
                             <WhiteSpace/>
-                            {/* 验证码 */}
-                            <div style={{width:'100%',margin:'0 auto'}}>
-                                <span>验证码：</span>
-                                <input  id="code" autocomplete="off" name='code' type='text' placeholder='字母区分大小写' style={{backgroundColor:'antiquewhite',borderRadius:10,width:'40%',height:35,marginLeft:19}} />
-                                <div style={{float:'right',marginRight:'2%'}}>
-                                <div id="box" onClick={()=>this.code()}>点击获取</div>
-                                    <WhiteSpace/>
-                                    <span id='changes' onClick={()=>this.code()}>看不清？请点击刷新</span>
-                                </div>
-                                <div>
-                                    <span style={{fontSize:'14px',color:'red'}}>
-                                        {this.state.warningcode}
-                                    </span>
-                                </div>
-                            </div>
-                            <WhiteSpace/>
-                            <WhiteSpace />
-                            <WhiteSpace />
-                            <WhiteSpace />
-                            <WhiteSpace />
-                            <WhiteSpace />
-                            <WhiteSpace />
-                            <WhiteSpace />
-                           <button type='button'  className='button' onClick={() => this.addItem()} style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',marginLeft:'30%'}}>注册</button>
-                        </form>
-                    </WingBlank>
-               </div>
+                            <span id='changes' onClick={()=>this.code()}>看不清？请点击刷新</span>
+                        </div>
+                        </WingBlank>
+                    </div>
+                    <div>
+                        <span style={{fontSize:'14px',color:'red'}}>
+                            {this.state.warningcode}
+                        </span>
+                    </div>
+                    <div style={{margin:'20% auto 0 auto',width:150,height:40}}>
+                        <button onClick={() => this.addItem()}  style={{border:'none',backgroundColor:'#FC3554',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:15,color:'white',fontWeight:'lighter'}}>注册</button>
+                    </div>
+                </div>
             </div>
         )
     }
