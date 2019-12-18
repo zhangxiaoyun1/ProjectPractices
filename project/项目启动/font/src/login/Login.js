@@ -79,12 +79,12 @@ export default class Login extends Component {
                 <div>
                     <div style={{ backgroundColor: '#F1F3F4', borderRadius: 35, width: '70%', height: 35, margin: "0 auto" }}>
                         <span className="iconfont icon-dianhua" style={{ paddingLeft: '3%', color: '#B3B3B3' }}></span>
-                        <input id="phone" autocomplete="off" type='text' placeholder='手机号' style={{ backgroundColor: '#F1F3F4', borderRadius: 10, width: '70%', height: 35, marginLeft: 25 }} />
+                        <input id="phone" autoComplete="off" type='text' placeholder='手机号' style={{ backgroundColor: '#F1F3F4', borderRadius: 10, width: '70%', height: 35, marginLeft: 25 }} />
                     </div>
                     <WhiteSpace />
                     <div style={{ backgroundColor: '#F1F3F4', borderRadius: 35, width: '70%', height: 35, margin: "0 auto" }}>
                         <span className="iconfont icon-mima" style={{ paddingLeft: '3%', color: '#B3B3B3' }}></span>
-                        <input name='password' id="password" autocomplete="off" type='password' placeholder='密码' style={{ backgroundColor: '#F1F3F4', borderRadius: 10, width: '70%', height: 35, marginLeft: 26 }} />
+                        <input name='password' id="password" autoComplete="off" type='password' placeholder='密码' style={{ backgroundColor: '#F1F3F4', borderRadius: 10, width: '70%', height: 35, marginLeft: 26 }} />
                     </div>
                     <WhiteSpace />
                 </div>

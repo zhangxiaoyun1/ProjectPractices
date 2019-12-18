@@ -21,49 +21,24 @@ export default class Renthome extends Component {
     }
 
     componentDidMount() {
-        if (JSON.parse(localStorage.getItem('key')) === null) {
-            fetch('http://49.235.251.57:8000/api/house')
-                .then((res) => res.json())
-                .then((res) => {
-                    this.setState({
-                        data0: res.msg
-                    });
-                })
-        } else {
-            if (JSON.parse(localStorage.getItem('key')).userid === undefined) {
-                fetch('http://49.235.251.57:8000/api/house')
-                    .then((res) => res.json())
-                    .then((res) => {
-                        this.setState({
-                            data0: res.msg
-                        });
-                    })
-            } else {
-                var userName = JSON.parse(localStorage.getItem('key')).userid;
-                var jsonUserName = JSON.stringify(userName);
-                console.log(jsonUserName);
-                let url = `http://49.235.251.57:8000/api/house/` + jsonUserName;
-                fetch(url,
-                    {
-                        method: 'GET',
-                        headers: new Headers({ 'Content-Type': 'application/json' })
-                    })
-                    .then((res) => res.json())
-                    .then((res) => {
-                        this.setState({
-                            data0: res.msg0,
-                            data1: res.msg1,
-                            data2: res.msg2
-                        })
-                        console.log(res);
-
+        fetch('http://49.235.251.57:8000/api/house')
+            .then((res) => res.json())
+            .then((res) => {
+                for (var i = 0; i < res.msg.length; ++i) {
+                    var imagedata;
+                    if (res.msg[i].homeimage.indexOf(',') >= 0) {
+                        imagedata = (res.msg[i].homeimage).split(',');
+                    } else {
+                        imagedata = [];
+                        imagedata[0] = res.msg[i].homeimage;
                     }
-                    )
-            }
-
+                    res.msg[i].homeimage = imagedata[0];
+                }
+                this.setState({
+                    data0: res.msg
+                });
+            })
         }
-
-    }
 
     /**
      * 搜索框
@@ -244,7 +219,7 @@ export default class Renthome extends Component {
         return (
             <div>
                 {/* 头 */}
-                <div style={{ width: '100%', display: 'flex', textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', height: '50px', position: 'fixed' }}>
+                <div style={{zIndex:'2', width: '100%', display: 'flex', textAlign: 'center', background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)', height: '50px', position: 'fixed' }}>
                     <Link to='/appTaber'>
                         <img src={require('./images/return.png')} style={{ width: 30, height: 30, paddingTop: 10 }} />
                     </Link>

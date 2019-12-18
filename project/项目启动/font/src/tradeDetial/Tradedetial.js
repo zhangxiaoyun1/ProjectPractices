@@ -9,9 +9,9 @@ export default class Tradedetial extends Component {
         super(props);
         this.state = {
             value: '请输入您的租期',
-            longtime:1,
-            tradeid:0,
+            longtime:0,
             data:[],
+            tradeid:(new Date()).valueOf(),
             price:0
         };
         this.price=0;
@@ -37,14 +37,10 @@ export default class Tradedetial extends Component {
             res.msg[0].homeimage=imagedata[0];
             this.setState({
                 data:res.msg,
-                price: (res.msg[0].price).slice(0,-2)            
+                price: (res.msg[0].price).slice(0,-3)            
             })
-            this.price=(res.msg[0].price).slice(0,-2)  
+            this.price=(res.msg[0].price).slice(0,-3)  
         })
-        this.setState({
-            tradeid:(new Date()).valueOf()
-        })
-        
     }
 
     toTrade=()=>{
@@ -53,14 +49,15 @@ export default class Tradedetial extends Component {
         var rentername=document.getElementById('rentername').value;//租客姓名
         var renterphone=document.getElementById('renterphone').value;//租客手机号
         var checkin=document.getElementById('checkin').value;//入住时间
-        var longtime=document.getElementById('longtime').value+'个月';//租期
-        var price=document.getElementById('money').value+'元';//租期
+        var longtime=document.getElementById('longtime').value;//租期
+        var price=document.getElementById('money').value;//租期
+        console.log(this.state.tradeid);
         if(rentername!==''&&renterphone!==''&&checkin!==''&&longtime!==''&&price!==''){
             let url=`http://49.235.251.57:8000/api/trade`;
             let data={
                 userid:userid,
-                adress:adress,
                 tradeid:this.state.tradeid,
+                adress:adress,
                 rentername:rentername,
                 renterphone:renterphone,
                 checkin:checkin,
@@ -69,6 +66,7 @@ export default class Tradedetial extends Component {
             }
             //将对象转换为字符串传递
             var send=JSON.stringify(data);
+            console.log(send);
             //发送post请求
             fetch(url,{
                 method: 'POST', 
@@ -80,8 +78,10 @@ export default class Tradedetial extends Component {
             .then((res)=>res.json())
             .then((res)=>{
                 //接收响应信息，如果为true,则跳转登录页面
+                console.log(this.state.tradeid)
                 if(res.ok===true){
                     window.location.href=`http://localhost:3000/#/pay/`+`${this.state.tradeid}`
+                    console.log(res.msg);
                 }else{
                     window.location.href="http://localhost:3000/#/loginin"
                 }
@@ -116,7 +116,7 @@ export default class Tradedetial extends Component {
                                 <WingBlank key={idx}>
                                     <div style={{ width: '100%', border: '1px solid #f1f1f1', marginTop: '2%', height: '120px' }}>
                                             <div style={{width: '42%', height: '100px',  float: 'left' }}>
-                                                <img style={{ width: '100%', height: '100%', marginTop: '6%' }} src={'http://49.235.251.57:8000/api/housess/' + `${item.homeimage}`} alt='' />
+                                                <img style={{ width: '100%', height: '100%', marginTop: '6%' }} src={`http://49.235.251.57:8000/api/housess/`+item.homeimage} alt='' />
                                             </div>
                                         <div style={{ float: 'left', width: '55%', height: '120px' }}>
                                             <div className='home_p'>
@@ -147,7 +147,7 @@ export default class Tradedetial extends Component {
                 </div>
                <hr/>
 
-               <div style={{textAlign:'center'}}>
+               {/* <div style={{textAlign:'center'}}>
                    <div>
                       <ul style={{marginTop:'10%',display:'inline-flex'}}>
                         <li className='trade_li1' > 姓 名 ： </li>
@@ -161,26 +161,75 @@ export default class Tradedetial extends Component {
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'>入住时间：</li>
-                        <input id='checkin' name='' type='text' placeholder='2010-01-01' className='trade_input1'/>
+                        <input id='checkin' name='' type='text' placeholder='请输入您的入住时间' className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
-                        <li className='trade_li1' style={{marginLeft:'5%'}}> 租 期 ： </li>
-                        <input style={{width:'40%'}} id='longtime' onChange={this.handleChange} value={this.state.longtime} name='longtime' type='text' placeholder='请输入您的租期' className='trade_input1'/>
-                        <span style={{fontSize:'24px'}}>个月</span>
+                        <li className='trade_li1'> 租 期 ： </li>
+                        <input id='longtime' onChange={this.handleChange} value={this.state.longtime} name='longtime' type='text' placeholder='请输入您的租期' className='trade_input1'/>
                       </ul>
                       <br/>
                       <ul className='trade_ul1'>
                         <li className='trade_li1'> 租  金： </li>
-                        <input style={{width:'50%'}} id='money' name='' type='text' className='trade_input1' value={this.state.price} onChange={this.handleChange}/>
-                        <span style={{fontSize:'24px'}}>元</span>
+                        <input id='money' name='' type='text' placeholder='' className='trade_input1' value={`${this.state.longtime}`*`${this.price}`}/>
                       </ul>
                       <br/>
                       <ul style={{marginTop:'20%'}}>
                         <button onClick={()=>this.toTrade()} className='button' style={{backgroundColor:'#ff9645',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:10,color:'white',}}>预定</button>
                       </ul>
                    </div>
-               </div>
+               </div> */}
+               <WhiteSpace />
+                {/* 输入框 */}
+                <div>
+                    <WingBlank>
+                        <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                            <WingBlank>
+                                <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</p>
+                                <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'60%',height:35,margin:"0 auto"}}>
+                                    <input id='rentername' autoComplete="off" type='text' placeholder='请输入真实姓名' style={{backgroundColor:'#F1F3F4',borderRadius:35,width:'70%',height:35}} />
+                                </div>
+                            </WingBlank>
+                        </div>
+                        <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                            <WingBlank>
+                                <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>手&nbsp;机&nbsp;&nbsp;号</p>
+                                <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'60%',height:35,margin:"0 auto"}}>
+                                    <input id='renterphone' autoComplete="off" type='text' placeholder='请输入手机号' style={{backgroundColor:'#F1F3F4',borderRadius:35,width:'80%',height:35}} />
+                                </div>
+                            </WingBlank>
+                        </div>
+                        <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                            <WingBlank>
+                                <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>入住时间</p>
+                                <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'60%',height:35,margin:"0 auto"}}>
+                                    <input id='checkin' autoComplete="off" type='text' placeholder='请输入入住时间' style={{backgroundColor:'#F1F3F4',borderRadius:35,width:'80%',height:35}} />
+                                </div>
+                            </WingBlank>
+                        </div>
+                        <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                            <WingBlank>
+                                <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</p>
+                                <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'60%',height:35,margin:"0 auto"}}>
+                                    <input id='longtime' onChange={this.handleChange} value={this.state.longtime} autoComplete="off" type='text' placeholder='请输入租期' style={{backgroundColor:'#F1F3F4',borderRadius:35,width:'70%',height:35}} />
+                                    <span style={{paddingRight:'3%',color:'#B3B3B3'}}>月</span>
+                                </div>
+                            </WingBlank>
+                        </div>
+                        <div style={{width:'100%',height:35,margin:"10px auto 20px auto"}}>
+                            <WingBlank>
+                                <p style={{float:'left',fontSize:20,color: '#535252',lineHeight:'35px',marginRight:'15px'}}>租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金</p>
+                                <div style={{float:'left',backgroundColor:'#F1F3F4',borderRadius:35,width:'60%',height:35,margin:"0 auto"}}>
+                                    <input id="money" autoComplete="off" type='text' placeholder='0' style={{backgroundColor:'#F1F3F4',borderRadius:35,width:'70%',height:35}} value={this.state.price}/>
+                                </div>
+                            </WingBlank>
+                        </div>
+                        <div style={{margin:'20% auto 0 auto',width:150,height:40}}>
+                            <button onClick={()=>this.toTrade()}  style={{border:'none',backgroundColor:'#FC3554',fontSize:25,textAlign:'center',width:150,height:40,borderRadius:15,color:'white',fontWeight:'lighter'}}>预定</button>
+                        </div>
+                    </WingBlank>
+                    
+                </div>
             </div>
         )
     }
