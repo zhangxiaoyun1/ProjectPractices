@@ -53,7 +53,7 @@ export default class App extends Component {
                   <Route exact path='/pay/:tradeid' component={Pay}/>
                   <Route exact path='/message' component={Message}/>
                   <Route exact path='/citylist' component={CityList}/>
-                  <Route exact path='/center' component={About}/>
+                  <Route exact path='/about' component={About}/>
                   <Route exact path='/kefu' component={Kefu}/>
                 </Switch>
                 {/* <AticleDetail/> */}
