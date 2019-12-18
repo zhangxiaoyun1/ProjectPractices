@@ -58,7 +58,7 @@ export default class Password extends Component {
             var send=JSON.stringify(data);
             console.log(send)
             //发送post请求
-            fetch('http://localhost:3001/api/user/forget',{
+            fetch('http://49.235.251.57:8000/api/user/forget',{
                 method: 'POST', 
                 body: send, // data can be `string` or {object}!
                 headers: new Headers({
