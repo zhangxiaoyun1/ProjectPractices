@@ -62,7 +62,7 @@ export default class Map extends Component {
         var shop = document.getElementById('shop');
         var yinhang = document.getElementById('yinhang');
         var yiyuan = document.getElementById('yiyuan');
-        bus.style.color = '#ff9645';
+        bus.style.color = '#FC3554';
         food.style.color = 'gray';
         shop.style.color = 'gray';
         yiyuan.style.color = 'gray';
@@ -79,8 +79,6 @@ export default class Map extends Component {
                 var local = new BMap.LocalSearch(map,
                     { renderOptions: { map: map, autoViewport: true } });
                 local.searchNearby("公交", point, 1000);
-                // var marker = new BMap.Marker(point); // 创建标注   
-                // map.addOverlay(marker); // 将标注添加到地图中
             }
         }, this.state.data[0].city);
 
@@ -95,7 +93,7 @@ export default class Map extends Component {
         var yinhang = document.getElementById('yinhang');
         var yiyuan = document.getElementById('yiyuan');
         bus.style.color = 'gray';
-        food.style.color = '#ff9645';
+        food.style.color = '#FC3554';
         shop.style.color = 'gray';
         yiyuan.style.color = 'gray';
         yinhang.style.color = 'gray';
@@ -110,8 +108,6 @@ export default class Map extends Component {
                 var local = new BMap.LocalSearch(map,
                     { renderOptions: { map: map, autoViewport: true } });
                 local.searchNearby("餐饮", point, 1000);
-                // var marker = new BMap.Marker(point); // 创建标注   
-                // map.addOverlay(marker); // 将标注添加到地图中
             }
         }, this.state.data[0].city);
     }
@@ -126,11 +122,10 @@ export default class Map extends Component {
         var yiyuan = document.getElementById('yiyuan');
         bus.style.color = 'gray';
         food.style.color = 'gray';
-        shop.style.color = '#ff9645';
+        shop.style.color = '#FC3554';
         yiyuan.style.color = 'gray';
         yinhang.style.color = 'gray';
         var map = new BMap.Map("mapContainer");
-        map.centerAndZoom(this.state.data[0].city, 11);
         // 创建地址解析器实例     
         var myGeo = new BMap.Geocoder();
         // 将地址解析结果显示在地图上，并调整地图视野    
@@ -140,8 +135,6 @@ export default class Map extends Component {
                 var local = new BMap.LocalSearch(map,
                     { renderOptions: { map: map, autoViewport: true } });
                 local.searchNearby("购物", point, 1000);
-                // var marker = new BMap.Marker(point); // 创建标注   
-                // map.addOverlay(marker); // 将标注添加到地图中
             }
         }, this.state.data[0].city);
     }
@@ -157,7 +150,7 @@ export default class Map extends Component {
         bus.style.color = 'gray';
         food.style.color = 'gray';
         shop.style.color = 'gray';
-        yiyuan.style.color = '#ff9645';
+        yiyuan.style.color = '#FC3554';
         yinhang.style.color = 'gray';
         var map = new BMap.Map("mapContainer");
         map.centerAndZoom(this.state.data[0].city, 11);
@@ -170,8 +163,6 @@ export default class Map extends Component {
                 var local = new BMap.LocalSearch(map,
                     { renderOptions: { map: map, autoViewport: true } });
                 local.searchNearby("医院", point, 1000);
-                // var marker = new BMap.Marker(point); // 创建标注   
-                // map.addOverlay(marker); // 将标注添加到地图中
             }
         }, this.state.data[0].city);
     }
@@ -188,7 +179,7 @@ export default class Map extends Component {
         food.style.color = 'gray';
         shop.style.color = 'gray';
         yiyuan.style.color = 'gray';
-        yinhang.style.color = '#ff9645';
+        yinhang.style.color = '#FC3554';
         var map = new BMap.Map("mapContainer");
         map.centerAndZoom(this.state.data[0].city, 11);
 
@@ -201,24 +192,14 @@ export default class Map extends Component {
                 var local = new BMap.LocalSearch(map,
                     { renderOptions: { map: map, autoViewport: true } });
                 local.searchNearby("银行", point, 1000);
-                // var marker = new BMap.Marker(point); // 创建标注   
-                // map.addOverlay(marker); // 将标注添加到地图中
             }
         }, this.state.data[0].city);
     }
     render() {
         return (
             <div style={{ height: '100%', width: '100%', }}>
-                {/* <div style={{width:'100%',display:'flex',position:'fixed',top:0,zIndex:2,textAlign:'center',background: 'linear-gradient(to right,#F55E7E, #F47B87, #F58B7F)',lineHeight:2}}>
-                    <div onClick={()=>this.back()}>
-                        <span className="iconfont icon-fanhui" style={{margin:'0 auto',fontSize:25,color:'white'}}></span>
-                        <span style={{margin:'0 auto',fontSize:25,color:'white'}}>
-                           周边信息
-                        </span>
-                    </div>
-               </div> */}
                 <div className='map_nav'>
-                    <button onClick={() => this.back()} style={{ background: 'none', border: 'none', fontSize: 26, color: 'white', lineHeight: '50px', marginLeft: '5%' }} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
+                    <button onClick={() => this.back()} style={{ background: 'none', border: 'none', fontSize: 26, color: 'white', lineHeight: '50px'}} className='iconfont icon-changyongtubiao-xianxingdaochu-zhuanqu--copy'></button>
                     <h2 className='map_nav_h2'>周边信息</h2>
                 </div>
                 <div style={{ height: window.innerHeight }} className="mapContainer" id="mapContainer"></div>
