@@ -87,6 +87,9 @@
   content: "\e83f";
 }
 
+.icon-aixin1:before {
+  content: "\e85c";
+}
 .icon-rili:before {
   content: "\e6c5";
 }
@@ -106,4 +109,9 @@
 .icon-icon-test-copy:before {
   content: "\ec50";
 }
+
+
+
+
+
 
